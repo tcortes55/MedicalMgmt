@@ -46,8 +46,10 @@ namespace MedicalMgmt.Controllers.Application
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Username,FirstName,FamilyNames,Telephone,Email,Rg,Cpf,Address,RegisterDate,StatusID")] User user)
+        public ActionResult Create([Bind(Include = "ID,Username,FirstName,FamilyNames,Telephone,Email,Rg,Cpf,Address")] User user)
         {
+            user.RegisterDate = DateTime.Now;
+            user.StatusID = 1;
             if (ModelState.IsValid)
             {
                 db.Users.Add(user);

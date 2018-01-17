@@ -53,3 +53,5 @@ C:\Projects\TCC\MedicalMgmt\MedicalMgmt\MedicalMgmt\bin\Microsoft.Owin.Security.
 C:\Projects\TCC\MedicalMgmt\MedicalMgmt\MedicalMgmt\obj\Debug\MedicalMgmt.csprojResolveAssemblyReference.cache
 C:\Projects\TCC\MedicalMgmt\MedicalMgmt\MedicalMgmt\obj\Debug\MedicalMgmt.dll
 C:\Projects\TCC\MedicalMgmt\MedicalMgmt\MedicalMgmt\obj\Debug\MedicalMgmt.pdb
+C:\Projects\TCC\MedicalMgmt\MedicalMgmt\MedicalMgmt\bin\log4net.dll
+C:\Projects\TCC\MedicalMgmt\MedicalMgmt\MedicalMgmt\bin\log4net.xml
