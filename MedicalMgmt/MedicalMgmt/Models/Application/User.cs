@@ -47,11 +47,13 @@ namespace MedicalMgmt.Models
         [StringLength(300)]
         public string Address { get; set; }
 
-        [Display(Name = "Data de criação")]
+        [Display(Name = "Data de registro")]
+        [Required]
         [DataType(DataType.DateTime)]
         public DateTimeOffset RegisterDate { get; set; }
 
         [Display(Name = "Status")]
+        [Required]
         public int StatusID { get; set; }
     }
 }

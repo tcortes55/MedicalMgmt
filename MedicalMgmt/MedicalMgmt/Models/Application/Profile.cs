@@ -12,8 +12,8 @@ namespace MedicalMgmt.Models
         public int ID { get; set; }
 
         [Display(Name="Nome")]
-        [Required(ErrorMessage="Campo obrigatório")]
-        [StringLength(20)]
+        [Required]
+        [StringLength(30)]
         public string Name { get; set; }
     }
 }
