@@ -166,7 +166,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Application\Physician.cs" />
+    <Compile Include="Models\Business\Physician.cs" />
     <Compile Include="Models\Application\Status.cs" />
     <Compile Include="Models\Application\ProfileAssociation.cs" />
     <Compile Include="Models\Application\Profile.cs" />

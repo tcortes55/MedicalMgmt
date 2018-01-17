@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MedicalMgmt.Models
 {
-    public class Status
+    public class Physician
     {
         public int UserID { get; set; }
 
