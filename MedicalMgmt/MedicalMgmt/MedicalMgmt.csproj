@@ -169,11 +169,16 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Business\Physician.cs" />
     <Compile Include="Models\Application\Status.cs" />
     <Compile Include="Models\Application\ProfileAssociation.cs" />
     <Compile Include="Models\Application\Profile.cs" />
     <Compile Include="Models\Business\Appointment.cs" />
+    <Compile Include="Models\Business\PrescriptedExam.cs" />
+    <Compile Include="Models\Business\PrescriptedMedicine.cs" />
+    <Compile Include="Models\Business\Exam.cs" />
     <Compile Include="Models\Business\Patient.cs" />
+    <Compile Include="Models\Business\Medicine.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MedicalMgmtDbContext.cs" />

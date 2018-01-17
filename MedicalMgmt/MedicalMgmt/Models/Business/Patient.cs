@@ -26,7 +26,7 @@ namespace MedicalMgmt.Models
         public string Telephone { get; set; }
 
         [Display(Name = "E-mail")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Insira um e-mail válido!")]
         [StringLength(50)]
         public string Email { get; set; }
 
@@ -42,11 +42,13 @@ namespace MedicalMgmt.Models
         [StringLength(300)]
         public string Address { get; set; }
 
-        [Display(Name = "Data de criação")]
+        [Display(Name = "Data de registro")]
+        [Required]
         [DataType(DataType.DateTime)]
         public DateTimeOffset RegisterDate { get; set; }
 
         [Display(Name = "Status")]
+        [Required]
         public int StatusID { get; set; }
     }
 }
