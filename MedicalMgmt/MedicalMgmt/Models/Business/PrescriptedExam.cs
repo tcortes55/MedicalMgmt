@@ -30,8 +30,8 @@ namespace MedicalMgmt.Models
         [StringLength(500)]
         public string Result { get; set; }
 
-        [Display(Name = "Status")]
         [Required]
+        [Display(Name = "Status")]
         public int StatusID { get; set; }
     }
 }

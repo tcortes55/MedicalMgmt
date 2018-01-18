@@ -11,16 +11,21 @@ namespace MedicalMgmt.Models
         [Key]
         public int ID { get; set; }
 
-        [Display(Name = "Primeiro nome")]
         [Required(ErrorMessage = "Campo obrigatório")]
+        [Display(Name = "Primeiro nome")]
         [StringLength(20)]
         public string FirstName { get; set; }
 
-        [Display(Name = "Sobrenomes")]
         [Required(ErrorMessage = "Campo obrigatório")]
+        [Display(Name = "Sobrenomes")]
         [StringLength(200)]
         public string FamilyNames { get; set; }
 
+        [Required(ErrorMessage = "Campo obrigatório")]
+        [Display(Name = "Data de nascimento")]
+        public DateTime BirthDate { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Telefone")]
         [Phone]
         public string Telephone { get; set; }
@@ -38,17 +43,14 @@ namespace MedicalMgmt.Models
         [StringLength(20)]
         public string Cpf { get; set; }
 
+        [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Endereço")]
         [StringLength(300)]
         public string Address { get; set; }
 
-        [Display(Name = "Data de registro")]
         [Required]
+        [Display(Name = "Data de registro")]
         [DataType(DataType.DateTime)]
         public DateTimeOffset RegisterDate { get; set; }
-
-        [Display(Name = "Status")]
-        [Required]
-        public int StatusID { get; set; }
     }
 }

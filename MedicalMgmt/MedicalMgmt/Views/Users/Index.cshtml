@@ -39,7 +39,7 @@
             @Html.DisplayNameFor(model => model.RegisterDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StatusID)
+            @Html.DisplayNameFor(model => model.Active)
         </th>
         <th></th>
     </tr>
@@ -74,7 +74,7 @@
             @Html.DisplayFor(modelItem => item.RegisterDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.StatusID)
+            @Html.DisplayFor(modelItem => item.Active)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |

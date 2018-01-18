@@ -11,23 +11,23 @@ namespace MedicalMgmt.Models
         [Key]
         public int ID { get; set; }
 
-        [Display(Name="Nome Comercial")]
         [Required]
+        [Display(Name="Nome Comercial")]
         [StringLength(30)]
         public string CommercialName { get; set; }
 
-        [Display(Name = "Nome Genérico")]
         [Required]
+        [Display(Name = "Nome Genérico")]
         [StringLength(30)]
         public string GenericName { get; set; }
 
-        [Display(Name = "Fabricante")]
         [Required]
+        [Display(Name = "Fabricante")]
         [StringLength(30)]
         public string Manufacturer { get; set; }
 
-        [Display(Name = "Status")]
         [Required]
-        public int StatusID { get; set; }
+        [Display(Name = "Ativo")]
+        public bool Active { get; set; }
     }
 }

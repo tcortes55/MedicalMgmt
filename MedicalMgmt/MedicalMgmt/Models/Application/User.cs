@@ -11,49 +11,54 @@ namespace MedicalMgmt.Models
         [Key]
         public int ID { get; set; }
 
+        [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name="Usuário")]
-        [Required(ErrorMessage="Campo obrigatório")]
         [StringLength(15)]
         public string Username { get; set; }
 
-        [Display(Name = "Primeiro nome")]
         [Required(ErrorMessage = "Campo obrigatório")]
+        [Display(Name = "Primeiro nome")]
         [StringLength(20)]
         public string FirstName { get; set; }
 
-        [Display(Name = "Sobrenomes")]
         [Required(ErrorMessage = "Campo obrigatório")]
+        [Display(Name = "Sobrenomes")]
         [StringLength(200)]
         public string FamilyNames { get; set; }
 
+        [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Telefone")]
-        [Phone]
+        [Phone(ErrorMessage="Insira um telefone válido")]
         public string Telephone { get; set; }
 
+        [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "E-mail")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage="Insira um e-mail válido")]
         [StringLength(50)]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "RG")]
         [StringLength(20)]
         public string Rg { get; set; }
 
+        [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "CPF")]
         [StringLength(20)]
         public string Cpf { get; set; }
 
+        [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Endereço")]
         [StringLength(300)]
         public string Address { get; set; }
 
-        [Display(Name = "Data de registro")]
         [Required]
+        [Display(Name = "Data de registro")]
         [DataType(DataType.DateTime)]
         public DateTimeOffset RegisterDate { get; set; }
 
-        [Display(Name = "Status")]
         [Required]
-        public int StatusID { get; set; }
+        [Display(Name = "Ativo")]
+        public bool Active { get; set; }
     }
 }

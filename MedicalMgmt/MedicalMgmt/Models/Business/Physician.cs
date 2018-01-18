@@ -8,15 +8,16 @@ namespace MedicalMgmt.Models
 {
     public class Physician
     {
+        [Key]
         public int UserID { get; set; }
 
-        [Display(Name="Especialidade")]
         [Required]
+        [Display(Name="Especialidade")]
         [StringLength(30)]
         public string Expertise { get; set; }
 
-        [Display(Name = "GraduatedFrom")]
+        [Display(Name = "Graduado por")]
         [StringLength(30)]
-        public string Expertise { get; set; }
+        public string GraduatedFrom { get; set; }
     }
 }

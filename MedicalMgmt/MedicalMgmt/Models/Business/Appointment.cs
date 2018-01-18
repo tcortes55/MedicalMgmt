@@ -34,10 +34,10 @@ namespace MedicalMgmt.Models
         public DateTime PlannedEndDate { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime ActualStartDate { get; set; }
+        public DateTime? ActualStartDate { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime ActualEndDate { get; set; }
+        public DateTime? ActualEndDate { get; set; }
 
         [Required]
         public int StatusID { get; set; }

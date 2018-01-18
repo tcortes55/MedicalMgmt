@@ -11,8 +11,8 @@ namespace MedicalMgmt.Models
         [Key]
         public int ID { get; set; }
 
-        [Display(Name="Descrição")]
         [Required]
+        [Display(Name="Descrição")]
         [StringLength(30)]
         public string Description { get; set; }
     }
