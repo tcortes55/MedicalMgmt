@@ -50,6 +50,7 @@ namespace MedicalMgmt.Controllers.Business
         {
             if (ModelState.IsValid)
             {
+                medicine.Active = true;
                 db.Medicines.Add(medicine);
                 db.SaveChanges();
                 return RedirectToAction("Index");
