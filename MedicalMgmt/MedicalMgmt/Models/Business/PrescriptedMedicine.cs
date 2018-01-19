@@ -28,9 +28,9 @@ namespace MedicalMgmt.Models
         //public virtual Patient Patient { get; set; }
 
         [Required]
+        [ForeignKey("Medicine")]
         public int MedicineID { get; set; }
-        //[ForeignKey("MedicineID")]
-        //public virtual Medicine Medicine { get; set; }
+        public virtual Medicine Medicine { get; set; }
 
         [Required]
         [StringLength(300)]

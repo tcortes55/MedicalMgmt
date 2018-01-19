@@ -165,6 +165,7 @@
     <Compile Include="Controllers\Application\UsersController.cs" />
     <Compile Include="Controllers\Business\MedicinesController.cs" />
     <Compile Include="Controllers\Business\PhysiciansController.cs" />
+    <Compile Include="Controllers\Business\PrescriptedMedicinesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -261,6 +262,11 @@
     <Content Include="Views\Physicians\Details.cshtml" />
     <Content Include="Views\Physicians\Edit.cshtml" />
     <Content Include="Views\Physicians\Index.cshtml" />
+    <Content Include="Views\PrescriptedMedicines\Create.cshtml" />
+    <Content Include="Views\PrescriptedMedicines\Delete.cshtml" />
+    <Content Include="Views\PrescriptedMedicines\Details.cshtml" />
+    <Content Include="Views\PrescriptedMedicines\Edit.cshtml" />
+    <Content Include="Views\PrescriptedMedicines\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

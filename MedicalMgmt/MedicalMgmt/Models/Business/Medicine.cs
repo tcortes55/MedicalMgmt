@@ -31,6 +31,6 @@ namespace MedicalMgmt.Models
         public bool Active { get; set; }
 
 
-        //public virtual PrescriptedMedicine PrescriptedMedicine { get; set; }
+        public virtual List<PrescriptedMedicine> PrescriptedMedicine { get; set; }
     }
 }
