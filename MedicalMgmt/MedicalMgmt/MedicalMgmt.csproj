@@ -164,6 +164,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Application\UsersController.cs" />
     <Compile Include="Controllers\Business\MedicinesController.cs" />
+    <Compile Include="Controllers\Business\PhysiciansController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -255,6 +256,11 @@
     <Content Include="Views\Medicines\Details.cshtml" />
     <Content Include="Views\Medicines\Edit.cshtml" />
     <Content Include="Views\Medicines\Index.cshtml" />
+    <Content Include="Views\Physicians\Create.cshtml" />
+    <Content Include="Views\Physicians\Delete.cshtml" />
+    <Content Include="Views\Physicians\Details.cshtml" />
+    <Content Include="Views\Physicians\Edit.cshtml" />
+    <Content Include="Views\Physicians\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
