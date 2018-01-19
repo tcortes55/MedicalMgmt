@@ -14,12 +14,18 @@ namespace MedicalMgmt.Models
 
         [Required]
         public int PhysicianID { get; set; }
+        //[ForeignKey("PhysicianID")]
+        //public virtual Physician Physician { get; set; }
 
         [Required]
         public int PatientID { get; set; }
+        //[ForeignKey("PatientID")]
+        //public virtual Patient Patient { get; set; }
 
         [Required]
         public int UserID { get; set; }
+        //[ForeignKey("UserID")]
+        //public virtual User User { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
@@ -40,6 +46,13 @@ namespace MedicalMgmt.Models
         public DateTime? ActualEndDate { get; set; }
 
         [Required]
+        [Display(Name = "Status")]
         public int StatusID { get; set; }
+        //[ForeignKey("StatusID")]
+        //public virtual Status Status { get; set; }
+
+
+        //public virtual PrescriptedExam PrescriptedExam { get; set; }
+        //public virtual PrescriptedMedicine PrescriptedMedicine { get; set; }
     }
 }

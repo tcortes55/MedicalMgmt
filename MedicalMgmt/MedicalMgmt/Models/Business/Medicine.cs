@@ -29,5 +29,8 @@ namespace MedicalMgmt.Models
         [Required]
         [Display(Name = "Ativo")]
         public bool Active { get; set; }
+
+
+        //public virtual PrescriptedMedicine PrescriptedMedicine { get; set; }
     }
 }

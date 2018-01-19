@@ -55,5 +55,10 @@ namespace MedicalMgmt.Models
         [Display(Name = "Data de registro")]
         [DataType(DataType.DateTime)]
         public DateTimeOffset RegisterDate { get; set; }
+
+
+        //public virtual Appointment Appointment { get; set; }
+        //public virtual PrescriptedExam PrescriptedExam { get; set; }
+        //public virtual PrescriptedMedicine PrescriptedMedicine { get; set; }
     }
 }

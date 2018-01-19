@@ -55,5 +55,10 @@ namespace MedicalMgmt.Models
         [Required]
         [Display(Name = "Ativo")]
         public bool Active { get; set; }
+
+
+        //public virtual Appointment Appointment { get; set; }
+        //public virtual Physician Physician { get; set; }
+        public virtual List<Physician> Physician { get; set; }
     }
 }
