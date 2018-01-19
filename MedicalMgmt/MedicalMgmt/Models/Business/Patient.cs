@@ -12,14 +12,9 @@ namespace MedicalMgmt.Models
         public int ID { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório")]
-        [Display(Name = "Primeiro nome")]
-        [StringLength(20)]
-        public string FirstName { get; set; }
-
-        [Required(ErrorMessage = "Campo obrigatório")]
-        [Display(Name = "Sobrenomes")]
+        [Display(Name = "Nome completo")]
         [StringLength(200)]
-        public string FamilyNames { get; set; }
+        public string FullName { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Data de nascimento")]
@@ -47,6 +42,14 @@ namespace MedicalMgmt.Models
         [Display(Name = "Endereço")]
         [StringLength(300)]
         public string Address { get; set; }
+
+        [Display(Name = "Alergias")]
+        [StringLength(300)]
+        public string Allergies { get; set; }
+
+        [Display(Name = "Histórico familiar")]
+        [StringLength(500)]
+        public string FamilyMedicalHistory { get; set; }
 
         [Required]
         [Display(Name = "Data de registro")]

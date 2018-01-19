@@ -17,14 +17,9 @@ namespace MedicalMgmt.Models
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório")]
-        [Display(Name = "Primeiro nome")]
-        [StringLength(20)]
-        public string FirstName { get; set; }
-
-        [Required(ErrorMessage = "Campo obrigatório")]
-        [Display(Name = "Sobrenomes")]
+        [Display(Name = "Nome completo")]
         [StringLength(200)]
-        public string FamilyNames { get; set; }
+        public string FullName { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Telefone")]
