@@ -58,7 +58,6 @@ namespace MedicalMgmt.Models
 
 
         //public virtual Appointment Appointment { get; set; }
-        //public virtual Physician Physician { get; set; }
-        //public virtual Physician Physician { get; set; }
+        public virtual Physician Physician { get; set; }
     }
 }
