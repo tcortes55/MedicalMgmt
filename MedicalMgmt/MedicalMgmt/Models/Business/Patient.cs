@@ -9,7 +9,7 @@ namespace MedicalMgmt.Models
     public class Patient
     {
         [Key]
-        public int ID { get; set; }
+        public int PatientID { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Nome completo")]

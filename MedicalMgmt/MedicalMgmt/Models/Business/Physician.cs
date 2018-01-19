@@ -10,11 +10,12 @@ namespace MedicalMgmt.Models
     public class Physician
     {
         [Key]
-        public int ID { get; set; }
+        public int PhysicianID { get; set; }
 
-        public int UserID { get; set; }
-        [ForeignKey("UserID")]
-        public virtual User User { get; set; }
+        //[Required]
+        //[Key,ForeignKey("ID")]
+        //public int UserID { get; set; }
+        //public virtual User User { get; set; }
 
         //[Key]
         //public int ID { get; set; }

@@ -9,7 +9,7 @@ namespace MedicalMgmt.Models
     public class Medicine
     {
         [Key]
-        public int ID { get; set; }
+        public int MedicineID { get; set; }
 
         [Required]
         [Display(Name="Nome Comercial")]

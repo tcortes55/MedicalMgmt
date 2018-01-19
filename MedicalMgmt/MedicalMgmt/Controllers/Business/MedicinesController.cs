@@ -46,7 +46,7 @@ namespace MedicalMgmt.Controllers.Business
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,CommercialName,GenericName,Manufacturer,StatusID")] Medicine medicine)
+        public ActionResult Create([Bind(Include = "MedicineID,CommercialName,GenericName,Manufacturer,StatusID")] Medicine medicine)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace MedicalMgmt.Controllers.Business
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,CommercialName,GenericName,Manufacturer,StatusID")] Medicine medicine)
+        public ActionResult Edit([Bind(Include = "MedicineID,CommercialName,GenericName,Manufacturer,StatusID")] Medicine medicine)
         {
             if (ModelState.IsValid)
             {

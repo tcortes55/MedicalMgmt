@@ -9,7 +9,7 @@ namespace MedicalMgmt.Models
     public class Status
     {
         [Key]
-        public int ID { get; set; }
+        public int StatusID { get; set; }
 
         [Required]
         [Display(Name="Descrição")]

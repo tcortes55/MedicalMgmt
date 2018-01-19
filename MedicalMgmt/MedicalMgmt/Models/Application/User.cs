@@ -9,7 +9,7 @@ namespace MedicalMgmt.Models
     public class User
     {
         [Key]
-        public int ID { get; set; }
+        public int UserID { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name="Usuário")]
@@ -59,6 +59,6 @@ namespace MedicalMgmt.Models
 
         //public virtual Appointment Appointment { get; set; }
         //public virtual Physician Physician { get; set; }
-        public virtual List<Physician> Physician { get; set; }
+        //public virtual Physician Physician { get; set; }
     }
 }

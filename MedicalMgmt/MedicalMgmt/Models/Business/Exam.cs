@@ -9,7 +9,7 @@ namespace MedicalMgmt.Models
     public class Exam
     {
         [Key]
-        public int ID { get; set; }
+        public int ExamID { get; set; }
 
         [Display(Name="Nome")]
         [Required]

@@ -8,6 +8,9 @@ namespace MedicalMgmt.Models
 {
     public class ProfileAssociation
     {
+        [Key]
+        public int ProfileAssociationID { get; set; }
+
         [Required]
         public int ProfileID { get; set; }
 

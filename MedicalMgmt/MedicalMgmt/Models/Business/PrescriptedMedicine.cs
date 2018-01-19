@@ -10,7 +10,7 @@ namespace MedicalMgmt.Models
     public class PrescriptedMedicine
     {
         [Key]
-        public int ID { get; set; }
+        public int PrescriptedMedicineID { get; set; }
 
         [Required]
         public int AppointmentID { get; set; }
