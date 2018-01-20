@@ -40,7 +40,7 @@ namespace MedicalMgmt.Controllers.Business
         public ActionResult Create()
         {
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName");
-            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise");
+            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace MedicalMgmt.Controllers.Business
             }
 
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
-            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", prescriptedMedicine.PhysicianID);
+            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "PhysicianID", prescriptedMedicine.PhysicianID);
             return View(prescriptedMedicine);
         }
 
@@ -76,7 +76,7 @@ namespace MedicalMgmt.Controllers.Business
                 return HttpNotFound();
             }
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
-            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", prescriptedMedicine.PhysicianID);
+            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "PhysicianID", prescriptedMedicine.PhysicianID);
             return View(prescriptedMedicine);
         }
 
@@ -94,7 +94,7 @@ namespace MedicalMgmt.Controllers.Business
                 return RedirectToAction("Index");
             }
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
-            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", prescriptedMedicine.PhysicianID);
+            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "PhysicianID", prescriptedMedicine.PhysicianID);
             return View(prescriptedMedicine);
         }
 

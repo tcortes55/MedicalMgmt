@@ -14,11 +14,6 @@ namespace MedicalMgmt.Models
         public int PhysicianID { get; set; }
 
         [Required]
-        [Display(Name = "Nome completo")]
-        [StringLength(200)]
-        public string FullName { get; set; }
-
-        [Required]
         [Display(Name="Especialidade")]
         [StringLength(30)]
         public string Expertise { get; set; }
