@@ -51,6 +51,10 @@ namespace MedicalMgmt.Models
         [StringLength(500)]
         public string FamilyMedicalHistory { get; set; }
 
+        [Display(Name = "Uso de medicamentos")]
+        [StringLength(300)]
+        public string LongTermMedication { get; set; }
+
         [Required]
         [Display(Name = "Data de registro")]
         [DataType(DataType.DateTime)]

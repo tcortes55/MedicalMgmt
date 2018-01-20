@@ -39,8 +39,11 @@ namespace MedicalMgmt.Controllers.Business
         // GET: PrescriptedMedicines/Create
         public ActionResult Create()
         {
+            var physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
+            var usPhysicians = new SelectList(db.Users, "UserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
+            
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName");
-            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
+            ViewBag.PhysicianID = usPhysicians;
             return View();
         }
 
@@ -58,8 +61,11 @@ namespace MedicalMgmt.Controllers.Business
                 return RedirectToAction("Index");
             }
 
+            var physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
+            var usPhysicians = new SelectList(db.Users, "UserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
+
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
-            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "PhysicianID", prescriptedMedicine.PhysicianID);
+            ViewBag.PhysicianID = usPhysicians;
             return View(prescriptedMedicine);
         }
 
@@ -75,8 +81,12 @@ namespace MedicalMgmt.Controllers.Business
             {
                 return HttpNotFound();
             }
+
+            var physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
+            var usPhysicians = new SelectList(db.Users, "UserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
+
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
-            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "PhysicianID", prescriptedMedicine.PhysicianID);
+            ViewBag.PhysicianID = usPhysicians;
             return View(prescriptedMedicine);
         }
 
@@ -93,8 +103,12 @@ namespace MedicalMgmt.Controllers.Business
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            
+            var physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
+            var usPhysicians = new SelectList(db.Users, "UserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
+
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
-            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "PhysicianID", prescriptedMedicine.PhysicianID);
+            ViewBag.PhysicianID = usPhysicians;
             return View(prescriptedMedicine);
         }
 

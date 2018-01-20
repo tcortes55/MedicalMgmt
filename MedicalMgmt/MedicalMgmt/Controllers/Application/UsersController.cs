@@ -52,6 +52,7 @@ namespace MedicalMgmt.Controllers.Application
             user.Active = true;
             if (ModelState.IsValid)
             {
+                user.Username = user.Username.ToUpper();
                 db.Users.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
