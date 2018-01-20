@@ -13,18 +13,18 @@ namespace MedicalMgmt.Models
         public int AppointmentID { get; set; }
 
         [Required]
+        //[ForeignKey("Physician")]
         public int PhysicianID { get; set; }
-        //[ForeignKey("PhysicianID")]
         //public virtual Physician Physician { get; set; }
 
         [Required]
+        //[ForeignKey("Patient")]
         public int PatientID { get; set; }
-        //[ForeignKey("PatientID")]
         //public virtual Patient Patient { get; set; }
 
         [Required]
+        //[ForeignKey("User")]
         public int UserID { get; set; }
-        //[ForeignKey("UserID")]
         //public virtual User User { get; set; }
 
         [Required]
@@ -40,6 +40,9 @@ namespace MedicalMgmt.Models
         public DateTime PlannedEndDate { get; set; }
 
         [DataType(DataType.DateTime)]
+        public DateTime? PatientArrivingDate { get; set; }
+
+        [DataType(DataType.DateTime)]
         public DateTime? ActualStartDate { get; set; }
 
         [DataType(DataType.DateTime)]
@@ -47,8 +50,8 @@ namespace MedicalMgmt.Models
 
         [Required]
         [Display(Name = "Status")]
+        //[ForeignKey("Status")]
         public int StatusID { get; set; }
-        //[ForeignKey("StatusID")]
         //public virtual Status Status { get; set; }
 
 

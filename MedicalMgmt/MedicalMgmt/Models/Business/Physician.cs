@@ -14,6 +14,11 @@ namespace MedicalMgmt.Models
         public int PhysicianID { get; set; }
 
         [Required]
+        [Display(Name = "Nome completo")]
+        [StringLength(200)]
+        public string FullName { get; set; }
+
+        [Required]
         [Display(Name="Especialidade")]
         [StringLength(30)]
         public string Expertise { get; set; }
@@ -29,6 +34,6 @@ namespace MedicalMgmt.Models
         public virtual User User { get; set; }
         //public virtual Appointment Appointment { get; set; }
         //public virtual PrescriptedExam PrescriptedExam { get; set; }
-        //public virtual PrescriptedMedicine PrescriptedMedicine { get; set; }
+        public virtual List<PrescriptedMedicine> PrescriptedMedicine { get; set; }
     }
 }

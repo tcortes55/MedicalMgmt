@@ -9,11 +9,11 @@ namespace MedicalMgmt.Models
     public class Profile
     {
         [Key]
-        public int ID { get; set; }
+        public int ProfileID { get; set; }
 
         [Display(Name="Nome")]
         [Required]
         [StringLength(30)]
-        public string Name { get; set; }
+        public string ProfileName { get; set; }
     }
 }

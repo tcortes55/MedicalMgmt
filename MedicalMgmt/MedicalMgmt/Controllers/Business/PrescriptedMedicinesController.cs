@@ -17,7 +17,7 @@ namespace MedicalMgmt.Controllers.Business
         // GET: PrescriptedMedicines
         public ActionResult Index()
         {
-            var prescriptedMedicines = db.PrescriptedMedicines.Include(p => p.Medicine);
+            var prescriptedMedicines = db.PrescriptedMedicines.Include(p => p.Medicine).Include(p => p.Physician);
             return View(prescriptedMedicines.ToList());
         }
 
@@ -40,6 +40,7 @@ namespace MedicalMgmt.Controllers.Business
         public ActionResult Create()
         {
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName");
+            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise");
             return View();
         }
 
@@ -58,6 +59,7 @@ namespace MedicalMgmt.Controllers.Business
             }
 
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
+            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", prescriptedMedicine.PhysicianID);
             return View(prescriptedMedicine);
         }
 
@@ -74,6 +76,7 @@ namespace MedicalMgmt.Controllers.Business
                 return HttpNotFound();
             }
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
+            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", prescriptedMedicine.PhysicianID);
             return View(prescriptedMedicine);
         }
 
@@ -91,6 +94,7 @@ namespace MedicalMgmt.Controllers.Business
                 return RedirectToAction("Index");
             }
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
+            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", prescriptedMedicine.PhysicianID);
             return View(prescriptedMedicine);
         }
 

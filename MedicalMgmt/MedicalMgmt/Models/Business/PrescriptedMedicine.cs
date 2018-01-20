@@ -13,18 +13,18 @@ namespace MedicalMgmt.Models
         public int PrescriptedMedicineID { get; set; }
 
         [Required]
+        //[ForeignKey("Appointment")]
         public int AppointmentID { get; set; }
-        //[ForeignKey("AppointmentID")]
         //public virtual Appointment Appointment { get; set; }
 
         [Required]
+        [ForeignKey("Physician")]
         public int PhysicianID { get; set; }
-        //[ForeignKey("PhysicianID")]
-        //public virtual Physician Physician { get; set; }
+        public virtual Physician Physician { get; set; }
 
         [Required]
+        //[ForeignKey("Patient")]
         public int PatientID { get; set; }
-        //[ForeignKey("PatientID")]
         //public virtual Patient Patient { get; set; }
 
         [Required]

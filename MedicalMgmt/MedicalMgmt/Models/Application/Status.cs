@@ -14,7 +14,7 @@ namespace MedicalMgmt.Models
         [Required]
         [Display(Name="Descrição")]
         [StringLength(30)]
-        public string Description { get; set; }
+        public string StatusDescription { get; set; }
 
 
         //public virtual Appointment Appointment { get; set; }
