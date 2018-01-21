@@ -35,6 +35,12 @@ namespace MedicalMgmt.Models
         [StringLength(500)]
         public string Details { get; set; }
 
+        [DataType(DataType.DateTime)]
+        public DateTime? ExecutionDate { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime? ResultDate { get; set; }
+
         [StringLength(500)]
         public string Result { get; set; }
 
