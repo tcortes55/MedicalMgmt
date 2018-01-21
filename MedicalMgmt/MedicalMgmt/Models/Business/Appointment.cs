@@ -39,6 +39,10 @@ namespace MedicalMgmt.Models
         [DataType(DataType.DateTime)]
         public DateTime PlannedEndDate { get; set; }
 
+        [Display(Name = "Anamnese")]
+        [StringLength(500)]
+        public string Anamnesis { get; set; }
+
         [DataType(DataType.DateTime)]
         public DateTime? PatientArrivingDate { get; set; }
 
