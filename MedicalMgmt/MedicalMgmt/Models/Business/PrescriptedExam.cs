@@ -36,13 +36,14 @@ namespace MedicalMgmt.Models
         public string Details { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime? ExecutionDate { get; set; }
-
-        [DataType(DataType.DateTime)]
         public DateTime? ResultDate { get; set; }
 
         [StringLength(500)]
         public string Result { get; set; }
+
+        [Required]
+        [Display(Name = "Enviar para o paciente")]
+        public bool SendToPacient { get; set; }
 
         [Required]
         [Display(Name = "Status")]
