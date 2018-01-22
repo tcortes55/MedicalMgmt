@@ -60,6 +60,10 @@ namespace MedicalMgmt.Models
         [DataType(DataType.DateTime)]
         public DateTimeOffset RegisterDate { get; set; }
 
+        [Required]
+        [Display(Name = "Ativo")]
+        public bool Active { get; set; }
+
 
         //public virtual List<Appointment> Appointment { get; set; }
         public virtual List<PrescriptedMedicine> PrescriptedMedicine { get; set; }
