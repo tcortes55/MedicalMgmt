@@ -17,6 +17,6 @@ namespace MedicalMgmt.Models
         public string Name { get; set; }
 
 
-        //public virtual PrescriptedExam PrescriptedExam { get; set; }
+        public virtual List<PrescriptedExam> PrescriptedExam { get; set; }
     }
 }

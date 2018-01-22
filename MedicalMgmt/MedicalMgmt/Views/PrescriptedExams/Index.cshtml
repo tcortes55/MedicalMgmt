@@ -1,0 +1,81 @@
+﻿@model IEnumerable<MedicalMgmt.Models.PrescriptedExam>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AppointmentID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhysicianID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExamID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Details)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ResultDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Result)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SendToPacient)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StatusID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppointmentID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhysicianID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PatientID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Details)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ResultDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Result)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SendToPacient)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StatusID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PrescriptedExamID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PrescriptedExamID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PrescriptedExamID })
+        </td>
+    </tr>
+}
+
+</table>

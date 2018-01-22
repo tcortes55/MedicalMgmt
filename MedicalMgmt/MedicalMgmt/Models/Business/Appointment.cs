@@ -9,6 +9,7 @@ namespace MedicalMgmt.Models
 {
     public class Appointment
     {
+        //https://stackoverflow.com/questions/17127351/introducing-foreign-key-constraint-may-cause-cycles-or-multiple-cascade-paths
         [Key]
         public int AppointmentID { get; set; }
 
@@ -59,7 +60,7 @@ namespace MedicalMgmt.Models
         //public virtual Status Status { get; set; }
 
 
-        //public virtual PrescriptedExam PrescriptedExam { get; set; }
-        //public virtual PrescriptedMedicine PrescriptedMedicine { get; set; }
+        //public virtual List<PrescriptedMedicine> PrescriptedMedicine { get; set; }
+        //public virtual List<PrescriptedExam> PrescriptedExam { get; set; }
     }
 }

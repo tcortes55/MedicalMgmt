@@ -1,0 +1,90 @@
+﻿@model MedicalMgmt.Models.PrescriptedExam
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PrescriptedExam</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicianID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicianID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PatientID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PatientID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExamID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExamID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Details)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Details)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Result)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Result)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SendToPacient)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SendToPacient)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PrescriptedExamID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

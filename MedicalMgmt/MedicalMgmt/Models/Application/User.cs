@@ -57,7 +57,7 @@ namespace MedicalMgmt.Models
         public bool Active { get; set; }
 
 
-        //public virtual Appointment Appointment { get; set; }
         public virtual Physician Physician { get; set; }
+        //public virtual List<Appointment> Appointment { get; set; }
     }
 }

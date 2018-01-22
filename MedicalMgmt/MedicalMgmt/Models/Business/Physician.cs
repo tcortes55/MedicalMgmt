@@ -27,8 +27,8 @@ namespace MedicalMgmt.Models
 
 
         public virtual User User { get; set; }
-        //public virtual Appointment Appointment { get; set; }
-        //public virtual PrescriptedExam PrescriptedExam { get; set; }
+        //public virtual List<Appointment> Appointment { get; set; }
         public virtual List<PrescriptedMedicine> PrescriptedMedicine { get; set; }
+        public virtual List<PrescriptedExam> PrescriptedExam { get; set; }
     }
 }

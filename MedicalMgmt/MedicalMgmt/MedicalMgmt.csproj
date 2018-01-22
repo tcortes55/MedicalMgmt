@@ -163,9 +163,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Application\UsersController.cs" />
+    <Compile Include="Controllers\Business\ExamsController.cs" />
     <Compile Include="Controllers\Business\MedicinesController.cs" />
     <Compile Include="Controllers\Business\PatientsController.cs" />
     <Compile Include="Controllers\Business\PhysiciansController.cs" />
+    <Compile Include="Controllers\Business\PrescriptedExamsController.cs" />
     <Compile Include="Controllers\Business\PrescriptedMedicinesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -273,6 +275,16 @@
     <Content Include="Views\Patients\Details.cshtml" />
     <Content Include="Views\Patients\Edit.cshtml" />
     <Content Include="Views\Patients\Index.cshtml" />
+    <Content Include="Views\Exams\Create.cshtml" />
+    <Content Include="Views\Exams\Delete.cshtml" />
+    <Content Include="Views\Exams\Details.cshtml" />
+    <Content Include="Views\Exams\Edit.cshtml" />
+    <Content Include="Views\Exams\Index.cshtml" />
+    <Content Include="Views\PrescriptedExams\Create.cshtml" />
+    <Content Include="Views\PrescriptedExams\Delete.cshtml" />
+    <Content Include="Views\PrescriptedExams\Details.cshtml" />
+    <Content Include="Views\PrescriptedExams\Edit.cshtml" />
+    <Content Include="Views\PrescriptedExams\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
