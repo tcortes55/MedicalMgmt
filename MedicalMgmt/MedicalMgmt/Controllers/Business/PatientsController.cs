@@ -10,108 +10,107 @@ using MedicalMgmt.Models;
 
 namespace MedicalMgmt.Controllers.Business
 {
-    public class MedicinesController : Controller
+    public class PatientsController : Controller
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();
 
-        // GET: Medicines
+        // GET: Patients
         public ActionResult Index()
         {
-            return View(db.Medicines.ToList());
+            return View(db.Patients.ToList());
         }
 
-        // GET: Medicines/Details/5
+        // GET: Patients/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Medicine medicine = db.Medicines.Find(id);
-            if (medicine == null)
+            Patient patient = db.Patients.Find(id);
+            if (patient == null)
             {
                 return HttpNotFound();
             }
-            return View(medicine);
+            return View(patient);
         }
 
-        // GET: Medicines/Create
+        // GET: Patients/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Medicines/Create
+        // POST: Patients/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MedicineID,CommercialName,GenericName,Manufacturer,Active")] Medicine medicine)
+        public ActionResult Create([Bind(Include = "PatientID,FullName,BirthDate,Telephone,Email,Rg,Cpf,Address,Allergies,FamilyMedicalHistory,LongTermMedication,RegisterDate")] Patient patient)
         {
             if (ModelState.IsValid)
             {
-                medicine.Active = true;
-                db.Medicines.Add(medicine);
+                db.Patients.Add(patient);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(medicine);
+            return View(patient);
         }
 
-        // GET: Medicines/Edit/5
+        // GET: Patients/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Medicine medicine = db.Medicines.Find(id);
-            if (medicine == null)
+            Patient patient = db.Patients.Find(id);
+            if (patient == null)
             {
                 return HttpNotFound();
             }
-            return View(medicine);
+            return View(patient);
         }
 
-        // POST: Medicines/Edit/5
+        // POST: Patients/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MedicineID,CommercialName,GenericName,Manufacturer,Active")] Medicine medicine)
+        public ActionResult Edit([Bind(Include = "PatientID,FullName,BirthDate,Telephone,Email,Rg,Cpf,Address,Allergies,FamilyMedicalHistory,LongTermMedication,RegisterDate")] Patient patient)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(medicine).State = EntityState.Modified;
+                db.Entry(patient).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(medicine);
+            return View(patient);
         }
 
-        // GET: Medicines/Delete/5
+        // GET: Patients/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Medicine medicine = db.Medicines.Find(id);
-            if (medicine == null)
+            Patient patient = db.Patients.Find(id);
+            if (patient == null)
             {
                 return HttpNotFound();
             }
-            return View(medicine);
+            return View(patient);
         }
 
-        // POST: Medicines/Delete/5
+        // POST: Patients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Medicine medicine = db.Medicines.Find(id);
-            db.Medicines.Remove(medicine);
+            Patient patient = db.Patients.Find(id);
+            db.Patients.Remove(patient);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
