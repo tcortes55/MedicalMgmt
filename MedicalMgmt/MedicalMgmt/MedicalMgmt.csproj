@@ -163,6 +163,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Application\UsersController.cs" />
+    <Compile Include="Controllers\Business\AppointmentsController.cs" />
     <Compile Include="Controllers\Business\ExamsController.cs" />
     <Compile Include="Controllers\Business\MedicinesController.cs" />
     <Compile Include="Controllers\Business\PatientsController.cs" />
@@ -285,6 +286,11 @@
     <Content Include="Views\PrescriptedExams\Details.cshtml" />
     <Content Include="Views\PrescriptedExams\Edit.cshtml" />
     <Content Include="Views\PrescriptedExams\Index.cshtml" />
+    <Content Include="Views\Appointments\Create.cshtml" />
+    <Content Include="Views\Appointments\Delete.cshtml" />
+    <Content Include="Views\Appointments\Details.cshtml" />
+    <Content Include="Views\Appointments\Edit.cshtml" />
+    <Content Include="Views\Appointments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

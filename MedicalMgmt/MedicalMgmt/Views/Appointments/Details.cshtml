@@ -1,0 +1,106 @@
+﻿@model MedicalMgmt.Models.Appointment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Appointment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Patient.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patient.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Physician.Expertise)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Physician.Expertise)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistrationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegistrationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlannedStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlannedStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlannedEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlannedEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Anamnesis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Anamnesis)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PatientArrivingDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PatientArrivingDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActualStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActualStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActualEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActualEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AppointmentID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
