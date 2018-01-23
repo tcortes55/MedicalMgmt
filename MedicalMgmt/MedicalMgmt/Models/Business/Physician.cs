@@ -23,7 +23,7 @@ namespace MedicalMgmt.Models
         public string GraduationUni { get; set; }
 
         [Display(Name = "Ano de graduação")]
-        public int GraduationYear { get; set; }
+        public int GraduationYear { get; set; } //TODO: adicionar ?
 
 
         public virtual User User { get; set; }

@@ -20,20 +20,20 @@ namespace MedicalMgmt.Controllers.Business
             return View(db.Medicines.ToList());
         }
 
-        // GET: Medicines/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Medicine medicine = db.Medicines.Find(id);
-            if (medicine == null)
-            {
-                return HttpNotFound();
-            }
-            return View(medicine);
-        }
+        //// GET: Medicines/Details/5
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Medicine medicine = db.Medicines.Find(id);
+        //    if (medicine == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(medicine);
+        //}
 
         // GET: Medicines/Create
         public ActionResult Create()
@@ -90,31 +90,31 @@ namespace MedicalMgmt.Controllers.Business
             return View(medicine);
         }
 
-        // GET: Medicines/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Medicine medicine = db.Medicines.Find(id);
-            if (medicine == null)
-            {
-                return HttpNotFound();
-            }
-            return View(medicine);
-        }
+        //// GET: Medicines/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Medicine medicine = db.Medicines.Find(id);
+        //    if (medicine == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(medicine);
+        //}
 
-        // POST: Medicines/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Medicine medicine = db.Medicines.Find(id);
-            db.Medicines.Remove(medicine);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: Medicines/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Medicine medicine = db.Medicines.Find(id);
+        //    db.Medicines.Remove(medicine);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {

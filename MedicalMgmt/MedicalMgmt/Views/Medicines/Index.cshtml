@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<MedicalMgmt.Models.Medicine>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Medicamentos";
 }
 
-<h2>Index</h2>
+<h2>Medicamentos</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Criar novo", "Create")
 </p>
 <table class="table">
     <tr>
@@ -41,9 +41,9 @@
             @Html.DisplayFor(modelItem => item.Active)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.MedicineID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.MedicineID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.MedicineID })
+            @Html.ActionLink("Editar", "Edit", new { id = item.MedicineID }) @*|
+    @Html.ActionLink("Detalhes", "Details", new { id = item.MedicineID }) |
+    @Html.ActionLink("Excluir", "Delete", new { id = item.MedicineID })*@
         </td>
     </tr>
 }

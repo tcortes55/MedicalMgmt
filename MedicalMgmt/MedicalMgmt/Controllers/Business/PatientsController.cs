@@ -48,6 +48,8 @@ namespace MedicalMgmt.Controllers.Business
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "PatientID,FullName,BirthDate,Telephone,Email,Rg,Cpf,Address,Allergies,FamilyMedicalHistory,LongTermMedication,RegisterDate")] Patient patient)
         {
+            patient.RegisterDate = DateTime.Now;
+            patient.Active = true;
             if (ModelState.IsValid)
             {
                 db.Patients.Add(patient);
@@ -78,7 +80,7 @@ namespace MedicalMgmt.Controllers.Business
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PatientID,FullName,BirthDate,Telephone,Email,Rg,Cpf,Address,Allergies,FamilyMedicalHistory,LongTermMedication,RegisterDate")] Patient patient)
+        public ActionResult Edit([Bind(Include = "PatientID,FullName,BirthDate,Telephone,Email,Rg,Cpf,Address,Allergies,FamilyMedicalHistory,LongTermMedication,RegisterDate,Active")] Patient patient)
         {
             if (ModelState.IsValid)
             {
@@ -89,31 +91,31 @@ namespace MedicalMgmt.Controllers.Business
             return View(patient);
         }
 
-        // GET: Patients/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Patient patient = db.Patients.Find(id);
-            if (patient == null)
-            {
-                return HttpNotFound();
-            }
-            return View(patient);
-        }
+        //// GET: Patients/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Patient patient = db.Patients.Find(id);
+        //    if (patient == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(patient);
+        //}
 
-        // POST: Patients/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Patient patient = db.Patients.Find(id);
-            db.Patients.Remove(patient);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: Patients/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Patient patient = db.Patients.Find(id);
+        //    db.Patients.Remove(patient);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {

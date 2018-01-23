@@ -1,13 +1,16 @@
 ﻿@model IEnumerable<MedicalMgmt.Models.Physician>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Médicos";
 }
 
-<h2>Index</h2>
+<h2>Médicos</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Criar novo", "Create")
+    <span> (associa um usuário existente no sistema ao perfil "Médico")</span>
+</p>
+<p>
 </p>
 <table class="table">
     <tr>
@@ -41,9 +44,9 @@
             @Html.DisplayFor(modelItem => item.GraduationYear)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PhysicianID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PhysicianID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PhysicianID })
+            @Html.ActionLink("Editar", "Edit", new { id=item.PhysicianID }) |
+            @*@Html.ActionLink("Detalhes", "Details", new { id=item.PhysicianID }) |*@
+            @Html.ActionLink("Excluir", "Delete", new { id=item.PhysicianID })
         </td>
     </tr>
 }
