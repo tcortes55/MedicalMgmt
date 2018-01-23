@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
 using MedicalMgmt.Models;
+using PagedList;
 
 namespace MedicalMgmt.Controllers.Business
 {
@@ -14,10 +16,51 @@ namespace MedicalMgmt.Controllers.Business
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();
 
+        //// GET: Patients
+        //public ActionResult Index()
+        //{
+        //    return View(db.Patients.ToList());
+        //}
+
         // GET: Patients
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(db.Patients.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.FullNameSortParam = String.IsNullOrEmpty(sortOrder) ? "FullName_desc" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var patients = from p in db.Patients select p;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                patients = patients.Where(p => p.FullName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "FullName_desc":
+                    patients = patients.OrderByDescending(p => p.FullName);
+                    break;
+                default:
+                    patients = patients.OrderBy(p => p.FullName);
+                    break;
+            }
+
+            var pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
+            int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
+            int pageNumber = (page ?? 1);
+            
+            return View(patients.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Patients/Details/5

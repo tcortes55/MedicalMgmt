@@ -1,4 +1,7 @@
-﻿@model IEnumerable<MedicalMgmt.Models.Medicine>
+﻿@*@model IEnumerable<MedicalMgmt.Models.Medicine>*@
+@model PagedList.IPagedList<MedicalMgmt.Models.Medicine>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Medicamentos";
@@ -9,19 +12,31 @@
 <p>
     @Html.ActionLink("Criar novo", "Create")
 </p>
+
+@using (Html.BeginForm("Index", "Medicines", FormMethod.Get))
+{
+    <p>
+        Nome: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Buscar" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CommercialName)
+            @*@Html.DisplayNameFor(model => model.CommercialName)*@
+            @Html.ActionLink("Nome comercial", "Index", new { sortOrder = ViewBag.CommercialNameSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.GenericName)
+            @*@Html.DisplayNameFor(model => model.GenericName)*@
+            @Html.ActionLink("Nome genérico", "Index", new { sortOrder = ViewBag.GenericNameSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Manufacturer)
+            @*@Html.DisplayNameFor(model => model.Manufacturer)*@
+            @Html.ActionLink("Fabricante", "Index", new { sortOrder = ViewBag.ManufacturerSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Active)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Active)
         </th>
         <th></th>
     </tr>
@@ -49,3 +64,8 @@
 }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

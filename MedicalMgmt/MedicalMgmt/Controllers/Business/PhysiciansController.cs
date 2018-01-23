@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MedicalMgmt.Models;
 using PagedList;
+using System.Configuration;
 
 namespace MedicalMgmt.Controllers.Business
 {
@@ -63,7 +64,8 @@ namespace MedicalMgmt.Controllers.Business
                     break;
             }
 
-            int pageSize = 3;
+            var pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
+            int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
             int pageNumber = (page ?? 1);
 
             return View(physicians.ToPagedList(pageNumber, pageSize));

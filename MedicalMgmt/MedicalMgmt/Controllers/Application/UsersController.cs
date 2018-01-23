@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MedicalMgmt.Models;
 using PagedList;
+using System.Configuration;
 
 namespace MedicalMgmt.Controllers.Application
 {
@@ -25,8 +26,8 @@ namespace MedicalMgmt.Controllers.Application
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.UsernameSortParam = String.IsNullOrEmpty(sortOrder) ? "FullName_desc" : "";
-            ViewBag.FullNameSortParam = sortOrder == "Username" ? "Username_desc" : "Username";
+            ViewBag.UsernameSortParam = String.IsNullOrEmpty(sortOrder) ? "Username_desc" : "";
+            ViewBag.FullNameSortParam = sortOrder == "FullName" ? "FullName_desc" : "FullName";
 
             if (searchString != null)
             {
@@ -62,7 +63,8 @@ namespace MedicalMgmt.Controllers.Application
                     break;
             }
 
-            int pageSize = 3;
+            var pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
+            int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
             int pageNumber = (page ?? 1);
             return View(users.ToPagedList(pageNumber, pageSize));
         }
