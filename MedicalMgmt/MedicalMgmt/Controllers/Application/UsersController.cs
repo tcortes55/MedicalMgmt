@@ -14,10 +14,37 @@ namespace MedicalMgmt.Controllers.Application
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();
 
+        //// GET: Users
+        //public ActionResult Index()
+        //{
+        //    return View(db.Users.ToList());
+        //}
+
         // GET: Users
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
-            return View(db.Users.ToList());
+            ViewBag.UsernameSortParam = String.IsNullOrEmpty(sortOrder) ? "FullName_desc" : "";
+            ViewBag.FullNameSortParam = sortOrder == "Username" ? "Username_desc" : "Username";
+
+            var users = from u in db.Users select u;
+
+            switch (sortOrder)
+            {
+                case "Username_desc":
+                    users = users.OrderByDescending(u => u.Username);
+                    break;
+                case "FullName":
+                    users = users.OrderBy(u => u.FullName);
+                    break;
+                case "FullName_desc":
+                    users = users.OrderByDescending(u => u.FullName);
+                    break;
+                default:
+                    users = users.OrderBy(u => u.Username);
+                    break;
+            }
+
+            return View(users.ToList());
         }
 
         // GET: Users/Details/5
