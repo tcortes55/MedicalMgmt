@@ -1,4 +1,7 @@
-﻿@model IEnumerable<MedicalMgmt.Models.Physician>
+﻿@*@model IEnumerable<MedicalMgmt.Models.Physician>*@
+@model PagedList.IPagedList<MedicalMgmt.Models.Physician>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Médicos";
@@ -10,21 +13,24 @@
     @Html.ActionLink("Criar novo", "Create")
     <span> (associa um usuário existente no sistema ao perfil "Médico")</span>
 </p>
-<p>
-</p>
+
+@using (Html.BeginForm("Index", "Physicians", FormMethod.Get))
+{
+    <p>
+        Nome: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Buscar" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.User.Username)
+            @*@Html.DisplayNameFor(model => model.User.Username)*@
+            @Html.ActionLink("Usuário", "Index", new { sortOrder = ViewBag.UsernameSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Expertise)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GraduationUni)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GraduationYear)
+            @*@Html.DisplayNameFor(model => model.Expertise)*@
+            @Html.ActionLink("Especialidade", "Index", new { sortOrder = ViewBag.ExpertiseSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
     </tr>
@@ -38,17 +44,16 @@
             @Html.DisplayFor(modelItem => item.Expertise)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.GraduationUni)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GraduationYear)
-        </td>
-        <td>
             @Html.ActionLink("Editar", "Edit", new { id=item.PhysicianID }) |
-            @*@Html.ActionLink("Detalhes", "Details", new { id=item.PhysicianID }) |*@
+            @Html.ActionLink("Detalhes", "Details", new { id=item.PhysicianID }) |
             @Html.ActionLink("Excluir", "Delete", new { id=item.PhysicianID })
         </td>
     </tr>
 }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

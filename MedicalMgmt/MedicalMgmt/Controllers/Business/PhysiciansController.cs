@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MedicalMgmt.Models;
+using PagedList;
 
 namespace MedicalMgmt.Controllers.Business
 {
@@ -14,27 +15,76 @@ namespace MedicalMgmt.Controllers.Business
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();
 
+        //// GET: Physicians
+        //public ActionResult Index()
+        //{
+        //    var physicians = db.Physicians.Include(p => p.User);
+        //    return View(physicians.ToList());
+        //}
+
         // GET: Physicians
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.UsernameSortParam = String.IsNullOrEmpty(sortOrder) ? "Username_desc" : "";
+            ViewBag.ExpertiseSortParam = sortOrder == "Expertise" ? "Expertise_desc" : "Expertise";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
             var physicians = db.Physicians.Include(p => p.User);
-            return View(physicians.ToList());
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                physicians = physicians.Where(p => p.User.Username.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "Username_desc":
+                    physicians = physicians.OrderByDescending(p => p.User.Username);
+                    break;
+                case "Expertise":
+                    physicians = physicians.OrderBy(p => p.Expertise);
+                    break;
+                case "Expertise_desc":
+                    physicians = physicians.OrderByDescending(p => p.Expertise);
+                    break;
+                default:
+                    physicians = physicians.OrderBy(p => p.User.Username);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+            return View(physicians.ToPagedList(pageNumber, pageSize));
+            //var physicians = db.Physicians.Include(p => p.User);
+            //return View(physicians.ToList());
         }
 
-        //// GET: Physicians/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Physician physician = db.Physicians.Find(id);
-        //    if (physician == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(physician);
-        //}
+        // GET: Physicians/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Physician physician = db.Physicians.Find(id);
+            if (physician == null)
+            {
+                return HttpNotFound();
+            }
+            return View(physician);
+        }
 
         // GET: Physicians/Create
         public ActionResult Create()

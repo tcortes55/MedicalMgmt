@@ -13,7 +13,7 @@
     @Html.ActionLink("Criar novo", "Create")
 </p>
 
-@using (Html.BeginForm("Index", "User", FormMethod.Get))
+@using (Html.BeginForm("Index", "Users", FormMethod.Get))
 {
     <p>
         Nome: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
