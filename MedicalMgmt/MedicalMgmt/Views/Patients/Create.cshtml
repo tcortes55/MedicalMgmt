@@ -1,6 +1,6 @@
 ﻿@model MedicalMgmt.Models.Patient
-<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
-<link href="~/Content/jquery-ui-timepicker-addon.min.css" rel="stylesheet" />
+@*<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui-timepicker-addon.min.css" rel="stylesheet" />*@
 
 @{
     ViewBag.Title = "Criar";
@@ -28,7 +28,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control date-picker" } })
+                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
+                @*@Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -111,7 +112,20 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" /> >
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script src="~/Scripts/jquery.datetimepicker.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            $('#BirthDate').datetimepicker();
+        });
+
+    });
+
+        </script>
+
+            @*<script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
@@ -142,6 +156,6 @@
 
         });
 
-    </script>
+    </script>*@
 
-}
+        }
