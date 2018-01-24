@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using MedicalMgmt.Models;
 using PagedList;
 using System.Configuration;
+using MedicalMgmt.ViewModels;
 
 namespace MedicalMgmt.Controllers.Business
 {
@@ -74,58 +75,76 @@ namespace MedicalMgmt.Controllers.Business
         }
 
         // GET: Physicians
-        public ActionResult CreateAppointment(string sortOrder, string currentFilter, string searchString, int? page, int? patientID)
+        public ActionResult SelectPhysician(/*string sortOrder, string currentFilter, string searchString, int? page, int? patientID,*/ int? physicianID)
         {
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.UsernameSortParam = String.IsNullOrEmpty(sortOrder) ? "Username_desc" : "";
-            ViewBag.ExpertiseSortParam = sortOrder == "Expertise" ? "Expertise_desc" : "Expertise";
+            /* ViewBag.CurrentSort = sortOrder;
+             ViewBag.UsernameSortParam = String.IsNullOrEmpty(sortOrder) ? "Username_desc" : "";
+             ViewBag.ExpertiseSortParam = sortOrder == "Expertise" ? "Expertise_desc" : "Expertise";
 
-            if (searchString != null)
+             if (searchString != null)
+             {
+                 page = 1;
+             }
+             else
+             {
+                 searchString = currentFilter;
+             }
+
+             ViewBag.CurrentFilter = searchString;
+
+             var physicians = db.Physicians.Include(p => p.User);
+
+             if (!String.IsNullOrEmpty(searchString))
+             {
+                 physicians = physicians.Where(p => p.User.Username.Contains(searchString));
+             }
+
+             switch (sortOrder)
+             {
+                 case "Username_desc":
+                     physicians = physicians.OrderByDescending(p => p.User.Username);
+                     break;
+                 case "Expertise":
+                     physicians = physicians.OrderBy(p => p.Expertise);
+                     break;
+                 case "Expertise_desc":
+                     physicians = physicians.OrderByDescending(p => p.Expertise);
+                     break;
+                 default:
+                     physicians = physicians.OrderBy(p => p.User.Username);
+                     break;
+             }
+
+             var pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
+             int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
+             int pageNumber = (page ?? 1);
+
+             return View(physicians.ToPagedList(pageNumber, pageSize));*/
+            var viewModel = new SelectPhysicianData(); //db.Physicians.Include(p => p.User);
+
+            viewModel.Physicians = db.Physicians.Where(p => p.User.Active == true)
+                                                .Include(i => i.Appointment)
+                                                .ToList();
+
+            if (physicianID != null)
             {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewBag.CurrentFilter = searchString;
-
-            var physicians = db.Physicians.Include(p => p.User);
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                physicians = physicians.Where(p => p.User.Username.Contains(searchString));
+                ViewBag.PhysicianID = physicianID.Value;
+                viewModel.Appointments = viewModel.Physicians
+                                                  .Where(p => p.PhysicianID == physicianID.Value)
+                                                  .Single()
+                                                  .Appointment
+                                                  .ToList();
+                //physicians = physicians.Where(p => p.PhysicianID == physicianID);
             }
 
-            switch (sortOrder)
-            {
-                case "Username_desc":
-                    physicians = physicians.OrderByDescending(p => p.User.Username);
-                    break;
-                case "Expertise":
-                    physicians = physicians.OrderBy(p => p.Expertise);
-                    break;
-                case "Expertise_desc":
-                    physicians = physicians.OrderByDescending(p => p.Expertise);
-                    break;
-                default:
-                    physicians = physicians.OrderBy(p => p.User.Username);
-                    break;
-            }
-
-            var pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
-            int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
-            int pageNumber = (page ?? 1);
-
-            return View(physicians.ToPagedList(pageNumber, pageSize));
-            //var physicians = db.Physicians.Include(p => p.User);
-            //return View(physicians.ToList());
+            return View(viewModel);
         }
 
-        public ActionResult SelectPhysician(int? id)
+        //public ActionResult SelectDateTime(int? id)
+        public ActionResult SelectDateTime()
         {
-            return PartialView(db.Appointments.Where(a => a.PhysicianID == id && a.PlannedStartDate > DateTime.Now));
+            //return PartialView(db.Appointments.Where(a => a.PhysicianID == id && a.PlannedStartDate > DateTime.Now));
+            return PartialView("_SelectDateTime");
         }
 
         // GET: Physicians/Details/5

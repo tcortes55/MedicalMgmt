@@ -1,2 +1,61 @@
-﻿@model MedicalMgmt.Models.Appointment
+﻿@model MedicalMgmt.ViewModels.SelectPhysicianData
 
+@{
+    ViewBag.Title = "Marcar consulta";
+}
+
+<h2>Marcar consulta</h2>
+<h5>Selecione o profissional desejado</h5>
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Users.fin)*@
+            Medico
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Expertise)*@
+            Especialidade
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Physicians)
+    {
+        string selectedRow = "";
+        if (item.PhysicianID == ViewBag.PhysicianID)
+        {
+            selectedRow = "success";
+        }
+        <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expertise)
+            </td>
+            <td>
+                @Html.ActionLink("Selecionar", "SelectPhysician", new { physicianID = item.PhysicianID })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@if (Model.Appointments != null)
+{
+    <div id="Display">
+        <h1>TESTE</h1>
+    </div>
+}
+
+@*@{ Html.RenderAction("SelectDateTime", "Physicians", new { PhysicianID = Model.FirstOrDefault().PhysicianID }); }*@
+
+@*@section Scripts {
+<script type="text/javascript">
+$("#loadPartialView").click(function () {
+    $.get('@Url.Action("SelectDateTime","Physicians")', {}, function (response) {
+        $("#Display").html(response);
+    });
+});
+</script>
+}*@

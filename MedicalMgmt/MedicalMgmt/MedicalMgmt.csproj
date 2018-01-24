@@ -198,6 +198,7 @@
     <Compile Include="Models\Application\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\SelectPhysicianData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -298,6 +299,7 @@
     <Content Include="Views\Appointments\Index.cshtml" />
     <Content Include="Views\Physicians\CreateAppointment.cshtml" />
     <Content Include="Views\Physicians\SelectPhysician.cshtml" />
+    <Content Include="Views\Physicians\_SelectDateTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
