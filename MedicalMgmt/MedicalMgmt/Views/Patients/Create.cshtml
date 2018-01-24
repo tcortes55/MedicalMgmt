@@ -118,7 +118,28 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $(function () {
-            $('#BirthDate').datetimepicker();
+            var a = '08:00';
+            $('#BirthDate').datetimepicker({
+
+                onGenerate: function (ct) {
+                    jQuery(this).find('.xdsoft_date.xdsoft_weekend')
+                      .addClass('xdsoft_disabled');
+                },
+
+                inline: true,
+
+                minDate: 0,
+                
+                minTime: a,
+
+                maxTime: '17:40',
+
+                disabledDates: '24.01.2018 09:00',
+
+                step: 20,
+
+                lang: 'pt-BR'
+            });
         });
 
     });
