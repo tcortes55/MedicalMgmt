@@ -10,7 +10,7 @@
     <tr>
         <th>
             @*@Html.DisplayNameFor(model => model.Users.fin)*@
-            Medico
+            Médico
         </th>
         <th>
             @*@Html.DisplayNameFor(model => model.Expertise)*@
@@ -44,18 +44,43 @@
 @if (Model.Appointments != null)
 {
     <div id="Display">
-        <h1>TESTE</h1>
     </div>
 }
+    
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" /> >
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery.datetimepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                var a = '08:00';
+                $('#Display').datetimepicker({
 
-@*@{ Html.RenderAction("SelectDateTime", "Physicians", new { PhysicianID = Model.FirstOrDefault().PhysicianID }); }*@
+                    onGenerate: function (ct) {
+                        jQuery(this).find('.xdsoft_date.xdsoft_weekend')
+                          .addClass('xdsoft_disabled');
+                    },
 
-@*@section Scripts {
-<script type="text/javascript">
-$("#loadPartialView").click(function () {
-    $.get('@Url.Action("SelectDateTime","Physicians")', {}, function (response) {
-        $("#Display").html(response);
-    });
-});
-</script>
-}*@
+                    inline: true,
+
+                    minDate: 0,
+
+                    minTime: a,
+
+                    maxTime: '18:00',
+
+                    //disabledDates: '24.01.2018 09:00',
+
+                    step: 20,
+
+                    lang: 'pt-BR'
+                });
+            });
+
+        });
+
+    </script>
+
+}
