@@ -73,6 +73,61 @@ namespace MedicalMgmt.Controllers.Business
             //return View(physicians.ToList());
         }
 
+        // GET: Physicians
+        public ActionResult CreateAppointment(string sortOrder, string currentFilter, string searchString, int? page, int? patientID)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.UsernameSortParam = String.IsNullOrEmpty(sortOrder) ? "Username_desc" : "";
+            ViewBag.ExpertiseSortParam = sortOrder == "Expertise" ? "Expertise_desc" : "Expertise";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var physicians = db.Physicians.Include(p => p.User);
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                physicians = physicians.Where(p => p.User.Username.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "Username_desc":
+                    physicians = physicians.OrderByDescending(p => p.User.Username);
+                    break;
+                case "Expertise":
+                    physicians = physicians.OrderBy(p => p.Expertise);
+                    break;
+                case "Expertise_desc":
+                    physicians = physicians.OrderByDescending(p => p.Expertise);
+                    break;
+                default:
+                    physicians = physicians.OrderBy(p => p.User.Username);
+                    break;
+            }
+
+            var pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
+            int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
+            int pageNumber = (page ?? 1);
+
+            return View(physicians.ToPagedList(pageNumber, pageSize));
+            //var physicians = db.Physicians.Include(p => p.User);
+            //return View(physicians.ToList());
+        }
+
+        public ActionResult SelectPhysician(int? id)
+        {
+            return PartialView(db.Appointments.Where(a => a.PhysicianID == id && a.PlannedStartDate > DateTime.Now));
+        }
+
         // GET: Physicians/Details/5
         public ActionResult Details(int? id)
         {
