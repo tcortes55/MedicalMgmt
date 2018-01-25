@@ -83,49 +83,58 @@
     <script src="~/Scripts/jquery-1.12.4.js"></script>
     <script src="~/Scripts/jquery.datetimepicker.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $(function () {
-                var a = '08:00';
-                $('#PlannedStartDate').datetimepicker({
+    $(document).ready(function () {
+        $(function () {
+            var a = '08:00';
+            $('#PlannedStartDate').datetimepicker({
 
-                    onGenerate: function (ct) {
-                        jQuery(this).find('.xdsoft_date.xdsoft_weekend')
-                          .addClass('xdsoft_disabled');
-                    },
+                onGenerate: function (ct) {
+                    jQuery(this).find('.xdsoft_date.xdsoft_weekend')
+                      .addClass('xdsoft_disabled');
+                },
 
-                    allowTimes: [
-                        '15:00',
-                        '16:00'
-                    ],
+                allowTimes: [
+                    '15:00',
+                    '16:00'
+                ],
 
-                    //https://stackoverflow.com/questions/16361364/accessing-mvcs-model-property-from-javascript
-                    onSelectDate: function (ct, $i) {
-                        var selectedDate = ct.dateFormat('d/m/Y')
-                        alert(selectedDate)
-                        var lala = '@Model.Physicians.FirstOrDefault().User.FullName';
-                        alert(lala)
-                        var aa = ['09:40', '10:00']
-                        aa.push('10:20')
-                        $('#PlannedStartDate').datetimepicker({allowTimes: aa})
-                    },
+                //https://stackoverflow.com/questions/16361364/accessing-mvcs-model-property-from-javascript
+                //https://stackoverflow.com/questions/20471511/how-to-get-data-from-model-to-javascript-mvc-4
+                onSelectDate: function (ct, $i) {
+                    var selectedDate = ct.dateFormat('d/m/Y')
+                    //alert(selectedDate)
+                    //var lala = '@Model.Physicians.FirstOrDefault().User.FullName';
 
-                    inline: true,
+                    //var lista = ['01/01/2018 00:00:00']
+                    //var userObj = @Html.Raw(Json.Encode(Model));
+                    @*var numAp = '@Model.Appointments'*@
+                    @*for (i = 0; i < numAp; i++) {
+                            var item = '@Model.Appointments.ToList().FirstOrDefault().PlannedStartDate'
+                            lista.push(item)
+                        }*@
+                    alert(lala)
+                    var aa = ['09:40', '10:00']
+                    aa.push('10:20')
+                    $('#PlannedStartDate').datetimepicker({allowTimes: aa})
+                },
 
-                    minDate: 0,
+                inline: true,
 
-                    minTime: a,
+                minDate: 0,
 
-                    maxTime: '18:00',
+                minTime: a,
 
-                    //disabledDates: '24.01.2018 09:00',
+                maxTime: '18:00',
 
-                    step: 20,
+                //disabledDates: '24.01.2018 09:00',
 
-                    lang: 'pt-BR'
-                });
+                step: 20,
+
+                lang: 'pt-BR'
             });
-
         });
+
+    });
 
     </script>
 
