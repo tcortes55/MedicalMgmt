@@ -24,6 +24,7 @@
         string selectedRow = "";
         if (item.PhysicianID == ViewBag.PhysicianID)
         {
+            Model.Appointment.PhysicianID = item.PhysicianID;
             selectedRow = "success";
         }
         <tr class="@selectedRow">
@@ -58,12 +59,18 @@
         @using (Html.BeginForm("Create", "Appointments"))
         {
             @Html.AntiForgeryToken()
-            //patientID: @Html.TextBox("Search");
-            @Html.HiddenFor(model => model.Patient.PatientID)
-            @Html.HiddenFor(model => model.Physicians.FirstOrDefault().PhysicianID )
-            //physicianID: Model.Physicians.FirstOrDefault().PhysicianID;
-            <div id="datetimepicker">
-            </div>
+            //foreach (var item in Model.Physicians)
+            //{
+            //    if (item.PhysicianID == ViewBag.PhysicianID)
+            //    {
+            //        Model.Appointment.PhysicianID = item.PhysicianID;
+            //    }
+            //}
+            Model.Appointment.PatientID = Model.Patient.PatientID;
+            
+            @Html.HiddenFor(model => model.Appointment.PatientID)
+            @Html.HiddenFor(model => model.Appointment.PhysicianID)
+            @Html.EditorFor(model => model.Appointment.PlannedStartDate, new { htmlAttributes = new { @Value = DateTime.Now, @id="PlannedStartDate", @class = "form-control datepicker" } })
             <input type="submit" value="Marcar consulta" class="btn btn-primary" />
         }
     </div>
@@ -79,7 +86,7 @@
         $(document).ready(function () {
             $(function () {
                 var a = '08:00';
-                $('#datetimepicker').datetimepicker({
+                $('#PlannedStartDate').datetimepicker({
 
                     onGenerate: function (ct) {
                         jQuery(this).find('.xdsoft_date.xdsoft_weekend')

@@ -12,5 +12,6 @@ namespace MedicalMgmt.ViewModels
         public Patient Patient { get; set; }
         public IEnumerable<Physician> Physicians { get; set; }
         public IEnumerable<Appointment> Appointments { get; set; }
+        public Appointment Appointment { get; set; }
     }
 }

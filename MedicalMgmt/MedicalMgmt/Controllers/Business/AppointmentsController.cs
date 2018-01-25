@@ -45,13 +45,38 @@ namespace MedicalMgmt.Controllers.Business
             return View();
         }
 
+        // POST: Appointments/Create2
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create2([Bind(Include = "AppointmentID,PhysicianID,PatientID,UserID,RegistrationDate,PlannedStartDate,PlannedEndDate,Anamnesis,PatientArrivingDate,ActualStartDate,ActualEndDate,StatusID")] Appointment appointment)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Appointments.Add(appointment);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.PatientID = new SelectList(db.Patients, "PatientID", "FullName", appointment.PatientID);
+            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", appointment.PhysicianID);
+            ViewBag.UserID = new SelectList(db.Users, "UserID", "Username", appointment.UserID);
+            return View(appointment);
+        }
+
         // POST: Appointments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AppointmentID,PhysicianID,PatientID,UserID,RegistrationDate,PlannedStartDate,PlannedEndDate,Anamnesis,PatientArrivingDate,ActualStartDate,ActualEndDate,StatusID")] Appointment appointment)
+        public ActionResult Create([Bind(Include = "AppointmentID,PhysicianID,PatientID,PlannedStartDate")] Appointment appointment)
         {
+            appointment.UserID = 1;
+            appointment.RegistrationDate = DateTime.Now;
+            appointment.PlannedEndDate = appointment.PlannedStartDate.AddMinutes(20);
+            appointment.StatusID = 1;
+
             if (ModelState.IsValid)
             {
                 db.Appointments.Add(appointment);

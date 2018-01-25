@@ -122,6 +122,7 @@ namespace MedicalMgmt.Controllers.Business
              return View(physicians.ToPagedList(pageNumber, pageSize));*/
             var viewModel = new SelectPhysicianData(); //db.Physicians.Include(p => p.User);
 
+            viewModel.Appointment = new Appointment();
             viewModel.Patient = db.Patients.Find(patientID);
             viewModel.Physicians = db.Physicians.Where(p => p.User.Active == true)
                                                 .Include(i => i.Appointment)
