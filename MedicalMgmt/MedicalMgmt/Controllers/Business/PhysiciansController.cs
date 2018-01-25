@@ -75,7 +75,7 @@ namespace MedicalMgmt.Controllers.Business
         }
 
         // GET: Physicians
-        public ActionResult SelectPhysician(/*string sortOrder, string currentFilter, string searchString, int? page, int? patientID,*/ int? physicianID)
+        public ActionResult CreateAppointment(/*string sortOrder, string currentFilter, string searchString, int? page,*/ int? patientID, int? physicianID)
         {
             /* ViewBag.CurrentSort = sortOrder;
              ViewBag.UsernameSortParam = String.IsNullOrEmpty(sortOrder) ? "Username_desc" : "";
@@ -122,10 +122,12 @@ namespace MedicalMgmt.Controllers.Business
              return View(physicians.ToPagedList(pageNumber, pageSize));*/
             var viewModel = new SelectPhysicianData(); //db.Physicians.Include(p => p.User);
 
+            viewModel.Patient = db.Patients.Find(patientID);
             viewModel.Physicians = db.Physicians.Where(p => p.User.Active == true)
                                                 .Include(i => i.Appointment)
                                                 .ToList();
 
+            ViewBag.PatientID = patientID.Value;
             if (physicianID != null)
             {
                 ViewBag.PhysicianID = physicianID.Value;
@@ -138,13 +140,6 @@ namespace MedicalMgmt.Controllers.Business
             }
 
             return View(viewModel);
-        }
-
-        //public ActionResult SelectDateTime(int? id)
-        public ActionResult SelectDateTime()
-        {
-            //return PartialView(db.Appointments.Where(a => a.PhysicianID == id && a.PlannedStartDate > DateTime.Now));
-            return PartialView("_SelectDateTime");
         }
 
         // GET: Physicians/Details/5

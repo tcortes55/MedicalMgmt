@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MedicalMgmt.Models.Physician>
+﻿@model MedicalMgmt.ViewModels.SelectPhysicianData
 
 @{
     ViewBag.Title = "Marcar consulta";
@@ -9,26 +9,101 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.User.Username)
+            @*@Html.DisplayNameFor(model => model.Users.fin)*@
+            Médico
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Expertise)
+            @*@Html.DisplayNameFor(model => model.Expertise)*@
+            Especialidade
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.Username)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Expertise)
-        </td>
-        <td>
-            @Html.ActionLink("Selecionar", "SelectPhysician", new { id = item.PhysicianID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.Physicians)
+    {
+        string selectedRow = "";
+        if (item.PhysicianID == ViewBag.PhysicianID)
+        {
+            selectedRow = "success";
+        }
+        <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expertise)
+            </td>
+            <td>
+                @Html.ActionLink("Selecionar", "CreateAppointment", new { patientID = ViewBag.PatientID, physicianID = item.PhysicianID })
+            </td>
+        </tr>
+    }
 
 </table>
+
+@if (Model.Appointments != null)
+{
+    @*<h5>@Html.ViewBag.PatientID</h5>
+    <h5>@Html.ViewBag.PhysicianID</h5>*@
+    @*<div id="datetimepicker">
+    </div>*@
+    <div>
+        @*<input type="submit" value="Marcar consulta" class="btn btn-primary" />*@
+        @*@Html.ActionLink("Marcar consulta", "Create", 
+                         new { controller = "Appointment", 
+                               patientID = ViewBag.PatientID, 
+                               physicianID = ViewBag.PhysicianID },
+                               startTime = 
+                               new { @class="btn btn-primary" })*@
+        @using (Html.BeginForm("Create", "Appointments"))
+        {
+            @Html.AntiForgeryToken()
+            //patientID: @Html.TextBox("Search");
+            @Html.HiddenFor(model => model.Patient.PatientID)
+            @Html.HiddenFor(model => model.Physicians.FirstOrDefault().PhysicianID )
+            //physicianID: Model.Physicians.FirstOrDefault().PhysicianID;
+            <div id="datetimepicker">
+            </div>
+            <input type="submit" value="Marcar consulta" class="btn btn-primary" />
+        }
+    </div>
+    
+}
+    
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" /> >
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery.datetimepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                var a = '08:00';
+                $('#datetimepicker').datetimepicker({
+
+                    onGenerate: function (ct) {
+                        jQuery(this).find('.xdsoft_date.xdsoft_weekend')
+                          .addClass('xdsoft_disabled');
+                    },
+
+                    inline: true,
+
+                    minDate: 0,
+
+                    minTime: a,
+
+                    maxTime: '18:00',
+
+                    //disabledDates: '24.01.2018 09:00',
+
+                    step: 20,
+
+                    lang: 'pt-BR'
+                });
+            });
+
+        });
+
+    </script>
+
+}

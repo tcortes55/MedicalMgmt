@@ -9,7 +9,7 @@ namespace MedicalMgmt.ViewModels
 {
     public class SelectPhysicianData
     {
-        public User User { get; set; }
+        public Patient Patient { get; set; }
         public IEnumerable<Physician> Physicians { get; set; }
         public IEnumerable<Appointment> Appointments { get; set; }
     }

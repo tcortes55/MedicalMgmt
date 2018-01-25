@@ -298,8 +298,6 @@
     <Content Include="Views\Appointments\Edit.cshtml" />
     <Content Include="Views\Appointments\Index.cshtml" />
     <Content Include="Views\Physicians\CreateAppointment.cshtml" />
-    <Content Include="Views\Physicians\SelectPhysician.cshtml" />
-    <Content Include="Views\Physicians\_SelectDateTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
