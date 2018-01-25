@@ -124,7 +124,7 @@ namespace MedicalMgmt.Controllers.Business
 
             viewModel.Appointment = new Appointment();
             viewModel.Patient = db.Patients.Find(patientID);
-            viewModel.Physicians = db.Physicians.Where(p => p.User.Active == true)
+            viewModel.Physicians = db.Physicians.Where(p => p.User.Active)
                                                 .Include(i => i.Appointment)
                                                 .ToList();
 

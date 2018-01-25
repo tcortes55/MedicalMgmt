@@ -29,14 +29,17 @@ namespace MedicalMgmt.Models
         public virtual User User { get; set; }
 
         [Required]
+        [Display(Name = "Data de marcação")]
         [DataType(DataType.DateTime)]
         public DateTime RegistrationDate { get; set; }
 
         [Required]
+        [Display(Name = "Data de início")]
         [DataType(DataType.DateTime)]
         public DateTime PlannedStartDate { get; set; }
 
         [Required]
+        [Display(Name = "Data fim")]
         [DataType(DataType.DateTime)]
         public DateTime PlannedEndDate { get; set; }
 
@@ -45,12 +48,15 @@ namespace MedicalMgmt.Models
         public string Anamnesis { get; set; }
 
         [DataType(DataType.DateTime)]
+        [Display(Name = "Horário de chegada do paciente")]
         public DateTime? PatientArrivingDate { get; set; }
 
         [DataType(DataType.DateTime)]
+        [Display(Name = "Data de início (real)")]
         public DateTime? ActualStartDate { get; set; }
 
         [DataType(DataType.DateTime)]
+        [Display(Name = "Data fim (real)")]
         public DateTime? ActualEndDate { get; set; }
 
         [Required]

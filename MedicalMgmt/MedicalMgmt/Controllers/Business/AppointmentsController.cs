@@ -81,12 +81,12 @@ namespace MedicalMgmt.Controllers.Business
             {
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = appointment.AppointmentID } );
             }
 
-            ViewBag.PatientID = new SelectList(db.Patients, "PatientID", "FullName", appointment.PatientID);
-            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", appointment.PhysicianID);
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Username", appointment.UserID);
+            //ViewBag.PatientID = new SelectList(db.Patients, "PatientID", "FullName", appointment.PatientID);
+            //ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", appointment.PhysicianID);
+            //ViewBag.UserID = new SelectList(db.Users, "UserID", "Username", appointment.UserID);
             return View(appointment);
         }
 

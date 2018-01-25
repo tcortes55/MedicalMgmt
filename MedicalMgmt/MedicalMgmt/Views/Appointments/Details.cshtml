@@ -1,21 +1,29 @@
 ﻿@model MedicalMgmt.Models.Appointment
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes da consulta";
 }
 
-<h2>Details</h2>
+<h2>Detalhes</h2>
 
 <div>
-    <h4>Appointment</h4>
+    <h4>Consulta</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Patient.FullName)
+            Paciente
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Patient.FullName)
+        </dd>
+
+        <dt>
+            Médico
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Physician.User.FullName)
         </dd>
 
         <dt>
@@ -27,7 +35,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.User.Username)
+            Usuário marcação
         </dt>
 
         <dd>
@@ -101,6 +109,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.AppointmentID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Editar", "Editar", new { id = Model.AppointmentID }) |
+    @Html.ActionLink("Voltar", "Index")
 </p>
