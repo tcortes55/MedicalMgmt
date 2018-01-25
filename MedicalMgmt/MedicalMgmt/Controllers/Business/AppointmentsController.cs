@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MedicalMgmt.Models;
+using MedicalMgmt.General;
 
 namespace MedicalMgmt.Controllers.Business
 {
@@ -75,7 +76,7 @@ namespace MedicalMgmt.Controllers.Business
             appointment.UserID = 1;
             appointment.RegistrationDate = DateTime.Now;
             appointment.PlannedEndDate = appointment.PlannedStartDate.AddMinutes(20);
-            appointment.StatusID = 1;
+            appointment.StatusID = Constants.SS_AP_PLANNED;
 
             if (ModelState.IsValid)
             {

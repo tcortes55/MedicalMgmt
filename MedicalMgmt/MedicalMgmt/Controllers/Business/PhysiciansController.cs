@@ -10,6 +10,7 @@ using MedicalMgmt.Models;
 using PagedList;
 using System.Configuration;
 using MedicalMgmt.ViewModels;
+using MedicalMgmt.General;
 
 namespace MedicalMgmt.Controllers.Business
 {
@@ -125,7 +126,7 @@ namespace MedicalMgmt.Controllers.Business
             viewModel.Appointment = new Appointment();
             viewModel.Patient = db.Patients.Find(patientID);
             viewModel.Physicians = db.Physicians.Where(p => p.User.Active)
-                                                .Include(i => i.Appointment)
+                                                .Include(p => p.Appointment)
                                                 .ToList();
 
             ViewBag.PatientID = patientID.Value;
@@ -136,8 +137,9 @@ namespace MedicalMgmt.Controllers.Business
                                                   .Where(p => p.PhysicianID == physicianID.Value)
                                                   .Single()
                                                   .Appointment
+                                                  .Where(a => a.PlannedStartDate > DateTime.Now &&
+                                                              a.StatusID != Constants.SS_AP_CANCELED)
                                                   .ToList();
-                //physicians = physicians.Where(p => p.PhysicianID == physicianID);
             }
 
             return View(viewModel);
