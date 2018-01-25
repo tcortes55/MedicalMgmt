@@ -93,6 +93,22 @@
                           .addClass('xdsoft_disabled');
                     },
 
+                    allowTimes: [
+                        '15:00',
+                        '16:00'
+                    ],
+
+                    //https://stackoverflow.com/questions/16361364/accessing-mvcs-model-property-from-javascript
+                    onSelectDate: function (ct, $i) {
+                        var selectedDate = ct.dateFormat('d/m/Y')
+                        alert(selectedDate)
+                        var lala = '@Model.Physicians.FirstOrDefault().User.FullName';
+                        alert(lala)
+                        var aa = ['09:40', '10:00']
+                        aa.push('10:20')
+                        $('#PlannedStartDate').datetimepicker({allowTimes: aa})
+                    },
+
                     inline: true,
 
                     minDate: 0,
