@@ -44,29 +44,11 @@
 
 @if (Model.Appointment.PhysicianID != null && Model.Appointment.PhysicianID > 0)
 {
-    @*<h5>@Html.ViewBag.PatientID</h5>
-    <h5>@Html.ViewBag.PhysicianID</h5>*@
-    @*<div id="datetimepicker">
-    </div>*@
     <div>
-        @*<input type="submit" value="Marcar consulta" class="btn btn-primary" />*@
-        @*@Html.ActionLink("Marcar consulta", "Create", 
-                         new { controller = "Appointment", 
-                               patientID = ViewBag.PatientID, 
-                               physicianID = ViewBag.PhysicianID },
-                               startTime = 
-                               new { @class="btn btn-primary" })*@
         @using (Html.BeginForm("Create", "Appointments"))
         {
             @Html.AntiForgeryToken()
-            //foreach (var item in Model.Physicians)
-            //{
-            //    if (item.PhysicianID == ViewBag.PhysicianID)
-            //    {
-            //        Model.Appointment.PhysicianID = item.PhysicianID;
-            //    }
-            //}
-            Model.Appointment.PatientID = Model.Patient.PatientID;
+            //Model.Appointment.PatientID = Model.Patient.PatientID;
             
             @Html.HiddenFor(model => model.Appointment.PatientID)
             @Html.HiddenFor(model => model.Appointment.PhysicianID)
@@ -85,19 +67,29 @@
     <script type="text/javascript">
     $(document).ready(function () {
         $(function () {
-            var a = '08:00';
+            //var a = '08:00';
             @*var lala = '@Model.Appointment.PhysicianID';*@
             $('#PlannedStartDate').datetimepicker({
+
+                allowTimes: [
+                ],
 
                 onGenerate: function (ct) {
                     jQuery(this).find('.xdsoft_date.xdsoft_weekend')
                       .addClass('xdsoft_disabled');
-                },
 
-                allowTimes: [
-                    '15:00',
-                    '16:00'
-                ],
+                    @*$.ajax({
+                        method: "GET",
+                        url: "/Appointments/GetByPhysicianIdAndDate/",
+                        data: {
+                            physicianID: '@Model.Appointment.PhysicianID',
+                            selectedDate: ct.dateFormat('Y/m/d')
+                        },
+                        success: function (response) {
+                            $('#PlannedStartDate').datetimepicker({ allowTimes: response })
+                        }
+                    })*@
+                },
 
                 //https://stackoverflow.com/questions/16361364/accessing-mvcs-model-property-from-javascript
                 //https://stackoverflow.com/questions/20471511/how-to-get-data-from-model-to-javascript-mvc-4
@@ -112,7 +104,6 @@
                         success: function (response) {
                             $('#PlannedStartDate').datetimepicker({ allowTimes: response })
                         }
-
                     })
 
                     //var aa = ['09:40', '10:00']
@@ -124,9 +115,9 @@
 
                 minDate: 0,
 
-                minTime: a,
+                //minTime: a,
 
-                maxTime: '18:00',
+                //maxTime: '18:00',
 
                 //disabledDates: '24.01.2018 09:00',
 
@@ -138,6 +129,6 @@
 
     });
 
-    </script>
+</script>
 
 }
