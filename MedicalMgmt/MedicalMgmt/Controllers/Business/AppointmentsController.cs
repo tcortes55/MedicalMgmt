@@ -53,20 +53,30 @@ namespace MedicalMgmt.Controllers.Business
                                                        && a.PlannedStartDate < dayEnd
                                                        && a.StatusID != Constants.SS_AP_CANCELED);
 
-            //var lala = new DateTime[0].ToList();
-            //foreach (Appointment ap in appointments)
-            //{
-            //    lala.Add(ap.PlannedStartDate);
-            //}
+            //https://stackoverflow.com/questions/20815252/to-remove-common-string-from-two-string-array-in-net
+            var fullSchedule =  new string[] {
+                                                        "08:00","08:20","08:40",
+                                                        "09:00","09:20","09:40",
+                                                        "10:00","10:20","10:40",
+                                                        "11:00","11:20","11:40",
+                                                        "13:00","13:20","13:40",
+                                                        "14:00","14:20","14:40",
+                                                        "15:00","15:20","15:40",
+                                                        "16:00","16:20","16:40",
+                                                        "17:00","17:20","17:40"
+                                                      };
+            var existingTimes = new string[] { }.ToList();
+            foreach(Appointment ap in appointments)
+            {
+                existingTimes.Add(ap.PlannedStartDate.Hour.ToString().PadLeft(2,'0')
+                                  + ":"
+                                  + ap.PlannedStartDate.Minute.ToString().PadLeft(2, '0')
+                                  );
+            }
 
-            var lala = new string[] {"08:00","08:40"};
+            var availableTimesForDay = fullSchedule.Except(existingTimes);
 
-            return Json(lala, JsonRequestBehavior.AllowGet);
-            //if (appointment == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //return View(appointment);
+            return Json(availableTimesForDay, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Appointments/Create
