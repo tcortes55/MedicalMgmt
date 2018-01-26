@@ -42,7 +42,7 @@
 
 </table>
 
-@if (Model.Appointments != null)
+@if (Model.Appointment.PhysicianID != null)
 {
     @*<h5>@Html.ViewBag.PatientID</h5>
     <h5>@Html.ViewBag.PhysicianID</h5>*@
@@ -86,6 +86,7 @@
     $(document).ready(function () {
         $(function () {
             var a = '08:00';
+            var lala = '@Model.Appointment.PhysicianID';
             $('#PlannedStartDate').datetimepicker({
 
                 onGenerate: function (ct) {
@@ -102,17 +103,16 @@
                 //https://stackoverflow.com/questions/20471511/how-to-get-data-from-model-to-javascript-mvc-4
                 onSelectDate: function (ct, $i) {
                     var selectedDate = ct.dateFormat('d/m/Y')
-                    //alert(selectedDate)
-                    //var lala = '@Model.Physicians.FirstOrDefault().User.FullName';
+                    $.ajax({
+                        method: "GET",
+                        url: "/Appointments/GetByPhysicianIdAndDate/",
+                        data: {
+                            physicianID: lala
+                        },
+                        success: function (response) { alert(response) }
 
-                    //var lista = ['01/01/2018 00:00:00']
-                    //var userObj = @Html.Raw(Json.Encode(Model));
-                    @*var numAp = '@Model.Appointments'*@
-                    @*for (i = 0; i < numAp; i++) {
-                            var item = '@Model.Appointments.ToList().FirstOrDefault().PlannedStartDate'
-                            lista.push(item)
-                        }*@
-                    alert(lala)
+                    })
+
                     var aa = ['09:40', '10:00']
                     aa.push('10:20')
                     $('#PlannedStartDate').datetimepicker({allowTimes: aa})

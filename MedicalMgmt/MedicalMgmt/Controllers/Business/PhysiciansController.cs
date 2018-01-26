@@ -123,23 +123,25 @@ namespace MedicalMgmt.Controllers.Business
              return View(physicians.ToPagedList(pageNumber, pageSize));*/
             var viewModel = new SelectPhysicianData(); //db.Physicians.Include(p => p.User);
 
-            viewModel.Appointment = new Appointment();
             viewModel.Patient = db.Patients.Find(patientID);
             viewModel.Physicians = db.Physicians.Where(p => p.User.Active)
                                                 .Include(p => p.Appointment)
                                                 .ToList();
+            viewModel.Appointment = new Appointment();
+            viewModel.Appointment.PatientID = patientID.Value;
 
             ViewBag.PatientID = patientID.Value;
             if (physicianID != null)
             {
                 ViewBag.PhysicianID = physicianID.Value;
-                viewModel.Appointments = viewModel.Physicians
-                                                  .Where(p => p.PhysicianID == physicianID.Value)
-                                                  .Single()
-                                                  .Appointment
-                                                  .Where(a => a.PlannedStartDate > DateTime.Now &&
-                                                              a.StatusID != Constants.SS_AP_CANCELED)
-                                                  .ToList();
+                viewModel.Appointment.PhysicianID = physicianID.Value;
+                //viewModel.Appointments = viewModel.Physicians
+                //                                  .Where(p => p.PhysicianID == physicianID.Value)
+                //                                  .Single()
+                //                                  .Appointment
+                //                                  .Where(a => a.PlannedStartDate > DateTime.Now &&
+                //                                              a.StatusID != Constants.SS_AP_CANCELED)
+                //                                  .ToList();
             }
 
             return View(viewModel);

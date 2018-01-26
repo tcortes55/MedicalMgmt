@@ -37,6 +37,34 @@ namespace MedicalMgmt.Controllers.Business
             return View(appointment);
         }
 
+        // GET: Appointments/Details/5
+        public ActionResult GetByPhysicianIdAndDate(int? physicianID, DateTime? date)
+        {
+            date = DateTime.Now.Date;
+            var date2 = DateTime.Now.AddDays(1).Date;
+            if (physicianID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var appointments = db.Appointments.Where(a => a.PhysicianID == physicianID
+                                                       && a.PlannedStartDate > date
+                                                       && a.PlannedStartDate < date2
+                                                       && a.StatusID != Constants.SS_AP_CANCELED);
+
+            var lala = new DateTime[appointments.Count()].ToList();
+            foreach (Appointment ap in appointments)
+            {
+                lala.Add(ap.PlannedStartDate);
+            }
+
+            return Json(lala, JsonRequestBehavior.AllowGet);
+            //if (appointment == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(appointment);
+        }
+
         // GET: Appointments/Create
         public ActionResult Create()
         {
