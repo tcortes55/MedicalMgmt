@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MedicalMgmt.Models;
 using MedicalMgmt.General;
+using System.Globalization;
 
 namespace MedicalMgmt.Controllers.Business
 {
@@ -38,24 +39,27 @@ namespace MedicalMgmt.Controllers.Business
         }
 
         // GET: Appointments/Details/5
-        public ActionResult GetByPhysicianIdAndDate(int? physicianID, DateTime? date)
+        public ActionResult GetByPhysicianIdAndDate(int? physicianID, string selectedDate)
         {
-            date = DateTime.Now.Date;
-            var date2 = DateTime.Now.AddDays(1).Date;
+            var dayBegin = DateTime.ParseExact(selectedDate, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var dayEnd = dayBegin.AddDays(1);
+
             if (physicianID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var appointments = db.Appointments.Where(a => a.PhysicianID == physicianID
-                                                       && a.PlannedStartDate > date
-                                                       && a.PlannedStartDate < date2
+                                                       && a.PlannedStartDate > dayBegin
+                                                       && a.PlannedStartDate < dayEnd
                                                        && a.StatusID != Constants.SS_AP_CANCELED);
 
-            var lala = new DateTime[appointments.Count()].ToList();
-            foreach (Appointment ap in appointments)
-            {
-                lala.Add(ap.PlannedStartDate);
-            }
+            //var lala = new DateTime[0].ToList();
+            //foreach (Appointment ap in appointments)
+            //{
+            //    lala.Add(ap.PlannedStartDate);
+            //}
+
+            var lala = new string[] {"08:00","08:40"};
 
             return Json(lala, JsonRequestBehavior.AllowGet);
             //if (appointment == null)

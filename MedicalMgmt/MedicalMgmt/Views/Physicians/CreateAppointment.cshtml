@@ -42,7 +42,7 @@
 
 </table>
 
-@if (Model.Appointment.PhysicianID != null)
+@if (Model.Appointment.PhysicianID != null && Model.Appointment.PhysicianID > 0)
 {
     @*<h5>@Html.ViewBag.PatientID</h5>
     <h5>@Html.ViewBag.PhysicianID</h5>*@
@@ -86,7 +86,7 @@
     $(document).ready(function () {
         $(function () {
             var a = '08:00';
-            var lala = '@Model.Appointment.PhysicianID';
+            @*var lala = '@Model.Appointment.PhysicianID';*@
             $('#PlannedStartDate').datetimepicker({
 
                 onGenerate: function (ct) {
@@ -102,20 +102,22 @@
                 //https://stackoverflow.com/questions/16361364/accessing-mvcs-model-property-from-javascript
                 //https://stackoverflow.com/questions/20471511/how-to-get-data-from-model-to-javascript-mvc-4
                 onSelectDate: function (ct, $i) {
-                    var selectedDate = ct.dateFormat('d/m/Y')
                     $.ajax({
                         method: "GET",
                         url: "/Appointments/GetByPhysicianIdAndDate/",
                         data: {
-                            physicianID: lala
+                            physicianID: '@Model.Appointment.PhysicianID',
+                            selectedDate: ct.dateFormat('Y/m/d')
                         },
-                        success: function (response) { alert(response) }
+                        success: function (response) {
+                            $('#PlannedStartDate').datetimepicker({ allowTimes: response })
+                        }
 
                     })
 
-                    var aa = ['09:40', '10:00']
-                    aa.push('10:20')
-                    $('#PlannedStartDate').datetimepicker({allowTimes: aa})
+                    //var aa = ['09:40', '10:00']
+                    //aa.push('10:20')
+                    //$('#PlannedStartDate').datetimepicker({allowTimes: aa})
                 },
 
                 inline: true,
