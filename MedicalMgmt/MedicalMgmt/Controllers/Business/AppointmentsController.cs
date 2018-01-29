@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using MedicalMgmt.Models;
 using MedicalMgmt.General;
 using System.Globalization;
+using System.Configuration;
 
 namespace MedicalMgmt.Controllers.Business
 {
@@ -54,17 +55,7 @@ namespace MedicalMgmt.Controllers.Business
                                                        && a.StatusID != Constants.SS_AP_CANCELED);
 
             //https://stackoverflow.com/questions/20815252/to-remove-common-string-from-two-string-array-in-net
-            var fullSchedule =  new string[] {
-                                                        "08:00","08:20","08:40",
-                                                        "09:00","09:20","09:40",
-                                                        "10:00","10:20","10:40",
-                                                        "11:00","11:20","11:40",
-                                                        "13:00","13:20","13:40",
-                                                        "14:00","14:20","14:40",
-                                                        "15:00","15:20","15:40",
-                                                        "16:00","16:20","16:40",
-                                                        "17:00","17:20","17:40"
-                                                      };
+            var fullSchedule = ConfigurationManager.AppSettings["FullSchedule"].Split(',');
             var existingTimes = new string[] { }.ToList();
             foreach(Appointment ap in appointments)
             {

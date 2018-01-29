@@ -14,9 +14,6 @@ namespace MedicalMgmt.ViewModels
         // List of active physicians
         public IEnumerable<Physician> Physicians { get; set; }
 
-        // List of existing future appointments for selected physician
-        public IEnumerable<Appointment> Appointments { get; set; }
-
         // Appointment that will be created
         public Appointment Appointment { get; set; }
     }
