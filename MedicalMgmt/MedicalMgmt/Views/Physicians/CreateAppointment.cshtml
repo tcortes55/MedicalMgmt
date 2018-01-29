@@ -67,28 +67,25 @@
     <script type="text/javascript">
     $(document).ready(function () {
         $(function () {
-            //var a = '08:00';
-            @*var lala = '@Model.Appointment.PhysicianID';*@
             $('#PlannedStartDate').datetimepicker({
 
                 allowTimes: [
+                    $.ajax({
+                        method: "GET",
+                        url: "/Appointments/GetByPhysicianIdAndDate/",
+                        data: {
+                            physicianID: '@Model.Appointment.PhysicianID',
+                            selectedDate: new Date().dateFormat('Y/m/d')
+                        },
+                        success: function (response) {
+                            $('#PlannedStartDate').datetimepicker({ allowTimes: response })
+                        }
+                    })
                 ],
 
                 onGenerate: function (ct) {
                     jQuery(this).find('.xdsoft_date.xdsoft_weekend')
                       .addClass('xdsoft_disabled');
-
-                    @*$.ajax({
-                        method: "GET",
-                        url: "/Appointments/GetByPhysicianIdAndDate/",
-                        data: {
-                            physicianID: '@Model.Appointment.PhysicianID',
-                            selectedDate: ct.dateFormat('Y/m/d')
-                        },
-                        success: function (response) {
-                            $('#PlannedStartDate').datetimepicker({ allowTimes: response })
-                        }
-                    })*@
                 },
 
                 //https://stackoverflow.com/questions/16361364/accessing-mvcs-model-property-from-javascript
@@ -105,10 +102,6 @@
                             $('#PlannedStartDate').datetimepicker({ allowTimes: response })
                         }
                     })
-
-                    //var aa = ['09:40', '10:00']
-                    //aa.push('10:20')
-                    //$('#PlannedStartDate').datetimepicker({allowTimes: aa})
                 },
 
                 inline: true,

@@ -135,6 +135,27 @@ namespace MedicalMgmt.Controllers.Business
             {
                 ViewBag.PhysicianID = physicianID.Value;
                 viewModel.Appointment.PhysicianID = physicianID.Value;
+
+                var dayBegin = DateTime.Now.Date;
+                var dayEnd = dayBegin.AddDays(1);
+                var appointments = db.Appointments.Where(a => a.PhysicianID == physicianID
+                                                       && a.PlannedStartDate > dayBegin
+                                                       && a.PlannedStartDate < dayEnd
+                                                       && a.StatusID != Constants.SS_AP_CANCELED);
+
+                var fullSchedule = ConfigurationManager.AppSettings["FullSchedule"].Split(',');
+                var existingTimes = new string[] { }.ToList();
+                foreach (Appointment ap in appointments)
+                {
+                    existingTimes.Add(ap.PlannedStartDate.Hour.ToString().PadLeft(2, '0')
+                                      + ":"
+                                      + ap.PlannedStartDate.Minute.ToString().PadLeft(2, '0')
+                                      );
+                }
+
+                var availableTimesForDay = fullSchedule.Except(existingTimes).ToList();
+
+                ViewBag.AvailableToday = availableTimesForDay;
             }
 
             return View(viewModel);
