@@ -70,6 +70,14 @@ namespace MedicalMgmt.Controllers.Business
             return Json(availableTimesForDay, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult List(int? patientID, int? physicianID)
+        {
+            var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
+                                                       && (a.PhysicianID == physicianID || physicianID == null));
+            
+            return PartialView(appointments);
+        }
+
         // GET: Appointments/Create
         public ActionResult Create()
         {

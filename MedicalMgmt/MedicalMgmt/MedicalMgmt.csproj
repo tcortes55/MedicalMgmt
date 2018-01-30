@@ -299,6 +299,7 @@
     <Content Include="Views\Appointments\Edit.cshtml" />
     <Content Include="Views\Appointments\Index.cshtml" />
     <Content Include="Views\Physicians\CreateAppointment.cshtml" />
+    <Content Include="Views\Appointments\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
