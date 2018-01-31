@@ -2,15 +2,21 @@
 
 <table class="table">
     <tr>
-        <th>
-            Médico
-        </th>
-        <th>
-            Especialidade
-        </th>
-        <th>
-            Paciente
-        </th>
+        @if (ViewBag.PhysicianID == null)
+        {
+            <th>
+                Médico
+            </th>
+            <th>
+                Especialidade
+            </th>
+        }
+        @if (ViewBag.PatientID == null)
+        {
+            <th>
+                Paciente
+            </th>
+        }
         <th>
             @Html.DisplayNameFor(model => model.PlannedStartDate)
         </th>
@@ -22,15 +28,21 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Physician.User.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Physician.Expertise)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Patient.FullName)
-        </td>
+        @if (ViewBag.PhysicianID == null)
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.Physician.User.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Physician.Expertise)
+            </td>
+        }
+        @if (ViewBag.PatientID == null)
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.Patient.FullName)
+            </td>
+        }
         <td>
             @Html.DisplayFor(modelItem => item.PlannedStartDate)
         </td>

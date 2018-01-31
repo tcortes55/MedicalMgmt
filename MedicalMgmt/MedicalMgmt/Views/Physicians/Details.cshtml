@@ -48,3 +48,4 @@
     @Html.ActionLink("Editar", "Edit", new { id = Model.PhysicianID }) |
     @Html.ActionLink("Voltar", "Index")
 </p>
+@{ Html.RenderAction("List", "Appointments", new { physicianID = Model.PhysicianID }); }

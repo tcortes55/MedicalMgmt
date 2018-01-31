@@ -72,6 +72,9 @@ namespace MedicalMgmt.Controllers.Business
 
         public ActionResult List(int? patientID, int? physicianID)
         {
+            ViewBag.PatientID = patientID;
+            ViewBag.PhysicianID = physicianID;
+
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null));
             
