@@ -3,10 +3,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Patient.FullName)
+            Médico
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Physician.Expertise)
+            Especialidade
+        </th>
+        <th>
+            Paciente
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PlannedStartDate)
@@ -20,10 +23,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Patient.FullName)
+            @Html.DisplayFor(modelItem => item.Physician.User.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Physician.Expertise)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Patient.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PlannedStartDate)

@@ -112,3 +112,4 @@
     @Html.ActionLink("Editar", "Edit", new { id = Model.PatientID }) |
     @Html.ActionLink("Voltar", "Index")
 </p>
+@{ Html.RenderAction("List", "Appointments", new { pacientID = Model.PatientID }); }

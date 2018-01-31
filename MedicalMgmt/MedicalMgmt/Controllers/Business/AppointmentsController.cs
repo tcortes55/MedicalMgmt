@@ -75,7 +75,7 @@ namespace MedicalMgmt.Controllers.Business
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null));
             
-            return PartialView(appointments);
+            return PartialView(appointments.ToList());
         }
 
         // GET: Appointments/Create
