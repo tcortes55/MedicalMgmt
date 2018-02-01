@@ -18,6 +18,6 @@ namespace MedicalMgmt.Models
 
 
         public virtual List<Appointment> Appointment { get; set; }
-        public virtual List<PrescriptedExam> PrescriptedExam { get; set; }
+        //public virtual List<PrescriptedExam> PrescriptedExam { get; set; }
     }
 }

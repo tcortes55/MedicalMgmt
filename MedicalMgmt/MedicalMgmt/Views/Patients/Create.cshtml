@@ -28,7 +28,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
+                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
                 @*@Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
             </div>
@@ -75,30 +75,6 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Allergies, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Allergies, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Allergies, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FamilyMedicalHistory, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FamilyMedicalHistory, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FamilyMedicalHistory, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LongTermMedication, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LongTermMedication, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LongTermMedication, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Criar" class="btn btn-default" />
             </div>
@@ -109,74 +85,3 @@
 <div>
     @Html.ActionLink("Voltar", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-<link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" /> >
-<script src="~/Scripts/jquery-1.12.4.js"></script>
-<script src="~/Scripts/jquery.datetimepicker.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(function () {
-            var a = '08:00';
-            $('#BirthDate').datetimepicker({
-
-                onGenerate: function (ct) {
-                    jQuery(this).find('.xdsoft_date.xdsoft_weekend')
-                      .addClass('xdsoft_disabled');
-                },
-
-                inline: true,
-
-                minDate: 0,
-                
-                minTime: a,
-
-                maxTime: '17:40',
-
-                disabledDates: '24.01.2018 09:00',
-
-                step: 20,
-
-                lang: 'pt-BR'
-            });
-        });
-
-    });
-
-        </script>
-
-            @*<script src="~/Scripts/jquery-3.1.1.min.js"></script>
-    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
-    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-    <script src="~/Scripts/jquery-ui-timepicker-addon.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(function () {
-                $(".date-picker").datetimepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: "-100:+0",
-                    dateFormat: 'dd-M-yy',
-                    controlType: 'select',
-                    timeFormat: 'hh:mm TT'
-                });
-
-            });
-
-            jQuery.validator.methods.date = function (value, element) {
-                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-                if (isChrome) {
-                    var d = new Date();
-                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
-                } else {
-                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
-                }
-            };
-
-        });
-
-    </script>*@
-
-        }
