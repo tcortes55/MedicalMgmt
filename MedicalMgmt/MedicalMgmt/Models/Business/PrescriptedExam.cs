@@ -45,10 +45,9 @@ namespace MedicalMgmt.Models
         [Display(Name = "Enviar para o paciente")]
         public bool SendToPacient { get; set; }
 
-        [Required]
-        [Display(Name = "Status")]
+        //[Required]
+        [ForeignKey("Status")]
         public int StatusID { get; set; }
-        //[ForeignKey("StatusID")]
-        //public virtual Status Status { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

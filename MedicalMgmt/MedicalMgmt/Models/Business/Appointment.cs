@@ -60,10 +60,9 @@ namespace MedicalMgmt.Models
         public DateTime? ActualEndDate { get; set; }
 
         [Required]
-        [Display(Name = "Status")]
-        //[ForeignKey("Status")]
+        [ForeignKey("Status")]
         public int StatusID { get; set; }
-        //public virtual Status Status { get; set; }
+        public virtual Status Status { get; set; }
 
 
         public virtual List<PrescriptedMedicine> PrescriptedMedicine { get; set; }
