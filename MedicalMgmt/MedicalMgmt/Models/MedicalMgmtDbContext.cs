@@ -8,6 +8,12 @@ namespace MedicalMgmt.Models
 {
     public class MedicalMgmtDbContext : DbContext
     {
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    Database.SetInitializer<MedicalMgmtDbContext>(null);
+        //    base.OnModelCreating(modelBuilder);
+        //}
+
         public DbSet<User> Users { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         //public DbSet<ProfileAssociation> ProfileAssociations { get; set; }

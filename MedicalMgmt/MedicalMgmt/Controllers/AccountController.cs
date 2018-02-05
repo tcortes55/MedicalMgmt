@@ -156,7 +156,18 @@ namespace MedicalMgmt.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var user = new ApplicationUser { 
+                    UserName = model.UserName, 
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    BirthDate = model.BirthDate,
+                    Rg = model.Rg,
+                    Cpf = model.Cpf,
+                    Address = model.Address,
+                    PhoneNumber = model.PhoneNumber,
+                    RegisterDate = DateTime.Now,
+                    Active = true
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
