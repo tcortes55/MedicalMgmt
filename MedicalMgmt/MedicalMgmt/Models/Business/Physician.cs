@@ -10,7 +10,7 @@ namespace MedicalMgmt.Models
     public class Physician
     {
         //http://www.entityframeworktutorial.net/code-first/configure-one-to-one-relationship-in-code-first.aspx
-        [Key,ForeignKey("User")]
+        [Key,ForeignKey("AppUser")]
         public int PhysicianID { get; set; }
 
         [Required]
@@ -26,7 +26,7 @@ namespace MedicalMgmt.Models
         public int GraduationYear { get; set; } //TODO: adicionar ?
 
 
-        public virtual User User { get; set; }
+        public virtual AppUser AppUser { get; set; }
         public virtual List<Appointment> Appointment { get; set; }
         public virtual List<PrescriptedMedicine> PrescriptedMedicine { get; set; }
         public virtual List<PrescriptedExam> PrescriptedExam { get; set; }

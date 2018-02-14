@@ -1,4 +1,4 @@
-﻿@model MedicalMgmt.Models.User
+﻿@model MedicalMgmt.Models.AppUser
 
 @{
     ViewBag.Title = "Editar";
@@ -15,7 +15,7 @@
         <h4>Usuário</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.UserID)
+        @Html.HiddenFor(model => model.AppUserID)
         @Html.HiddenFor(model => model.RegisterDate)
 
         <div class="form-group">

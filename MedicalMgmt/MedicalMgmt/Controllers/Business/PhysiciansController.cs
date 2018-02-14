@@ -43,17 +43,17 @@ namespace MedicalMgmt.Controllers.Business
 
             ViewBag.CurrentFilter = searchString;
 
-            var physicians = db.Physicians.Include(p => p.User);
+            var physicians = db.Physicians.Include(p => p.AppUser);
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                physicians = physicians.Where(p => p.User.Username.Contains(searchString));
+                physicians = physicians.Where(p => p.AppUser.Username.Contains(searchString));
             }
 
             switch (sortOrder)
             {
                 case "Username_desc":
-                    physicians = physicians.OrderByDescending(p => p.User.Username);
+                    physicians = physicians.OrderByDescending(p => p.AppUser.Username);
                     break;
                 case "Expertise":
                     physicians = physicians.OrderBy(p => p.Expertise);
@@ -62,7 +62,7 @@ namespace MedicalMgmt.Controllers.Business
                     physicians = physicians.OrderByDescending(p => p.Expertise);
                     break;
                 default:
-                    physicians = physicians.OrderBy(p => p.User.Username);
+                    physicians = physicians.OrderBy(p => p.AppUser.Username);
                     break;
             }
 
@@ -124,7 +124,7 @@ namespace MedicalMgmt.Controllers.Business
 
             var viewModel = new SelectPhysicianData();
             viewModel.Patient = db.Patients.Find(patientID);
-            viewModel.Physicians = db.Physicians.Where(p => p.User.Active)
+            viewModel.Physicians = db.Physicians.Where(p => p.AppUser.Active)
                                                 .Include(p => p.Appointment)
                                                 .ToList();
             viewModel.Appointment = new Appointment();
@@ -180,7 +180,7 @@ namespace MedicalMgmt.Controllers.Business
         public ActionResult Create()
         {
             // Only users who aren't already Physicians can be registered as Physicians
-            SelectList users = new SelectList(db.Users, "UserID", "Username");
+            SelectList users = new SelectList(db.AppUsers, "AppUserID", "Username");
             SelectList physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
 
             var list = users.Where(u => physicians.All(p => p.Value != u.Value));
@@ -203,7 +203,7 @@ namespace MedicalMgmt.Controllers.Business
                 return RedirectToAction("Index");
             }
 
-            ViewBag.PhysicianID = new SelectList(db.Users, "UserID", "Username", physician.PhysicianID);
+            ViewBag.PhysicianID = new SelectList(db.AppUsers, "AppUserID", "Username", physician.PhysicianID);
             return View(physician);
         }
 
@@ -219,7 +219,7 @@ namespace MedicalMgmt.Controllers.Business
             {
                 return HttpNotFound();
             }
-            ViewBag.PhysicianID = new SelectList(db.Users, "UserID", "Username", physician.PhysicianID);
+            ViewBag.PhysicianID = new SelectList(db.AppUsers, "AppUserID", "Username", physician.PhysicianID);
             return View(physician);
         }
 
@@ -236,7 +236,7 @@ namespace MedicalMgmt.Controllers.Business
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.PhysicianID = new SelectList(db.Users, "UserID", "Username", physician.PhysicianID);
+            ViewBag.PhysicianID = new SelectList(db.AppUsers, "AppUserID", "Username", physician.PhysicianID);
             return View(physician);
         }
 

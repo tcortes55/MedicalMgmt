@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MedicalMgmt.Models
 {
-    public class User
+    public class AppUser
     {
         [Key]
-        public int UserID { get; set; }
+        public int AppUserID { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name="Usuário")]

@@ -24,9 +24,9 @@ namespace MedicalMgmt.Models
         public virtual Patient Patient { get; set; }
 
         [Required]
-        [ForeignKey("User")]
-        public int UserID { get; set; }
-        public virtual User User { get; set; }
+        [ForeignKey("AppUser")]
+        public int AppUserID { get; set; }
+        public virtual AppUser AppUser { get; set; }
 
         [Required]
         [Display(Name = "Data de marcação")]

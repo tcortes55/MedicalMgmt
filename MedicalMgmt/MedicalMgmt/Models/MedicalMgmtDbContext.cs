@@ -8,7 +8,7 @@ namespace MedicalMgmt.Models
 {
     public class MedicalMgmtDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         //public DbSet<ProfileAssociation> ProfileAssociations { get; set; }
         public DbSet<Status> Statuses { get; set; }

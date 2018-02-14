@@ -12,7 +12,7 @@ using System.Configuration;
 
 namespace MedicalMgmt.Controllers.Application
 {
-    public class UsersController : Controller
+    public class AppUsersController : Controller
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();
 
@@ -40,7 +40,7 @@ namespace MedicalMgmt.Controllers.Application
 
             ViewBag.CurrentFilter = searchString;
 
-            var users = from u in db.Users select u;
+            var users = from u in db.AppUsers select u;
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -76,12 +76,12 @@ namespace MedicalMgmt.Controllers.Application
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            AppUser appUser = db.AppUsers.Find(id);
+            if (appUser == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(appUser);
         }
 
         // GET: Users/Create
@@ -95,19 +95,19 @@ namespace MedicalMgmt.Controllers.Application
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserID,Username,FullName,Telephone,Email,Rg,Cpf,Address")] User user)
+        public ActionResult Create([Bind(Include = "AppUserID,Username,FullName,Telephone,Email,Rg,Cpf,Address")] AppUser appUser)
         {
-            user.RegisterDate = DateTime.Now;
-            user.Active = true;
+            appUser.RegisterDate = DateTime.Now;
+            appUser.Active = true;
             if (ModelState.IsValid)
             {
-                user.Username = user.Username.ToUpper();
-                db.Users.Add(user);
+                appUser.Username = appUser.Username.ToUpper();
+                db.AppUsers.Add(appUser);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(user);
+            return View(appUser);
         }
 
         // GET: Users/Edit/5
@@ -117,12 +117,12 @@ namespace MedicalMgmt.Controllers.Application
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            AppUser appUser = db.AppUsers.Find(id);
+            if (appUser == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(appUser);
         }
 
         // POST: Users/Edit/5
@@ -130,15 +130,15 @@ namespace MedicalMgmt.Controllers.Application
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Username,FullName,Telephone,Email,Rg,Cpf,Address,RegisterDate,Active")] User user)
+        public ActionResult Edit([Bind(Include = "AppUserID,Username,FullName,Telephone,Email,Rg,Cpf,Address,RegisterDate,Active")] AppUser appUser)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry(appUser).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(user);
+            return View(appUser);
         }
 
         //// GET: Users/Delete/5

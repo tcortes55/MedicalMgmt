@@ -31,7 +31,7 @@
         @if (ViewBag.PhysicianID == null)
         {
             <td>
-                @Html.DisplayFor(modelItem => item.Physician.User.FullName)
+                @Html.DisplayFor(modelItem => item.Physician.AppUser.FullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Physician.Expertise)

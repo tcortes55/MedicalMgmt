@@ -40,7 +40,7 @@ namespace MedicalMgmt.Controllers.Business
         public ActionResult Create()
         {
             var physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
-            var usPhysicians = new SelectList(db.Users, "UserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
+            var usPhysicians = new SelectList(db.AppUsers, "AppUserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
             
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName");
             ViewBag.PhysicianID = usPhysicians;
@@ -62,7 +62,7 @@ namespace MedicalMgmt.Controllers.Business
             }
 
             var physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
-            var usPhysicians = new SelectList(db.Users, "UserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
+            var usPhysicians = new SelectList(db.AppUsers, "AppUserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
 
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
             ViewBag.PhysicianID = usPhysicians;
@@ -83,7 +83,7 @@ namespace MedicalMgmt.Controllers.Business
             }
 
             var physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
-            var usPhysicians = new SelectList(db.Users, "UserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
+            var usPhysicians = new SelectList(db.AppUsers, "AppUserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
 
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
             ViewBag.PhysicianID = usPhysicians;
@@ -105,7 +105,7 @@ namespace MedicalMgmt.Controllers.Business
             }
             
             var physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
-            var usPhysicians = new SelectList(db.Users, "UserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
+            var usPhysicians = new SelectList(db.AppUsers, "AppUserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
 
             ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
             ViewBag.PhysicianID = usPhysicians;

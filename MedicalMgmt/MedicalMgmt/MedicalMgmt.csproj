@@ -170,7 +170,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Application\RoleController.cs" />
     <Compile Include="Controllers\Application\StatusController.cs" />
-    <Compile Include="Controllers\Application\UsersController.cs" />
+    <Compile Include="Controllers\Application\AppUsersController.cs" />
     <Compile Include="Controllers\Business\AppointmentsController.cs" />
     <Compile Include="Controllers\Business\ExamsController.cs" />
     <Compile Include="Controllers\Business\MedicinesController.cs" />
@@ -198,7 +198,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MedicalMgmtDbContext.cs" />
-    <Compile Include="Models\Application\User.cs" />
+    <Compile Include="Models\Application\AppUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\SelectPhysicianData.cs" />
@@ -265,10 +265,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\AppUsers\Create.cshtml" />
+    <Content Include="Views\AppUsers\Details.cshtml" />
+    <Content Include="Views\AppUsers\Edit.cshtml" />
+    <Content Include="Views\AppUsers\Index.cshtml" />
     <Content Include="Views\Medicines\Create.cshtml" />
     <Content Include="Views\Medicines\Edit.cshtml" />
     <Content Include="Views\Medicines\Index.cshtml" />

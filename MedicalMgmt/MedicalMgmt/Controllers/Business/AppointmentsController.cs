@@ -20,7 +20,7 @@ namespace MedicalMgmt.Controllers.Business
         // GET: Appointments
         public ActionResult Index()
         {
-            var appointments = db.Appointments.Include(a => a.Patient).Include(a => a.Physician).Include(a => a.User);
+            var appointments = db.Appointments.Include(a => a.Patient).Include(a => a.Physician).Include(a => a.AppUser);
             return View(appointments.ToList());
         }
 
@@ -86,7 +86,7 @@ namespace MedicalMgmt.Controllers.Business
         {
             ViewBag.PatientID = new SelectList(db.Patients, "PatientID", "FullName");
             ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise");
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Username");
+            ViewBag.AppUserID = new SelectList(db.AppUsers, "AppUserID", "Username");
             return View();
         }
 
@@ -95,7 +95,7 @@ namespace MedicalMgmt.Controllers.Business
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create2([Bind(Include = "AppointmentID,PhysicianID,PatientID,UserID,RegistrationDate,PlannedStartDate,PlannedEndDate,Anamnesis,PatientArrivingDate,ActualStartDate,ActualEndDate,StatusID")] Appointment appointment)
+        public ActionResult Create2([Bind(Include = "AppointmentID,PhysicianID,PatientID,AppUserID,RegistrationDate,PlannedStartDate,PlannedEndDate,Anamnesis,PatientArrivingDate,ActualStartDate,ActualEndDate,StatusID")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
@@ -106,7 +106,7 @@ namespace MedicalMgmt.Controllers.Business
 
             ViewBag.PatientID = new SelectList(db.Patients, "PatientID", "FullName", appointment.PatientID);
             ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", appointment.PhysicianID);
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Username", appointment.UserID);
+            ViewBag.AppUserID = new SelectList(db.AppUsers, "AppUserID", "Username", appointment.AppUserID);
             return View(appointment);
         }
 
@@ -117,7 +117,7 @@ namespace MedicalMgmt.Controllers.Business
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AppointmentID,PhysicianID,PatientID,PlannedStartDate")] Appointment appointment)
         {
-            appointment.UserID = 1;
+            appointment.AppUserID = 1;
             appointment.RegistrationDate = DateTime.Now;
             appointment.PlannedEndDate = appointment.PlannedStartDate.AddMinutes(20);
             appointment.StatusID = Constants.SS_AP_PLANNED;
@@ -149,7 +149,7 @@ namespace MedicalMgmt.Controllers.Business
             }
             ViewBag.PatientID = new SelectList(db.Patients, "PatientID", "FullName", appointment.PatientID);
             ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", appointment.PhysicianID);
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Username", appointment.UserID);
+            ViewBag.AppUserID = new SelectList(db.AppUsers, "AppUserID", "Username", appointment.AppUserID);
             return View(appointment);
         }
 
@@ -158,7 +158,7 @@ namespace MedicalMgmt.Controllers.Business
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AppointmentID,PhysicianID,PatientID,UserID,RegistrationDate,PlannedStartDate,PlannedEndDate,Anamnesis,PatientArrivingDate,ActualStartDate,ActualEndDate,StatusID")] Appointment appointment)
+        public ActionResult Edit([Bind(Include = "AppointmentID,PhysicianID,PatientID,AppUserID,RegistrationDate,PlannedStartDate,PlannedEndDate,Anamnesis,PatientArrivingDate,ActualStartDate,ActualEndDate,StatusID")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
@@ -168,7 +168,7 @@ namespace MedicalMgmt.Controllers.Business
             }
             ViewBag.PatientID = new SelectList(db.Patients, "PatientID", "FullName", appointment.PatientID);
             ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", appointment.PhysicianID);
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Username", appointment.UserID);
+            ViewBag.AppUserID = new SelectList(db.AppUsers, "AppUserID", "Username", appointment.AppUserID);
             return View(appointment);
         }
 

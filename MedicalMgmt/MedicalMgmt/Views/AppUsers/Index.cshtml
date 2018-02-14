@@ -1,5 +1,5 @@
 ﻿@*@model IEnumerable<MedicalMgmt.Models.User>*@
-@model PagedList.IPagedList<MedicalMgmt.Models.User>
+@model PagedList.IPagedList<MedicalMgmt.Models.AppUser>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -62,8 +62,8 @@
             @Html.DisplayFor(modelItem => item.Active)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id = item.UserID }) |
-            @Html.ActionLink("Detalhes", "Details", new { id = item.UserID }) @*|
+            @Html.ActionLink("Editar", "Edit", new { id = item.AppUserID }) |
+            @Html.ActionLink("Detalhes", "Details", new { id = item.AppUserID }) @*|
             @Html.ActionLink("Excluir", "Delete", new { id = item.UserID })*@
         </td>
     </tr>
