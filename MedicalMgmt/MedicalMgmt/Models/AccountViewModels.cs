@@ -104,7 +104,7 @@ namespace MedicalMgmt.Models
         public bool Active { get; set; }
 
         [Required]
-        [Display(Name = "Perfil")]
+        [Display(Name = "Role")]
         public string Name { get; set; }
 
         [Required]

@@ -160,8 +160,10 @@ namespace MedicalMgmt.Controllers
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
+                    await this.UserManager.AddToRoleAsync(user.Id, model.Name);
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     var appUser = new AppUser();
