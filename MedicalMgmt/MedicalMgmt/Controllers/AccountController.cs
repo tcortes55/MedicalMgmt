@@ -18,6 +18,8 @@ namespace MedicalMgmt.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private MedicalMgmtDbContext db = new MedicalMgmtDbContext();
+
         ApplicationDbContext context;
 
         public AccountController()
@@ -161,6 +163,20 @@ namespace MedicalMgmt.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                    var appUser = new AppUser();
+                    appUser.AspNetUserId = user.Id;
+                    appUser.Username = model.UserName;
+                    appUser.FullName = model.FullName;
+                    appUser.Email = model.Email;
+                    appUser.Telephone = model.Telephone;
+                    appUser.Rg = model.Rg;
+                    appUser.Cpf = model.Cpf;
+                    appUser.Address = model.Address;
+                    appUser.Active = true;
+
+                    db.AppUsers.Add(appUser);
+                    db.SaveChanges();
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link

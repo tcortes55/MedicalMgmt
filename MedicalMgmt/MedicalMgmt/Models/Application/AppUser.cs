@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MedicalMgmt.Models
 {
@@ -10,6 +11,11 @@ namespace MedicalMgmt.Models
     {
         [Key]
         public int AppUserID { get; set; }
+
+        [Required]
+        //[ForeignKey("ApplicationUser")]
+        public string AspNetUserId { get; set; }
+        //public virtual ApplicationUser ApplicationUser { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name="Usuário")]
