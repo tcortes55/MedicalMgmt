@@ -16,6 +16,8 @@ namespace MedicalMgmt.General
         public const int SS_EX_REQUESTED = 6;
         public const int SS_EX_FINISHED = 7;
 
+        public const string PROFILE_PHYSICIAN = "MEDICO";
+
         //public const string[] schedule = {
         //                                     "08:00","08:20","08:40",
         //                                     "09:00","09:20","09:40",

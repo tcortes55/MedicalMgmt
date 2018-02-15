@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MedicalMgmt.Models;
+using MedicalMgmt.General;
 
 namespace MedicalMgmt.Controllers
 {
@@ -176,6 +177,14 @@ namespace MedicalMgmt.Controllers
                     appUser.Cpf = model.Cpf;
                     appUser.Address = model.Address;
                     appUser.Active = true;
+
+                    if (model.Name.ToUpper() == MedicalMgmt.General.Constants.PROFILE_PHYSICIAN)
+                    {
+                        appUser.Physician = new Physician();
+                        appUser.Physician.Expertise = model.Expertise;
+                        appUser.Physician.GraduationUni = model.GraduationUni;
+                        appUser.Physician.GraduationYear = model.GraduationYear;
+                    }
 
                     db.AppUsers.Add(appUser);
                     db.SaveChanges();
