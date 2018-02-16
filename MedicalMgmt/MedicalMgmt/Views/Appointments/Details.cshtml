@@ -128,6 +128,20 @@
             $("#btnCancel").click(function () {
                 $("#modalCancel").modal();
             });
+
+            $("#btnConfirmCancel").click(function () {
+                @*var JSONObject = { // Create JSON object to pass through AJAX
+                    id: @Model.AppointmentID,
+                };*@
+
+                $.ajax({
+                    method: "POST",
+                    url: "/Appointments/Cancel/",
+                    data: @Model.AppointmentID,//JSON.stringify(JSONObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json"
+                })
+            });
         })
     </script>
 }

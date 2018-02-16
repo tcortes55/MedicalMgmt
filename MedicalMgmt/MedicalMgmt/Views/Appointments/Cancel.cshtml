@@ -23,3 +23,19 @@
         </div>
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
+
+@*@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#btnConfirmCancel").click(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "/Appointments/Cancel/",
+                    data: {
+                        id: '@Model.AppointmentID'
+                    }
+                })
+            })
+        })
+    </script>
+}*@

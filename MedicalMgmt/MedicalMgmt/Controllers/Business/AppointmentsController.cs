@@ -54,24 +54,25 @@ namespace MedicalMgmt.Controllers.Business
             return PartialView(appointment);
         }
 
-        //// POST: Appointments/Cancel/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Cancel(Appointment appointment)
-        //{
-        //    appointment.StatusID = Constants.SS_AP_CANCELED;
+        // POST: Appointments/Cancel/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Cancel(int id)
+        {
+            Appointment appointment = db.Appointments.Find(id);
+            appointment.StatusID = Constants.SS_AP_CANCELED;
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(appointment).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Details", new { id = appointment.AppointmentID });
-        //    }
+            if (ModelState.IsValid)
+            {
+                db.Entry(appointment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = appointment.AppointmentID });
+            }
 
-        //    return View(appointment);
-        //}
+            return View(appointment);
+        }
 
         // GET: Appointments/GetByPhysicianIdAndDate/5
         public ActionResult GetByPhysicianIdAndDate(int? physicianID, string selectedDate)
