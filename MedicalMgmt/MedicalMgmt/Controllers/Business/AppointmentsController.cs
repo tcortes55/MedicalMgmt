@@ -58,14 +58,22 @@ namespace MedicalMgmt.Controllers.Business
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Cancel(int id)
+        //[ValidateAntiForgeryToken]
+        public ActionResult ConfirmCancel(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Appointment appointment = db.Appointments.Find(id);
-            appointment.StatusID = Constants.SS_AP_CANCELED;
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
 
             if (ModelState.IsValid)
             {
+                appointment.StatusID = Constants.SS_AP_CANCELED;
                 db.Entry(appointment).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = appointment.AppointmentID });
