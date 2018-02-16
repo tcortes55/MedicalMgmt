@@ -12,7 +12,7 @@ namespace MedicalMgmt.Models
         public int StatusID { get; set; }
 
         [Required]
-        [Display(Name="Descrição")]
+        [Display(Name="Status")]
         [StringLength(30)]
         public string StatusDescription { get; set; }
 

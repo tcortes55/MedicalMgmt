@@ -1,0 +1,25 @@
+﻿@model MedicalMgmt.Models.Appointment
+
+@{
+    Layout = null;
+    ViewBag.Title = "Cancelar consulta";
+}
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Tem certeza que deseja cancelar esta consulta?</h4>
+        </div>
+        <div class="modal-body">
+            <p>@Html.DisplayNameFor(model => model.Patient.FullName): @Html.DisplayFor(model => model.Patient.FullName)</p>
+            <p>@Html.DisplayNameFor(model => model.Physician.AppUser.FullName): @Html.DisplayFor(model => model.Physician.AppUser.FullName)</p>
+            <p>@Html.DisplayNameFor(model => model.Physician.Expertise): @Html.DisplayFor(model => model.Physician.Expertise)</p>
+            <p>@Html.DisplayNameFor(model => model.PlannedStartDate): @Html.DisplayFor(model => model.PlannedStartDate)</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="btnConfirmCancel">Cancelar consulta <i class="glyphicon glyphicon-ban-circle"></i></button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Voltar</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

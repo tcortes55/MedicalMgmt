@@ -99,16 +99,35 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StatusID)
+            @Html.DisplayNameFor(model => model.Status.StatusDescription)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StatusID)
+            @Html.DisplayFor(model => model.Status.StatusDescription)
         </dd>
 
     </dl>
 </div>
+<div class="modal" id="modalChangeStatus">
+
+</div>
+<div class="modal" id="modalCancel">
+    @{Html.RenderAction("Cancel", "Appointments", new { @id = @Model.AppointmentID });}
+</div>
+<p>
+    <button class="btn btn-primary" id="btnChangeStatus">Alterar status <i class="glyphicon glyphicon-repeat"></i></button>
+    <button class="btn btn-danger" id="btnCancel">Cancelar consulta <i class="glyphicon glyphicon-ban-circle"></i></button>
+</p>
 <p>
     @Html.ActionLink("Editar", "Edit", new { id = Model.AppointmentID }) |
     @Html.ActionLink("Voltar", "Index")
 </p>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#btnCancel").click(function () {
+                $("#modalCancel").modal();
+            });
+        })
+    </script>
+}
