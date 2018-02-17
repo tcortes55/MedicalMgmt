@@ -109,38 +109,67 @@
     </dl>
 </div>
 <div class="modal" id="modalChangeStatus">
-
+    @{Html.RenderAction("ChangeStatus", "Appointments", new { 
+          @appointmentID = @Model.AppointmentID, 
+          @currStatusID = @Model.StatusID 
+      });
+      }
 </div>
 <div class="modal" id="modalCancel">
-    @{Html.RenderAction("Cancel", "Appointments", new { @id = @Model.AppointmentID });}
+    @{Html.RenderAction("Cancel", "Appointments", new { 
+          @id = @Model.AppointmentID 
+      });
+      }
 </div>
-<p>
-    <button class="btn btn-primary" id="btnChangeStatus">Alterar status <i class="glyphicon glyphicon-repeat"></i></button>
+<div class="col-md-12">
+    <button class="btn btn-primary" id="btnChangeStatus">Alterar status para "@ViewBag.NextStatusDescription" <i class="glyphicon glyphicon-repeat"></i></button>
+</div>
+<div class="col-md-12">
     <button class="btn btn-danger" id="btnCancel">Cancelar consulta <i class="glyphicon glyphicon-ban-circle"></i></button>
-</p>
-<p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.AppointmentID }) |
-    @Html.ActionLink("Voltar", "Index")
-</p>
-@section scripts{
-    <script>
-        $(document).ready(function () {
-            $("#btnCancel").click(function () {
-                $("#modalCancel").modal();
-            });
+</div>
+<div class="col-md-12">
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.AppointmentID }) |
+        @Html.ActionLink("Voltar", "Index")
+    </p>
+</div>
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                $("#btnChangeStatus").click(function() {
+                    $("#modalChangeStatus").modal();
+                });
 
-            $("#btnConfirmCancel").click(function () {
-                $.ajax({
-                    method: "POST",
-                    url: "/Appointments/ConfirmCancel/",
-                    data: {
-                        id : @Model.AppointmentID
-                    },
-                    success: function () {
-                        location.reload();
-                    }
-                })
-            });
-        })
-    </script>
-}
+                $("#btnConfirmChangeStatus").click(function () {
+                    $.ajax({
+                        method: "POST",
+                        url: "/Appointments/ConfirmChangeStatus/",
+                        data: {
+                            appointmentID : @Model.AppointmentID,
+                            currStatusID : @Model.StatusID
+                        },
+                        success: function () {
+                            location.reload();
+                        }
+                    })
+                });
+
+                $("#btnCancel").click(function () {
+                    $("#modalCancel").modal();
+                });
+
+                $("#btnConfirmCancel").click(function () {
+                    $.ajax({
+                        method: "POST",
+                        url: "/Appointments/ConfirmCancel/",
+                        data: {
+                            id : @Model.AppointmentID
+                            },
+                        success: function () {
+                            location.reload();
+                        }
+                    })
+                });
+            })
+        </script>
+    }

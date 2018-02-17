@@ -36,6 +36,9 @@ namespace MedicalMgmt.Controllers.Business
             {
                 return HttpNotFound();
             }
+            var nextStatusDescription = db.Statuses.Find(appointment.StatusID + 1).StatusDescription; //TODO: remove magic number
+            ViewBag.NextStatusID = appointment.StatusID + 1;
+            ViewBag.NextStatusDescription = nextStatusDescription;
             return View(appointment);
         }
 
@@ -74,6 +77,53 @@ namespace MedicalMgmt.Controllers.Business
             if (ModelState.IsValid)
             {
                 appointment.StatusID = Constants.SS_AP_CANCELED;
+                db.Entry(appointment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = appointment.AppointmentID });
+            }
+
+            return View(appointment);
+        }
+
+        // GET: Appointments/ChangeStatus/5
+        public ActionResult ChangeStatus(int? appointmentID, int? currStatusID)
+        {
+            if (appointmentID == null || currStatusID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Appointment appointment = db.Appointments.Find(appointmentID);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+            
+            var nextStatusDescription = db.Statuses.Find(appointment.StatusID + 1).StatusDescription; //TODO: remove magic number
+            ViewBag.NextStatusDescription = nextStatusDescription;
+
+            return PartialView(appointment);
+        }
+
+        // POST: Appointments/Cancel/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult ConfirmChangeStatus(int? appointmentID, int? currStatusID)
+        {
+            if (appointmentID == null || currStatusID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Appointment appointment = db.Appointments.Find(appointmentID);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                appointment.StatusID = appointment.StatusID + 1; //TODO: remove magic number
                 db.Entry(appointment).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = appointment.AppointmentID });
