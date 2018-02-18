@@ -104,28 +104,28 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Patient.Allergies, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-12">
-            @Html.TextAreaFor(model => model.Patient.Allergies, new { @class = "form-control", @id = "allergies" })
+            @Html.TextAreaFor(model => model.Patient.Allergies, new { @class = "form-control onlyWhenOngoing", @id = "allergies" })
             @Html.ValidationMessageFor(model => model.Patient.Allergies, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Patient.FamilyMedicalHistory, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-12">
-            @Html.TextAreaFor(model => model.Patient.FamilyMedicalHistory, new { @class = "form-control", @id = "familyMedicalHistory" })
+            @Html.TextAreaFor(model => model.Patient.FamilyMedicalHistory, new { @class = "form-control onlyWhenOngoing", @id = "familyMedicalHistory" })
             @Html.ValidationMessageFor(model => model.Patient.FamilyMedicalHistory, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Patient.LongTermMedication, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-12">
-            @Html.TextAreaFor(model => model.Patient.LongTermMedication, new { @class = "form-control", @id = "longTermMedication" })
+            @Html.TextAreaFor(model => model.Patient.LongTermMedication, new { @class = "form-control onlyWhenOngoing", @id = "longTermMedication" })
             @Html.ValidationMessageFor(model => model.Patient.LongTermMedication, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Anamnesis, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-12">
-            @Html.TextAreaFor(model => model.Anamnesis, new { @class = "form-control", @id = "anamnesis" })
+            @Html.TextAreaFor(model => model.Anamnesis, new { @class = "form-control onlyWhenOngoing", @id = "anamnesis" })
             @Html.ValidationMessageFor(model => model.Anamnesis, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -173,59 +173,70 @@
     </div>
 </div>
 @section scripts{
-    <script>
-    $(document).ready(function () {
-        $("#btnChangeStatus").click(function() {
-            $("#modalChangeStatus").modal();
-        });
+<script>
+$(document).ready(function () {
+    $(".onlyWhenOngoing").prop("disabled", true)
+    $("#btnUpdatePatientInfo").addClass("hidden")
 
-        $("#btnConfirmChangeStatus").click(function () {
-            $.ajax({
-                method: "POST",
-                url: "/Appointments/ConfirmChangeStatus/",
-                data: {
-                    appointmentID : @Model.AppointmentID,
-                    currStatusID : @Model.StatusID
-                    },
-                success: function () {
-                    location.reload();
-                }
-            })
-        });
+    var statusOngoing = @MedicalMgmt.General.Constants.SS_AP_ONGOING
 
-        $("#btnCancel").click(function () {
-            $("#modalCancel").modal();
-        });
+    if (@Model.StatusID == statusOngoing)
+    {
+        $(".onlyWhenOngoing").prop("disabled", false)
+        $("#btnUpdatePatientInfo").removeClass("hidden")
+    }
 
-        $("#btnConfirmCancel").click(function () {
-            $.ajax({
-                method: "POST",
-                url: "/Appointments/ConfirmCancel/",
-                data: {
-                    id : @Model.AppointmentID
-                        },
-                    success: function () {
-                        location.reload();
-                    }
-                })
-            });
+    $("#btnChangeStatus").click(function() {
+        $("#modalChangeStatus").modal();
+    });
 
-        $("#btnUpdatePatientInfo").click(function () {
-            $.ajax({
-                method: "POST",
-                url: "/Appointments/UpdatePatientInfo/",
-                data: {
-                    appointmentID : @Model.AppointmentID,
-                    allergies : $("#allergies").val(),
-                    familyMedicalHistory : $("#familyMedicalHistory").val(),
-                    longTermMedication : $("#longTermMedication").val(),
-                    anamnesis : $("#anamnesis").val()
+    $("#btnConfirmChangeStatus").click(function () {
+        $.ajax({
+            method: "POST",
+            url: "/Appointments/ConfirmChangeStatus/",
+            data: {
+                appointmentID : @Model.AppointmentID,
+                currStatusID : @Model.StatusID
                 },
-                success: function () {
-                    $("#modalSucess").modal();
-                }
-            })
-        });
-    })
+            success: function () {
+                location.reload();
+            }
+        })
+    });
+
+    $("#btnCancel").click(function () {
+        $("#modalCancel").modal();
+    });
+
+    $("#btnConfirmCancel").click(function () {
+        $.ajax({
+            method: "POST",
+            url: "/Appointments/ConfirmCancel/",
+            data: {
+                id : @Model.AppointmentID
+                },
+            success: function () {
+                location.reload();
+            }
+        })
+    });
+
+    $("#btnUpdatePatientInfo").click(function () {
+        $.ajax({
+            method: "POST",
+            url: "/Appointments/UpdatePatientInfo/",
+            data: {
+                appointmentID : @Model.AppointmentID,
+                allergies : $("#allergies").val(),
+                familyMedicalHistory : $("#familyMedicalHistory").val(),
+                longTermMedication : $("#longTermMedication").val(),
+                anamnesis : $("#anamnesis").val()
+            },
+            success: function () {
+                $("#modalSucess").modal();
+            }
+        })
+    });
+})
 </script>
 }
