@@ -9,10 +9,10 @@
 
 <h2>Médicos</h2>
 
-<p>
+@*<p>
     @Html.ActionLink("Criar novo", "Create")
     <span> (associa um usuário existente no sistema ao perfil "Médico")</span>
-</p>
+</p>*@
 
 @using (Html.BeginForm("Index", "Physicians", FormMethod.Get))
 {
@@ -26,7 +26,7 @@
     <tr>
         <th>
             @*@Html.DisplayNameFor(model => model.User.Username)*@
-            @Html.ActionLink("Usuário", "Index", new { sortOrder = ViewBag.UsernameSortParam, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Médico", "Index", new { sortOrder = ViewBag.FullnameSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             @*@Html.DisplayNameFor(model => model.Expertise)*@
@@ -38,7 +38,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.AppUser.Username)
+            @Html.DisplayFor(modelItem => item.AppUser.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Expertise)

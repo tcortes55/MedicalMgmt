@@ -312,6 +312,8 @@
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\Appointments\Cancel.cshtml" />
     <Content Include="Views\Appointments\ChangeStatus.cshtml" />
+    <Content Include="Views\Appointments\ListPrevious.cshtml" />
+    <Content Include="Views\Appointments\ListFuture.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

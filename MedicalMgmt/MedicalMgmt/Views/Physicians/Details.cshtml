@@ -19,6 +19,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.AppUser.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppUser.FullName)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Expertise)
         </dt>
 
@@ -48,4 +56,7 @@
     @Html.ActionLink("Editar", "Edit", new { id = Model.PhysicianID }) |
     @Html.ActionLink("Voltar", "Index")
 </p>
-@{ Html.RenderAction("List", "Appointments", new { physicianID = Model.PhysicianID }); }
+
+<hr />
+@{ Html.RenderAction("ListFuture", "Appointments", new { physicianID = Model.PhysicianID }); }
+@{ Html.RenderAction("ListPrevious", "Appointments", new { physicianID = Model.PhysicianID }); }

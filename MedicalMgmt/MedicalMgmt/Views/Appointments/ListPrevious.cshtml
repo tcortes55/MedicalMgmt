@@ -1,0 +1,61 @@
+﻿@model IEnumerable<MedicalMgmt.Models.Appointment>
+
+<h4>Consultas anteriores</h4>
+<table class="table">
+    <tr>
+        @if (ViewBag.PhysicianID == null)
+        {
+            <th>
+                Médico
+            </th>
+            <th>
+                Especialidade
+            </th>
+        }
+        @if (ViewBag.PatientID == null)
+        {
+            <th>
+                Paciente
+            </th>
+        }
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedStartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status.StatusDescription)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if (ViewBag.PhysicianID == null)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Physician.AppUser.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Physician.Expertise)
+                </td>
+            }
+            @if (ViewBag.PatientID == null)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Patient.FullName)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.PlannedStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status.StatusDescription)
+            </td>
+            <td>
+                @Html.ActionLink("Detalhes", "Details", new { id = item.AppointmentID })
+            </td>
+        </tr>
+    }
+
+</table>
+

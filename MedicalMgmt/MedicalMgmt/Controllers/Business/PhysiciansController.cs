@@ -29,7 +29,7 @@ namespace MedicalMgmt.Controllers.Business
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.UsernameSortParam = String.IsNullOrEmpty(sortOrder) ? "Username_desc" : "";
+            ViewBag.FullnameSortParam = String.IsNullOrEmpty(sortOrder) ? "Fullname_desc" : "";
             ViewBag.ExpertiseSortParam = sortOrder == "Expertise" ? "Expertise_desc" : "Expertise";
 
             if (searchString != null)
@@ -47,13 +47,13 @@ namespace MedicalMgmt.Controllers.Business
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                physicians = physicians.Where(p => p.AppUser.Username.Contains(searchString));
+                physicians = physicians.Where(p => p.AppUser.FullName.Contains(searchString));
             }
 
             switch (sortOrder)
             {
-                case "Username_desc":
-                    physicians = physicians.OrderByDescending(p => p.AppUser.Username);
+                case "Fullname_desc":
+                    physicians = physicians.OrderByDescending(p => p.AppUser.FullName);
                     break;
                 case "Expertise":
                     physicians = physicians.OrderBy(p => p.Expertise);
@@ -62,7 +62,7 @@ namespace MedicalMgmt.Controllers.Business
                     physicians = physicians.OrderByDescending(p => p.Expertise);
                     break;
                 default:
-                    physicians = physicians.OrderBy(p => p.AppUser.Username);
+                    physicians = physicians.OrderBy(p => p.AppUser.FullName);
                     break;
             }
 

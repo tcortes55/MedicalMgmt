@@ -179,6 +179,33 @@ namespace MedicalMgmt.Controllers.Business
             return PartialView(appointments.OrderByDescending(x => x.PlannedStartDate).ToList());
         }
 
+        public ActionResult ListPrevious(int? patientID, int? physicianID)
+        {
+            ViewBag.PatientID = patientID;
+            ViewBag.PhysicianID = physicianID;
+
+            var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
+                                                       && (a.PhysicianID == physicianID || physicianID == null)
+                                                       && (a.PlannedStartDate < DateTime.Now)
+                                                     );
+
+            return PartialView(appointments.OrderByDescending(x => x.PlannedStartDate).ToList());
+        }
+
+        public ActionResult ListFuture(int? patientID, int? physicianID)
+        {
+            ViewBag.PatientID = patientID;
+            ViewBag.PhysicianID = physicianID;
+
+            var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
+                                                       && (a.PhysicianID == physicianID || physicianID == null)
+                                                       && (a.PlannedStartDate > DateTime.Now)
+                                                       && (a.StatusID != Constants.SS_AP_CANCELED)
+                                                     );
+
+            return PartialView(appointments.OrderBy(x => x.PlannedStartDate).ToList());
+        }
+
         // GET: Appointments/Create
         public ActionResult Create()
         {
@@ -215,9 +242,9 @@ namespace MedicalMgmt.Controllers.Business
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AppointmentID,PhysicianID,PatientID,PlannedStartDate")] Appointment appointment)
         {
-            appointment.AppUserID = 1;
+            appointment.AppUserID = 1; //TODO: replace for current user ID
             appointment.RegistrationDate = DateTime.Now;
-            appointment.PlannedEndDate = appointment.PlannedStartDate.AddMinutes(20);
+            appointment.PlannedEndDate = appointment.PlannedStartDate.AddMinutes(20); //TODO: remove magic number
             appointment.StatusID = Constants.SS_AP_PLANNED;
 
             if (ModelState.IsValid)
