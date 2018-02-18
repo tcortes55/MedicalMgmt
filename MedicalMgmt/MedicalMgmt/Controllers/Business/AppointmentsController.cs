@@ -128,6 +128,19 @@ namespace MedicalMgmt.Controllers.Business
 
             if (ModelState.IsValid)
             {
+                switch (currStatusID)
+                {
+                    case Constants.SS_AP_PLANNED:
+                        appointment.PatientArrivingDate = DateTime.Now;
+                        break;
+                    case Constants.SS_AP_PATIENT_WAITING:
+                        appointment.ActualStartDate = DateTime.Now;
+                        break;
+                    case Constants.SS_AP_ONGOING:
+                        appointment.ActualEndDate = DateTime.Now;
+                        break;
+                }
+
                 appointment.StatusID = appointment.StatusID + 1; //TODO: remove magic number
                 db.Entry(appointment).State = EntityState.Modified;
                 db.SaveChanges();
