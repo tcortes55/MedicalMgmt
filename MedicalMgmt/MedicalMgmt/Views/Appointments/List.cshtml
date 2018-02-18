@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.PlannedStartDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StatusID)
+            @Html.DisplayNameFor(model => model.Status.StatusDescription)
         </th>
         <th></th>
     </tr>
@@ -47,7 +47,7 @@
             @Html.DisplayFor(modelItem => item.PlannedStartDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.StatusID)
+            @Html.DisplayFor(modelItem => item.Status.StatusDescription)
         </td>
         <td>
             @Html.ActionLink("Detalhes", "Details", new { id=item.AppointmentID })

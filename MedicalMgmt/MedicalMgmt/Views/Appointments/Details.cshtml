@@ -132,8 +132,7 @@
 }
 <div class="col-md-12">
     <p>
-        @Html.ActionLink("Editar", "Edit", new { id = Model.AppointmentID }) |
-        @Html.ActionLink("Voltar", "Index")
+        @Html.ActionLink("Voltar", "Details", "Patients", new { id = Model.PatientID }, new { htmlAttributes = new { } })
     </p>
 </div>
     @section scripts{
