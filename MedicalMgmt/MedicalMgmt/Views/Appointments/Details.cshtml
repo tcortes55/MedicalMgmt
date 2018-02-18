@@ -104,32 +104,32 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Patient.Allergies, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Patient.Allergies, new { @class = "form-control" })
+            @Html.TextAreaFor(model => model.Patient.Allergies, new { @class = "form-control", @id = "allergies" })
             @Html.ValidationMessageFor(model => model.Patient.Allergies, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Patient.FamilyMedicalHistory, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Patient.FamilyMedicalHistory, new { @class = "form-control" })
+            @Html.TextAreaFor(model => model.Patient.FamilyMedicalHistory, new { @class = "form-control", @id = "familyMedicalHistory" })
             @Html.ValidationMessageFor(model => model.Patient.FamilyMedicalHistory, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Patient.LongTermMedication, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Patient.LongTermMedication, new { @class = "form-control" })
+            @Html.TextAreaFor(model => model.Patient.LongTermMedication, new { @class = "form-control", @id = "longTermMedication" })
             @Html.ValidationMessageFor(model => model.Patient.LongTermMedication, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Anamnesis, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Anamnesis, new { @class = "form-control" })
+            @Html.TextAreaFor(model => model.Anamnesis, new { @class = "form-control", @id = "anamnesis" })
             @Html.ValidationMessageFor(model => model.Anamnesis, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="form-group">
         <button class="btn btn-primary" id="btnUpdatePatientInfo">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
     </div>
 
@@ -206,10 +206,10 @@
                         url: "/Appointments/UpdatePatientInfo/",
                         data: {
                             appointmentID : @Model.AppointmentID,
-                            allergies : "alegias",
-                            familyMedicalHistory : "historico familiar",
-                            longTermMedication : "uso de medicamentos",
-                            anamnesis : "anamnese"
+                            allergies : $("#allergies").val(),
+                            familyMedicalHistory : $("#familyMedicalHistory").val(),
+                            longTermMedication : $("#longTermMedication").val(),
+                            anamnesis : $("#anamnesis").val()
                         },
                         success: function () {
                             location.reload();
