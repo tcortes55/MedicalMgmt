@@ -99,72 +99,78 @@
         </dd>
     </dl>
 
-        <hr />
+    <hr />
 
     <div class="form-group">
         @Html.LabelFor(model => model.Patient.Allergies, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        <div class="col-md-12">
             @Html.TextAreaFor(model => model.Patient.Allergies, new { @class = "form-control", @id = "allergies" })
             @Html.ValidationMessageFor(model => model.Patient.Allergies, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Patient.FamilyMedicalHistory, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        <div class="col-md-12">
             @Html.TextAreaFor(model => model.Patient.FamilyMedicalHistory, new { @class = "form-control", @id = "familyMedicalHistory" })
             @Html.ValidationMessageFor(model => model.Patient.FamilyMedicalHistory, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Patient.LongTermMedication, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        <div class="col-md-12">
             @Html.TextAreaFor(model => model.Patient.LongTermMedication, new { @class = "form-control", @id = "longTermMedication" })
             @Html.ValidationMessageFor(model => model.Patient.LongTermMedication, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Anamnesis, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        <div class="col-md-12">
             @Html.TextAreaFor(model => model.Anamnesis, new { @class = "form-control", @id = "anamnesis" })
             @Html.ValidationMessageFor(model => model.Anamnesis, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        <button class="btn btn-primary" id="btnUpdatePatientInfo">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
+        <div class="col-md-12">
+            <button class="btn btn-primary" id="btnUpdatePatientInfo">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
+        </div>
     </div>
 
-</div>
-<div class="modal" id="modalChangeStatus">
-    @{Html.RenderAction("ChangeStatus", "Appointments", new { 
-          @appointmentID = @Model.AppointmentID, 
-          @currStatusID = @Model.StatusID 
-      });
-      }
-</div>
-<div class="modal" id="modalCancel">
-    @{Html.RenderAction("Cancel", "Appointments", new { 
-          @id = @Model.AppointmentID 
-      });
-      }
-</div>
-<div class="modal" id="modalSucess">
-    @{Html.RenderPartial("_Success");}
-</div>
+    <div class="modal" id="modalChangeStatus">
+        @{Html.RenderAction("ChangeStatus", "Appointments", new
+        {
+            @appointmentID = @Model.AppointmentID,
+            @currStatusID = @Model.StatusID
+        });
+        }
+    </div>
+    <div class="modal" id="modalCancel">
+        @{Html.RenderAction("Cancel", "Appointments", new
+        {
+            @id = @Model.AppointmentID
+        });
+        }
+    </div>
+    <div class="modal" id="modalSucess">
+        @{Html.RenderPartial("_Success");}
+    </div>
 
-@if (@ViewBag.NextStatusID != null && @ViewBag.NextStatusID != MedicalMgmt.General.Constants.SS_AP_CANCELED)
-{
-<hr />
-<div class="col-md-12">
-    <button class="btn btn-primary" id="btnChangeStatus">Alterar status para "@ViewBag.NextStatusDescription" <i class="glyphicon glyphicon-repeat"></i></button>
-</div>
-<div class="col-md-12">
-    <button class="btn btn-danger" id="btnCancel">Cancelar consulta <i class="glyphicon glyphicon-ban-circle"></i></button>   
-</div>
-}
-<div class="col-md-12">
-    <p>
-        @Html.ActionLink("Voltar", null, null, null, new { href = Request.UrlReferrer })
-    </p>
+    @if (@ViewBag.NextStatusID != null && @ViewBag.NextStatusID != MedicalMgmt.General.Constants.SS_AP_CANCELED)
+    {
+        <div>
+            <hr />
+            <div class="col-md-12">
+                <button class="btn btn-primary" id="btnChangeStatus">Alterar status para "@ViewBag.NextStatusDescription" <i class="glyphicon glyphicon-repeat"></i></button>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-danger" id="btnCancel">Cancelar consulta <i class="glyphicon glyphicon-ban-circle"></i></button>
+            </div>
+        </div>
+    }
+    <div class="col-md-12">
+        <p>
+            @Html.ActionLink("Voltar", null, null, null, new { href = Request.UrlReferrer })
+        </p>
+    </div>
 </div>
 @section scripts{
     <script>
@@ -204,22 +210,22 @@
                 })
             });
 
-            $("#btnUpdatePatientInfo").click(function () {
-                $.ajax({
-                    method: "POST",
-                    url: "/Appointments/UpdatePatientInfo/",
-                    data: {
-                        appointmentID : @Model.AppointmentID,
-                        allergies : $("#allergies").val(),
-                        familyMedicalHistory : $("#familyMedicalHistory").val(),
-                        longTermMedication : $("#longTermMedication").val(),
-                        anamnesis : $("#anamnesis").val()
-                    },
-                    success: function () {
-                        $("#modalSucess").modal();
-                    }
-                })
-            });
-        })
-    </script>
+        $("#btnUpdatePatientInfo").click(function () {
+            $.ajax({
+                method: "POST",
+                url: "/Appointments/UpdatePatientInfo/",
+                data: {
+                    appointmentID : @Model.AppointmentID,
+                    allergies : $("#allergies").val(),
+                    familyMedicalHistory : $("#familyMedicalHistory").val(),
+                    longTermMedication : $("#longTermMedication").val(),
+                    anamnesis : $("#anamnesis").val()
+                },
+                success: function () {
+                    $("#modalSucess").modal();
+                }
+            })
+        });
+    })
+</script>
 }
