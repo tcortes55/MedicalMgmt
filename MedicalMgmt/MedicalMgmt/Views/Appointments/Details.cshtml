@@ -121,7 +121,7 @@
       });
       }
 </div>
-@if (@ViewBag.NextStatusID != MedicalMgmt.General.Constants.SS_AP_CANCELED)
+@if (@ViewBag.NextStatusID != null && @ViewBag.NextStatusID != MedicalMgmt.General.Constants.SS_AP_CANCELED)
 {
 <div class="col-md-12">
     <button class="btn btn-primary" id="btnChangeStatus">Alterar status para "@ViewBag.NextStatusDescription" <i class="glyphicon glyphicon-repeat"></i></button>

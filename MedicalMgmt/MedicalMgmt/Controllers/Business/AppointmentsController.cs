@@ -36,9 +36,12 @@ namespace MedicalMgmt.Controllers.Business
             {
                 return HttpNotFound();
             }
-            var nextStatusDescription = db.Statuses.Find(appointment.StatusID + 1).StatusDescription; //TODO: remove magic number
-            ViewBag.NextStatusID = appointment.StatusID + 1;
-            ViewBag.NextStatusDescription = nextStatusDescription;
+            if (appointment.StatusID != Constants.SS_AP_CANCELED && appointment.StatusID != Constants.SS_AP_FINISHED)
+            {
+                var nextStatusDescription = db.Statuses.Find(appointment.StatusID + 1).StatusDescription; //TODO: remove magic number
+                ViewBag.NextStatusID = appointment.StatusID + 1;
+                ViewBag.NextStatusDescription = nextStatusDescription;
+            }
             return View(appointment);
         }
 
@@ -97,14 +100,16 @@ namespace MedicalMgmt.Controllers.Business
             {
                 return HttpNotFound();
             }
-            
-            var nextStatusDescription = db.Statuses.Find(appointment.StatusID + 1).StatusDescription; //TODO: remove magic number
-            ViewBag.NextStatusDescription = nextStatusDescription;
+            if (appointment.StatusID != Constants.SS_AP_CANCELED && appointment.StatusID != Constants.SS_AP_FINISHED)
+            {
+                var nextStatusDescription = db.Statuses.Find(appointment.StatusID + 1).StatusDescription; //TODO: remove magic number
+                ViewBag.NextStatusDescription = nextStatusDescription;
+            }
 
             return PartialView(appointment);
         }
 
-        // POST: Appointments/Cancel/5
+        // POST: Appointments/ConfirmChangeStatus/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
