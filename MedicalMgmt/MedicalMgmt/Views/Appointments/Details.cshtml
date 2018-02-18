@@ -147,6 +147,10 @@
       });
       }
 </div>
+<div class="modal" id="modalSucess">
+    @{Html.RenderPartial("_Success");}
+</div>
+
 @if (@ViewBag.NextStatusID != null && @ViewBag.NextStatusID != MedicalMgmt.General.Constants.SS_AP_CANCELED)
 {
 <hr />
@@ -193,29 +197,29 @@
                 url: "/Appointments/ConfirmCancel/",
                 data: {
                     id : @Model.AppointmentID
-                            },
-                        success: function () {
-                            location.reload();
-                        }
-                    })
-                });
-
-                $("#btnUpdatePatientInfo").click(function () {
-                    $.ajax({
-                        method: "POST",
-                        url: "/Appointments/UpdatePatientInfo/",
-                        data: {
-                            appointmentID : @Model.AppointmentID,
-                            allergies : $("#allergies").val(),
-                            familyMedicalHistory : $("#familyMedicalHistory").val(),
-                            longTermMedication : $("#longTermMedication").val(),
-                            anamnesis : $("#anamnesis").val()
                         },
-                        success: function () {
-                            location.reload();
-                        }
-                    })
-                });
-            })
-        </script>
-    }
+                    success: function () {
+                        location.reload();
+                    }
+                })
+            });
+
+            $("#btnUpdatePatientInfo").click(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "/Appointments/UpdatePatientInfo/",
+                    data: {
+                        appointmentID : @Model.AppointmentID,
+                        allergies : $("#allergies").val(),
+                        familyMedicalHistory : $("#familyMedicalHistory").val(),
+                        longTermMedication : $("#longTermMedication").val(),
+                        anamnesis : $("#anamnesis").val()
+                    },
+                    success: function () {
+                        $("#modalSucess").modal();
+                    }
+                })
+            });
+        })
+    </script>
+}
