@@ -132,7 +132,7 @@
 }
 <div class="col-md-12">
     <p>
-        @Html.ActionLink("Voltar", "Details", "Patients", new { id = Model.PatientID }, new { htmlAttributes = new { } })
+        @Html.ActionLink("Voltar", null, null, null, new { href = Request.UrlReferrer })
     </p>
 </div>
     @section scripts{
