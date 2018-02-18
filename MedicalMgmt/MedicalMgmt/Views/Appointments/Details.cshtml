@@ -67,14 +67,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Anamnesis)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Anamnesis)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.PatientArrivingDate)
         </dt>
 
@@ -105,8 +97,42 @@
         <dd>
             @Html.DisplayFor(model => model.Status.StatusDescription)
         </dd>
-
     </dl>
+
+        <hr />
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Patient.Allergies, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Patient.Allergies, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Patient.Allergies, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Patient.FamilyMedicalHistory, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Patient.FamilyMedicalHistory, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Patient.FamilyMedicalHistory, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Patient.LongTermMedication, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Patient.LongTermMedication, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Patient.LongTermMedication, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Anamnesis, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Anamnesis, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Anamnesis, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-md-12">
+        <button class="btn btn-primary" id="btnUpdatePatientInfo">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
+    </div>
+
 </div>
 <div class="modal" id="modalChangeStatus">
     @{Html.RenderAction("ChangeStatus", "Appointments", new { 
@@ -123,6 +149,7 @@
 </div>
 @if (@ViewBag.NextStatusID != null && @ViewBag.NextStatusID != MedicalMgmt.General.Constants.SS_AP_CANCELED)
 {
+<hr />
 <div class="col-md-12">
     <button class="btn btn-primary" id="btnChangeStatus">Alterar status para "@ViewBag.NextStatusDescription" <i class="glyphicon glyphicon-repeat"></i></button>
 </div>
