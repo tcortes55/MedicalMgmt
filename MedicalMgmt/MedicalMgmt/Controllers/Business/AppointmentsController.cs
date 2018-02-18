@@ -42,6 +42,9 @@ namespace MedicalMgmt.Controllers.Business
                 ViewBag.NextStatusID = appointment.StatusID + 1;
                 ViewBag.NextStatusDescription = nextStatusDescription;
             }
+
+            ViewBag.IsNewAppointment = TempData["newAppointment"] ?? 0;
+
             return View(appointment);
         }
 
@@ -301,6 +304,7 @@ namespace MedicalMgmt.Controllers.Business
             {
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
+                TempData["newAppointment"] = 1;
                 return RedirectToAction("Details", new { id = appointment.AppointmentID } );
             }
 

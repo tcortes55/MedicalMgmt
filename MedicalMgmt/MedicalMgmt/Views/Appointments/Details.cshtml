@@ -175,6 +175,14 @@
 @section scripts{
 <script>
 $(document).ready(function () {
+
+    var newAppointment = 0;
+    newAppointment = @ViewBag.IsNewAppointment;
+    if(newAppointment == 1)
+    {
+        $("#modalSucess").modal();
+    }
+
     $(".onlyWhenOngoing").prop("disabled", true)
     $("#btnUpdatePatientInfo").addClass("hidden")
 
