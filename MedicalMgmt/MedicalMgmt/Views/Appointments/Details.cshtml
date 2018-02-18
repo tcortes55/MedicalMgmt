@@ -164,36 +164,53 @@
 </div>
     @section scripts{
         <script>
-            $(document).ready(function () {
-                $("#btnChangeStatus").click(function() {
-                    $("#modalChangeStatus").modal();
-                });
+    $(document).ready(function () {
+        $("#btnChangeStatus").click(function() {
+            $("#modalChangeStatus").modal();
+        });
 
-                $("#btnConfirmChangeStatus").click(function () {
-                    $.ajax({
-                        method: "POST",
-                        url: "/Appointments/ConfirmChangeStatus/",
-                        data: {
-                            appointmentID : @Model.AppointmentID,
-                            currStatusID : @Model.StatusID
-                        },
+        $("#btnConfirmChangeStatus").click(function () {
+            $.ajax({
+                method: "POST",
+                url: "/Appointments/ConfirmChangeStatus/",
+                data: {
+                    appointmentID : @Model.AppointmentID,
+                    currStatusID : @Model.StatusID
+                    },
+                success: function () {
+                    location.reload();
+                }
+            })
+        });
+
+        $("#btnCancel").click(function () {
+            $("#modalCancel").modal();
+        });
+
+        $("#btnConfirmCancel").click(function () {
+            $.ajax({
+                method: "POST",
+                url: "/Appointments/ConfirmCancel/",
+                data: {
+                    id : @Model.AppointmentID
+                            },
                         success: function () {
                             location.reload();
                         }
                     })
                 });
 
-                $("#btnCancel").click(function () {
-                    $("#modalCancel").modal();
-                });
-
-                $("#btnConfirmCancel").click(function () {
+                $("#btnUpdatePatientInfo").click(function () {
                     $.ajax({
                         method: "POST",
-                        url: "/Appointments/ConfirmCancel/",
+                        url: "/Appointments/UpdatePatientInfo/",
                         data: {
-                            id : @Model.AppointmentID
-                            },
+                            appointmentID : @Model.AppointmentID,
+                            allergies : "alegias",
+                            familyMedicalHistory : "historico familiar",
+                            longTermMedication : "uso de medicamentos",
+                            anamnesis : "anamnese"
+                        },
                         success: function () {
                             location.reload();
                         }

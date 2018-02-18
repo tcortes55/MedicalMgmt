@@ -137,6 +137,43 @@ namespace MedicalMgmt.Controllers.Business
             return View(appointment);
         }
 
+        // POST: Appointments/UpdatePatientInfo/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult UpdatePatientInfo(
+            int? appointmentID, 
+            string allergies, 
+            string familyMedicalHistory, 
+            string longTermMedication, 
+            string anamnesis
+        )
+        {
+            if (appointmentID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Appointment appointment = db.Appointments.Find(appointmentID);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                appointment.Anamnesis = anamnesis;
+                appointment.Patient.Allergies = allergies;
+                appointment.Patient.FamilyMedicalHistory = familyMedicalHistory;
+                appointment.Patient.LongTermMedication = longTermMedication;
+                db.Entry(appointment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = appointment.AppointmentID });
+            }
+
+            return View(appointment);
+        }
+
         // GET: Appointments/GetByPhysicianIdAndDate/5
         public ActionResult GetByPhysicianIdAndDate(int? physicianID, string selectedDate)
         {
