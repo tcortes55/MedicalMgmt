@@ -166,8 +166,8 @@
         @Html.ActionLink("Voltar", null, null, null, new { href = Request.UrlReferrer })
     </p>
 </div>
-    @section scripts{
-        <script>
+@section scripts{
+    <script>
     $(document).ready(function () {
         $("#btnChangeStatus").click(function() {
             $("#modalChangeStatus").modal();
