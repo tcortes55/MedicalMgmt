@@ -103,28 +103,28 @@
 
     <div class="form-group">
         @Html.LabelFor(model => model.Patient.Allergies, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-12">
+        <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
             @Html.TextAreaFor(model => model.Patient.Allergies, new { @class = "form-control onlyWhenOngoing", @id = "allergies" })
             @Html.ValidationMessageFor(model => model.Patient.Allergies, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Patient.FamilyMedicalHistory, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-12">
+        <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
             @Html.TextAreaFor(model => model.Patient.FamilyMedicalHistory, new { @class = "form-control onlyWhenOngoing", @id = "familyMedicalHistory" })
             @Html.ValidationMessageFor(model => model.Patient.FamilyMedicalHistory, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Patient.LongTermMedication, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-12">
+        <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
             @Html.TextAreaFor(model => model.Patient.LongTermMedication, new { @class = "form-control onlyWhenOngoing", @id = "longTermMedication" })
             @Html.ValidationMessageFor(model => model.Patient.LongTermMedication, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Anamnesis, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-12">
+        <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
             @Html.TextAreaFor(model => model.Anamnesis, new { @class = "form-control onlyWhenOngoing", @id = "anamnesis" })
             @Html.ValidationMessageFor(model => model.Anamnesis, "", new { @class = "text-danger" })
         </div>
@@ -166,11 +166,11 @@
             </div>
         </div>
     }
-    <div class="col-md-12">
+    @*<div class="col-md-12">
         <p>
             @Html.ActionLink("Voltar", null, null, null, new { href = Request.UrlReferrer })
         </p>
-    </div>
+    </div>*@
 </div>
 @section scripts{
 <script>
@@ -199,17 +199,48 @@ $(document).ready(function () {
     });
 
     $("#btnConfirmChangeStatus").click(function () {
-        $.ajax({
-            method: "POST",
-            url: "/Appointments/ConfirmChangeStatus/",
-            data: {
-                appointmentID : @Model.AppointmentID,
-                currStatusID : @Model.StatusID
+
+        if (@Model.StatusID == statusOngoing)
+        {
+            $.ajax({
+                method: "POST",
+                url: "/Appointments/UpdatePatientInfo/",
+                data: {
+                    appointmentID : @Model.AppointmentID,
+                    allergies : $("#allergies").val(),
+                    familyMedicalHistory : $("#familyMedicalHistory").val(),
+                    longTermMedication : $("#longTermMedication").val(),
+                    anamnesis : $("#anamnesis").val()
                 },
-            success: function () {
-                location.reload();
-            }
-        })
+                success: function () {
+                    $.ajax({
+                        method: "POST",
+                        url: "/Appointments/ConfirmChangeStatus/",
+                        data: {
+                            appointmentID : @Model.AppointmentID,
+                            currStatusID : @Model.StatusID
+                            },
+                        success: function () {
+                            location.reload();
+                        }
+                    })
+                }
+            })
+        }
+        else 
+        {
+            $.ajax({
+                method: "POST",
+                url: "/Appointments/ConfirmChangeStatus/",
+                data: {
+                    appointmentID : @Model.AppointmentID,
+                    currStatusID : @Model.StatusID
+                    },
+                success: function () {
+                    location.reload();
+                }
+            })
+        }
     });
 
     $("#btnCancel").click(function () {

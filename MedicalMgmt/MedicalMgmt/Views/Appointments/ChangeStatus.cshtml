@@ -8,8 +8,12 @@
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Voltar</span></button>
             <h4 class="modal-title">Tem certeza que deseja alterar o status de @Model.Status.StatusDescription para @ViewBag.NextStatusDescription?</h4>
+            @if (Model.StatusID == MedicalMgmt.General.Constants.SS_AP_ONGOING)
+            {
+                <h5 class="modal-title">As alterações (anamnese, alergias, histórico familiar e uso de medicamentos) serão salvas.</h5>
+            }
         </div>
         <div class="modal-body">
             <p>@Html.DisplayNameFor(model => model.Patient.FullName): @Html.DisplayFor(model => model.Patient.FullName)</p>
