@@ -315,6 +315,7 @@
     <Content Include="Views\Appointments\ListPrevious.cshtml" />
     <Content Include="Views\Appointments\ListFuture.cshtml" />
     <Content Include="Views\Shared\_Success.cshtml" />
+    <Content Include="Views\PrescriptedMedicines\ListMedicinesByAppointment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

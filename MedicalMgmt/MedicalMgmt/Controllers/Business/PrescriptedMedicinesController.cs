@@ -21,6 +21,23 @@ namespace MedicalMgmt.Controllers.Business
             return View(prescriptedMedicines.ToList());
         }
 
+        // GET: PrescriptedMedicines/ListMedicinesByAppointment/5
+        public ActionResult ListMedicinesByAppointment(int? appointmentID)
+        {
+            if (appointmentID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Appointment appointment = db.Appointments.Find(appointmentID);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+
+            var medicinesByAppointment = db.PrescriptedMedicines.Where(x => x.AppointmentID == appointmentID).ToList();
+            return PartialView(medicinesByAppointment);
+        }
+
         // GET: PrescriptedMedicines/Details/5
         public ActionResult Details(int? id)
         {

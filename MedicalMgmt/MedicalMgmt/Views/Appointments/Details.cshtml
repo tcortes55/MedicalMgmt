@@ -153,6 +153,12 @@
     <div class="modal" id="modalSucess">
         @{Html.RenderPartial("_Success");}
     </div>
+    
+    <hr />
+    <div>
+        @{Html.RenderAction("ListMedicinesByAppointment", "PrescriptedMedicines", new { appointmentID = Model.AppointmentID });}
+    </div>
+
 
     @if (@ViewBag.NextStatusID != null && @ViewBag.NextStatusID != MedicalMgmt.General.Constants.SS_AP_CANCELED)
     {

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<MedicalMgmt.Models.PrescriptedMedicine>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Medicine.CommercialName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Medicine.GenericName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Posology)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Medicine.CommercialName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Medicine.GenericName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Posology)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.PrescriptedMedicineID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.PrescriptedMedicineID })
+            </td>
+        </tr>
+    }
+
+</table>
+
