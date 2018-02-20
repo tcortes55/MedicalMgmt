@@ -86,6 +86,27 @@ namespace MedicalMgmt.Controllers.Business
             return View(prescriptedMedicine);
         }
 
+        // GET: PrescriptedMedicines/Add
+        public ActionResult Add(int? appointmentID)
+        {
+            if (appointmentID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Appointment appointment = db.Appointments.Find(appointmentID);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+            PrescriptedMedicine prescriptedMedicine = new PrescriptedMedicine();
+            prescriptedMedicine.Appointment = appointment;
+            prescriptedMedicine.AppointmentID = appointment.AppointmentID;
+
+            ViewBag.MedicineList = db.Medicines.ToList();
+
+            return PartialView(prescriptedMedicine);
+        }
+
         // GET: PrescriptedMedicines/Edit/5
         public ActionResult Edit(int? id)
         {

@@ -1,0 +1,24 @@
+﻿@model MedicalMgmt.Models.PrescriptedMedicine
+
+@{
+    Layout = null;
+    ViewBag.Title = "Prescrever medicamento";
+}
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Voltar</span></button>
+            <h4 class="modal-title">Prescrever medicamento</h4>
+        </div>
+        <div class="modal-body">
+            <p>Paciente: @Html.DisplayFor(model => model.Appointment.Patient.FullName)</p>
+            <p>Data da consulta: @Html.DisplayFor(model => model.Appointment.PlannedStartDate)</p>
+            @{Html.RenderAction("List", "Medicines");}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="btnConfirmMedicinePrescription">Confirmar <i class="glyphicon glyphicon-ok"></i></button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

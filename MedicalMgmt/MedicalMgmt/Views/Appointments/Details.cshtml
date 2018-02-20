@@ -135,6 +135,14 @@
         </div>
     </div>
 
+    <div class="modal" id="modalAddPrescribedMedicine">
+        @*@{Html.RenderAction("Add", "PrescriptedMedicines", new
+        {
+            @id = @Model.AppointmentID
+        });
+        }*@
+        @{Html.RenderAction("Add", "PrescriptedMedicines", new { appointmentID = Model.AppointmentID });}
+    </div>
     <div class="modal" id="modalChangeStatus">
         @{Html.RenderAction("ChangeStatus", "Appointments", new
         {
@@ -283,14 +291,15 @@ $(document).ready(function () {
         })
     });
 
-    $("#btnAddRow").click(function () {
-        //var tableRef = document.getElementById('prescribedMedicines').getElementsByTagName('tbody')[0];
-        //tableRef.insertRow
+    $("#btnAdd").click(function () {
+        $("#modalAddPrescribedMedicine").modal();
+        ////var tableRef = document.getElementById('prescribedMedicines').getElementsByTagName('tbody')[0];
+        ////tableRef.insertRow
 
-        $("#prescribedMedicines").find("tbody").append(
-            "<tr><td>TESTE</td>"
-            +"<td></td><td></td><td></td></tr>"
-            )
+        //$("#prescribedMedicines").find("tbody").append(
+        //    "<tr><td>TESTE</td>"
+        //    +"<td></td><td></td><td></td></tr>"
+        //    )
 
     });
 })
