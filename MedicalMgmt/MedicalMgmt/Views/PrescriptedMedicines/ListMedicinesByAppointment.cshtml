@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<MedicalMgmt.Models.PrescriptedMedicine>
 
-<table class="table">
+<table class="table" id="prescribedMedicines">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Medicine.CommercialName)
@@ -34,4 +34,23 @@
     }
 
 </table>
+<div class="col-md-12">
+    <button class="btn btn-default" id="btnAddRow">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
+</div>
 
+@section scripts{
+<script>
+    $(document).ready(function () {
+        $("#btnAddRow").click(function () {
+            //var tableRef = document.getElementById('prescribedMedicines').getElementsByTagName('tbody')[0];
+            //tableRef.insertRow
+
+            $("#prescribedMedicines").find("tbody").append(
+                "<tr><td>" + @Html.DisplayNameFor(model => model.Medicine.CommercialName) + "</td>"
+                +"<td></td><td></td><td></td></tr>"
+                )
+
+        });
+    });
+</script>
+}

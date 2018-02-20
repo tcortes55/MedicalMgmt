@@ -282,6 +282,17 @@ $(document).ready(function () {
             }
         })
     });
+
+    $("#btnAddRow").click(function () {
+        //var tableRef = document.getElementById('prescribedMedicines').getElementsByTagName('tbody')[0];
+        //tableRef.insertRow
+
+        $("#prescribedMedicines").find("tbody").append(
+            "<tr><td>TESTE</td>"
+            +"<td></td><td></td><td></td></tr>"
+            )
+
+    });
 })
 </script>
 }
