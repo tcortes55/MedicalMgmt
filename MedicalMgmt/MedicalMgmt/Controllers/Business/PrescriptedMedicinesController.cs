@@ -34,7 +34,11 @@ namespace MedicalMgmt.Controllers.Business
                 return HttpNotFound();
             }
 
-            var medicinesByAppointment = db.PrescriptedMedicines.Where(x => x.AppointmentID == appointmentID).ToList();
+            ViewBag.MedicineList = db.Medicines.ToList();
+            var medicinesByAppointment = db.PrescriptedMedicines
+                                           .Where(x => x.AppointmentID == appointmentID)
+                                           .Include(p => p.Medicine)
+                                           .ToList();
             return PartialView(medicinesByAppointment);
         }
 

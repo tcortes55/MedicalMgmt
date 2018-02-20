@@ -35,7 +35,12 @@
 
 </table>
 <div id="addPrescription">
-
+    <select class="selectpicker" data-live-search="true">
+        @foreach (var item in ViewBag.MedicineList)
+        {
+            <option>@item.CommercialName (@item.GenericName)</option>
+        }
+    </select>
 </div>
 <div class="col-md-12">
     <button class="btn btn-default" id="btnAdd">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
