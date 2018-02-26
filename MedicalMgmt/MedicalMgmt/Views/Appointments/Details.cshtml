@@ -186,9 +186,13 @@
         </p>
     </div>*@
 </div>
+@Styles.Render("~/Content/bootstrap-select.min.css")
 @section scripts{
+<script src="~/Scripts/bootstrap-select.min.js"></script>
 <script>
 $(document).ready(function () {
+    
+    
 
     var newAppointment = 0;
     newAppointment = @ViewBag.IsNewAppointment;
