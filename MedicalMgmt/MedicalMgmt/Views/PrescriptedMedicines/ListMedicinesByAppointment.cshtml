@@ -35,16 +35,17 @@
 
 </table>
 <div id="addPrescription">
-    <select class="selectpicker" data-live-search="true">
+    <select id="medicineSelector" class="selectpicker" data-live-search="true" title="Selecionar medicamento...">
         @foreach (var item in ViewBag.MedicineList)
         {
-            <option>@item.CommercialName (@item.GenericName)</option>
+            <option value="@item.MedicineID">@item.CommercialName (@item.GenericName)</option>
         }
     </select>
+    @Html.TextArea("Posologia", new { @class = "form-control", @id = "posology", @placeholder = "Posologia..." })
 </div>
-<div class="col-md-12">
+@*<div class="col-md-12">
     <button class="btn btn-default" id="btnAdd">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
-</div>
+</div>*@
 <div class="col-md-12">
     <button class="btn btn-default" id="btnAddInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
 </div>
@@ -65,3 +66,11 @@
     });
 </script>
 }*@
+@Styles.Render("~/Content/bootstrap-select.min.css")
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<script type='text/javascript'>
+    $(function () {
+        // Wire up your DatePicker
+        $(".selectpicker").selectpicker()
+    });
+</script>

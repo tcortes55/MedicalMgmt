@@ -134,15 +134,6 @@
             <button class="btn btn-primary" id="btnUpdatePatientInfo">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
         </div>
     </div>
-
-    <div class="modal" id="modalAddPrescribedMedicine">
-        @*@{Html.RenderAction("Add", "PrescriptedMedicines", new
-        {
-            @id = @Model.AppointmentID
-        });
-        }*@
-        @{Html.RenderAction("Add", "PrescriptedMedicines", new { appointmentID = Model.AppointmentID });}
-    </div>
     <div class="modal" id="modalChangeStatus">
         @{Html.RenderAction("ChangeStatus", "Appointments", new
         {
@@ -163,7 +154,7 @@
     </div>
     
     <hr />
-    <div>
+    <div id="MedicinesByAppointment">
         @{Html.RenderAction("ListMedicinesByAppointment", "PrescriptedMedicines", new { appointmentID = Model.AppointmentID });}
     </div>
 
@@ -191,8 +182,6 @@
 <script src="~/Scripts/bootstrap-select.min.js"></script>
 <script>
 $(document).ready(function () {
-    
-    
 
     var newAppointment = 0;
     newAppointment = @ViewBag.IsNewAppointment;
@@ -295,28 +284,40 @@ $(document).ready(function () {
         })
     });
 
-    $("#btnAdd").click(function () {
-        $("#modalAddPrescribedMedicine").modal();
-        ////var tableRef = document.getElementById('prescribedMedicines').getElementsByTagName('tbody')[0];
-        ////tableRef.insertRow
-
-        //$("#prescribedMedicines").find("tbody").append(
-        //    "<tr><td>TESTE</td>"
-        //    +"<td></td><td></td><td></td></tr>"
-        //    )
-
-    });
-
+    //$(document).on('click', '#btnAddInLine', function () {
     $("#btnAddInline").click(function () {
-        ////var tableRef = document.getElementById('prescribedMedicines').getElementsByTagName('tbody')[0];
-        ////tableRef.insertRow
-
-        //$("#prescribedMedicines").find("tbody").append(
-        //    "<tr><td>TESTE</td>"
-        //    +"<td></td><td></td><td></td></tr>"
-        //    )
-
+        $.ajax({
+            method: "POST",
+            url: "/PrescriptedMedicines/Add/",
+            data: {
+                appointmentID : @Model.AppointmentID,
+                medicineID : $("#medicineSelector").val(),
+                posology : $("#posology").val()
+            },
+            success: function (){
+                reloadPrescribedMedicines();
+            }
+        })
     });
+
+    function reloadPrescribedMedicines() {
+        $.ajax(
+        {
+            type: 'GET',
+            url: '/PrescriptedMedicines/ListMedicinesByAppointment',
+            data: {
+                appointmentID: @Model.AppointmentID
+            },
+            dataType: 'html',
+            cache: false,
+            async: true,
+            success: function (data) {
+                $('#MedicinesByAppointment').html(data);
+            }
+        });
+
+        //$(".selectpicker").selectpicker()
+    }
 })
 </script>
 }

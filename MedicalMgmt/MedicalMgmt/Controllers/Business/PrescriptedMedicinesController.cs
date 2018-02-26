@@ -90,25 +90,34 @@ namespace MedicalMgmt.Controllers.Business
             return View(prescriptedMedicine);
         }
 
-        // GET: PrescriptedMedicines/Add
-        public ActionResult Add(int? appointmentID)
+        // POST: PrescriptedMedicines/Add
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        public ActionResult Add(int? appointmentID, int? medicineID, string posology)
         {
-            if (appointmentID == null)
+            if (appointmentID == null || medicineID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            db.Configuration.ProxyCreationEnabled = false;
             Appointment appointment = db.Appointments.Find(appointmentID);
-            if (appointment == null)
+            Medicine medicine = db.Medicines.Find(medicineID);
+            if (appointment == null || medicine == null)
             {
                 return HttpNotFound();
             }
             PrescriptedMedicine prescriptedMedicine = new PrescriptedMedicine();
-            prescriptedMedicine.Appointment = appointment;
             prescriptedMedicine.AppointmentID = appointment.AppointmentID;
+            prescriptedMedicine.MedicineID = medicine.MedicineID;
+            prescriptedMedicine.PatientID = appointment.PatientID;
+            prescriptedMedicine.PhysicianID = appointment.PhysicianID;
+            prescriptedMedicine.Posology = posology;
 
-            ViewBag.MedicineList = db.Medicines.ToList();
+            db.PrescriptedMedicines.Add(prescriptedMedicine);
+            db.SaveChanges();
 
-            return PartialView(prescriptedMedicine);
+            return View();
         }
 
         // GET: PrescriptedMedicines/Edit/5
