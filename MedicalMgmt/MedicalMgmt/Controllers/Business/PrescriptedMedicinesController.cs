@@ -179,7 +179,7 @@ namespace MedicalMgmt.Controllers.Business
 
         // POST: PrescriptedMedicines/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             PrescriptedMedicine prescriptedMedicine = db.PrescriptedMedicines.Find(id);
