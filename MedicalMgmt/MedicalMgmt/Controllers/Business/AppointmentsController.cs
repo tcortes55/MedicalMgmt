@@ -44,6 +44,7 @@ namespace MedicalMgmt.Controllers.Business
             }
 
             ViewBag.IsNewAppointment = TempData["newAppointment"] ?? 0;
+            ViewBag.MedicineList = db.Medicines.ToList();
 
             return View(appointment);
         }
