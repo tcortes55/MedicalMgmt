@@ -171,6 +171,26 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="confirm-edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Editar prescrição</h4>
+                </div>
+                <div class="modal-body">
+                    Editar a prescrição?
+                    <br />
+                    <span class="description"></span>
+                    @Html.TextArea("Posologia", new { @class = "form-control", @id = "posologyModal", @placeholder = "Posologia..." })
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" value="Confirmar alterações" class="btn btn-primary btn-ok" id="btnConfirmEditMedicine" />
+                </div>
+            </div>
+        </div>
+    </div>
 
         <hr />
         <div id="MedicinesByAppointment">
@@ -366,6 +386,23 @@ $(document).ready(function () {
         var data = $(e.relatedTarget).data();
         $('.description', this).text(data.itemDescription);
         $('#btnConfirmDeleteMedicine', this).data('itemId', data.itemId);
+    });
+
+
+    $('#confirm-edit').on('click', '#btnConfirmEditMedicine', function(e) {
+        var $modalDiv = $(e.delegateTarget);
+        var id = $(this).data('itemId');        
+        $modalDiv.addClass('loading');
+        $.post('/PrescriptedMedicines/Edit/' + id, { posology: $("#posologyModal").val() }).then(function () {
+            $modalDiv.modal('hide').removeClass('loading');
+            reloadPrescribedMedicines();
+        });
+    });
+    $('#confirm-edit').on('show.bs.modal', function(e) {
+        var data = $(e.relatedTarget).data();
+        $('.description', this).text(data.itemDescription);
+        $('#posologyModal', this).val(data.itemPosology);
+        $('#btnConfirmEditMedicine', this).data('itemId', data.itemId);
     });
 })
 </script>

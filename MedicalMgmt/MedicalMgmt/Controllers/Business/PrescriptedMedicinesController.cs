@@ -140,26 +140,65 @@ namespace MedicalMgmt.Controllers.Business
             return View(prescriptedMedicine);
         }
 
+        //// POST: PrescriptedMedicines/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "PrescriptedMedicineID,AppointmentID,PhysicianID,PatientID,MedicineID,Posology")] PrescriptedMedicine prescriptedMedicine)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(prescriptedMedicine).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+            
+        //    var physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
+        //    var usPhysicians = new SelectList(db.AppUsers, "AppUserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
+
+        //    ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
+        //    ViewBag.PhysicianID = usPhysicians;
+        //    return View(prescriptedMedicine);
+        //}
+
         // POST: PrescriptedMedicines/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PrescriptedMedicineID,AppointmentID,PhysicianID,PatientID,MedicineID,Posology")] PrescriptedMedicine prescriptedMedicine)
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "PrescriptedMedicineID,AppointmentID,PhysicianID,PatientID,MedicineID,Posology")] PrescriptedMedicine prescriptedMedicine)
+        public ActionResult Edit(int? id, string posology)
         {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-                db.Entry(prescriptedMedicine).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
-            var physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
-            var usPhysicians = new SelectList(db.AppUsers, "AppUserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
+            PrescriptedMedicine prescriptedMedicine = db.PrescriptedMedicines.Find(id);
+            if (prescriptedMedicine == null)
+            {
+                return HttpNotFound();
+            }
 
-            ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
-            ViewBag.PhysicianID = usPhysicians;
-            return View(prescriptedMedicine);
+            prescriptedMedicine.Posology = posology;
+            
+            db.Entry(prescriptedMedicine).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(prescriptedMedicine).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+
+            //var physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
+            //var usPhysicians = new SelectList(db.AppUsers, "AppUserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
+
+            //ViewBag.MedicineID = new SelectList(db.Medicines, "MedicineID", "CommercialName", prescriptedMedicine.MedicineID);
+            //ViewBag.PhysicianID = usPhysicians;
+            //return View(prescriptedMedicine);
         }
 
         // GET: PrescriptedMedicines/Delete/5

@@ -27,7 +27,8 @@
                 @Html.DisplayFor(modelItem => item.Posology)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.PrescriptedMedicineID }) |
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.PrescriptedMedicineID }) |*@
+                <button type="button" class="btn btn-default btn-sm" data-item-id="@item.PrescriptedMedicineID" data-item-description="@item.Medicine.CommercialName (@item.Medicine.GenericName)" data-item-posology="@item.Posology" data-toggle="modal" data-target="#confirm-edit">Editar</button> |
                 @*@Html.ActionLink("Remove", "Remover", new { id = item.PrescriptedMedicineID })*@
                 <button type="button" class="btn btn-danger btn-sm" data-item-id="@item.PrescriptedMedicineID" data-item-description="@item.Medicine.CommercialName (@item.Medicine.GenericName)" data-toggle="modal" data-target="#confirm-delete">Remover</button>
             </td>
