@@ -235,6 +235,15 @@ $(document).ready(function () {
     //$.ajaxSetup({ cache: false });
 
     $(".selectpicker").selectpicker()
+    checkMedicineButton();
+
+    $("#posology").keyup(function () {
+        checkMedicineButton();
+    });
+
+    $("#medicineSelector").on("changed.bs.select", function (e) {
+        checkMedicineButton();
+    });
 
     var newAppointment = 0;
     newAppointment = @ViewBag.IsNewAppointment;
@@ -338,6 +347,7 @@ $(document).ready(function () {
     });
 
     $("#btnAddInline").click(function () {
+        $("#btnAddInline").attr("disabled", true);
         $.ajax({
             method: "POST",
             url: "/PrescriptedMedicines/Add/",
@@ -351,6 +361,9 @@ $(document).ready(function () {
                 $("#medicineSelector").selectpicker("refresh");
                 $("#posology").val([]);
                 reloadPrescribedMedicines();
+            },
+            complete: function (){
+                checkMedicineButton();
             }
         })
     });
@@ -370,6 +383,16 @@ $(document).ready(function () {
                 $('#MedicinesByAppointment').html(data);
             }
         });
+    }
+
+    function checkMedicineButton() {
+        if ($("#medicineSelector").val() && $("#posology").val())
+        {
+            $("#btnAddInline").attr("disabled", false);
+        }
+        else {
+            $("#btnAddInline").attr("disabled", true);
+        }
     }
 
 
