@@ -107,7 +107,8 @@ namespace MedicalMgmt.Controllers.Business
             db.PrescriptedExams.Add(prescriptedExam);
             db.SaveChanges();
 
-            return View();
+            //return View();
+            return Json(prescriptedExam.PrescriptedExamID, JsonRequestBehavior.AllowGet);
         }
 
         // GET: PrescriptedExams/Edit/5
@@ -122,23 +123,56 @@ namespace MedicalMgmt.Controllers.Business
             {
                 return HttpNotFound();
             }
+
+            var physicians = new SelectList(db.Physicians, "PhysicianID", "PhysicianID");
+            var usPhysicians = new SelectList(db.AppUsers, "AppUserID", "FullName").Where(u => physicians.Any(p => p.Value == u.Value));
+
+            ViewBag.ExamID = new SelectList(db.Exams, "ExamID", "Name", prescriptedExam.ExamID);
+            ViewBag.PhysicianID = usPhysicians;
             return View(prescriptedExam);
         }
 
-        // POST: PrescriptedExams/Edit/5
+        //// POST: PrescriptedExams/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "PrescriptedExamID,AppointmentID,PhysicianID,PatientID,ExamID,Details,ResultDate,Result,SendToPacient,StatusID")] PrescriptedExam prescriptedExam)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(prescriptedExam).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(prescriptedExam);
+        //}
+
+        // POST: PrescriptedMedicines/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PrescriptedExamID,AppointmentID,PhysicianID,PatientID,ExamID,Details,ResultDate,Result,SendToPacient,StatusID")] PrescriptedExam prescriptedExam)
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "PrescriptedMedicineID,AppointmentID,PhysicianID,PatientID,MedicineID,Posology")] PrescriptedMedicine prescriptedMedicine)
+        public ActionResult Edit(int? id, string examDetails)
         {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-                db.Entry(prescriptedExam).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View(prescriptedExam);
+            PrescriptedExam prescriptedExam = db.PrescriptedExams.Find(id);
+            if (prescriptedExam == null)
+            {
+                return HttpNotFound();
+            }
+
+            prescriptedExam.Details = examDetails;
+
+            db.Entry(prescriptedExam).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //return RedirectToAction("Index");
+            return Json(prescriptedExam.PrescriptedExamID, JsonRequestBehavior.AllowGet);
         }
 
         // GET: PrescriptedExams/Delete/5
@@ -158,7 +192,7 @@ namespace MedicalMgmt.Controllers.Business
 
         // POST: PrescriptedExams/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             PrescriptedExam prescriptedExam = db.PrescriptedExams.Find(id);

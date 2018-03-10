@@ -117,7 +117,8 @@ namespace MedicalMgmt.Controllers.Business
             db.PrescriptedMedicines.Add(prescriptedMedicine);
             db.SaveChanges();
 
-            return View();
+            //return View();
+            return Json(prescriptedMedicine.PrescriptedMedicineID, JsonRequestBehavior.AllowGet);
         }
 
         // GET: PrescriptedMedicines/Edit/5

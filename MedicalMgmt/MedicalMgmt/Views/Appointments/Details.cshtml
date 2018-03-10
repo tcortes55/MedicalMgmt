@@ -526,7 +526,7 @@
             var $modalDiv = $(e.delegateTarget);
             var id = $(this).data('itemId');
             $modalDiv.addClass('loading');
-            $.post('/PrescriptedExam/Edit/' + id, { examDetails: $("#examDetailsModal").val() }).then(function () {
+            $.post('/PrescriptedExams/Edit/' + id, { examDetails: $("#examDetailsModal").val() }).then(function () {
                 $modalDiv.modal('hide').removeClass('loading');
                 reloadPrescribedExams();
             });
