@@ -231,46 +231,105 @@
 @section scripts{
 <script src="~/Scripts/bootstrap-select.min.js"></script>
 <script>
-$(document).ready(function () {
-    //$.ajaxSetup({ cache: false });
+    $(document).ready(function () {
+        //$.ajaxSetup({ cache: false });
 
-    $(".selectpicker").selectpicker()
-    checkMedicineButton();
-
-    $("#posology").keyup(function () {
+        $(".selectpicker").selectpicker()
         checkMedicineButton();
-    });
 
-    $("#medicineSelector").on("changed.bs.select", function (e) {
-        checkMedicineButton();
-    });
+        $("#posology").keyup(function () {
+            checkMedicineButton();
+        });
 
-    var newAppointment = 0;
-    newAppointment = @ViewBag.IsNewAppointment;
-    if(newAppointment == 1)
-    {
-        $("#modalSucess").modal();
-    }
+        $("#medicineSelector").on("changed.bs.select", function (e) {
+            checkMedicineButton();
+        });
 
-    $(".onlyWhenOngoing").prop("disabled", true)
-    $("#btnUpdatePatientInfo").addClass("hidden")
+        var newAppointment = 0;
+        newAppointment = @ViewBag.IsNewAppointment;
+        if(newAppointment == 1)
+        {
+            $("#modalSucess").modal();
+        }
 
-    var statusOngoing = @MedicalMgmt.General.Constants.SS_AP_ONGOING
+        $(".onlyWhenOngoing").prop("disabled", true)
+        $("#btnUpdatePatientInfo").addClass("hidden")
 
-    if (@Model.StatusID == statusOngoing)
-    {
-        $(".onlyWhenOngoing").prop("disabled", false)
-        $("#btnUpdatePatientInfo").removeClass("hidden")
-    }
-
-    $("#btnChangeStatus").click(function() {
-        $("#modalChangeStatus").modal();
-    });
-
-    $("#btnConfirmChangeStatus").click(function () {
+        var statusOngoing = @MedicalMgmt.General.Constants.SS_AP_ONGOING
 
         if (@Model.StatusID == statusOngoing)
         {
+            $(".onlyWhenOngoing").prop("disabled", false)
+            $("#btnUpdatePatientInfo").removeClass("hidden")
+        }
+
+        $("#btnChangeStatus").click(function() {
+            $("#modalChangeStatus").modal();
+        });
+
+        $("#btnConfirmChangeStatus").click(function () {
+
+            if (@Model.StatusID == statusOngoing)
+            {
+                $.ajax({
+                    method: "POST",
+                    url: "/Appointments/UpdatePatientInfo/",
+                    data: {
+                        appointmentID : @Model.AppointmentID,
+                        allergies : $("#allergies").val(),
+                        familyMedicalHistory : $("#familyMedicalHistory").val(),
+                        longTermMedication : $("#longTermMedication").val(),
+                        anamnesis : $("#anamnesis").val()
+                    },
+                    success: function () {
+                        $.ajax({
+                            method: "POST",
+                            url: "/Appointments/ConfirmChangeStatus/",
+                            data: {
+                                appointmentID : @Model.AppointmentID,
+                                currStatusID : @Model.StatusID
+                                },
+                            success: function () {
+                                location.reload();
+                            }
+                        })
+                    }
+                })
+            }
+            else
+            {
+                $.ajax({
+                    method: "POST",
+                    url: "/Appointments/ConfirmChangeStatus/",
+                    data: {
+                        appointmentID : @Model.AppointmentID,
+                        currStatusID : @Model.StatusID
+                        },
+                    success: function () {
+                        location.reload();
+                    }
+                })
+            }
+        });
+
+        $("#btnCancel").click(function () {
+            $("#modalCancel").modal();
+        });
+
+        $("#btnConfirmCancel").click(function () {
+            $.ajax({
+                method: "POST",
+                url: "/Appointments/ConfirmCancel/",
+                data: {
+                    id : @Model.AppointmentID
+                    },
+                success: function () {
+                    location.reload();
+                }
+            })
+        });
+
+        $("#btnUpdatePatientInfo").click(function () {
             $.ajax({
                 method: "POST",
                 url: "/Appointments/UpdatePatientInfo/",
@@ -282,151 +341,93 @@ $(document).ready(function () {
                     anamnesis : $("#anamnesis").val()
                 },
                 success: function () {
-                    $.ajax({
-                        method: "POST",
-                        url: "/Appointments/ConfirmChangeStatus/",
-                        data: {
-                            appointmentID : @Model.AppointmentID,
-                            currStatusID : @Model.StatusID
-                            },
-                        success: function () {
-                            location.reload();
-                        }
-                    })
+                    $("#modalSucess").modal();
                 }
             })
-        }
-        else 
-        {
+        });
+
+        $("#btnAddInline").click(function () {
+            $("#btnAddInline").attr("disabled", true);
             $.ajax({
                 method: "POST",
-                url: "/Appointments/ConfirmChangeStatus/",
+                url: "/PrescriptedMedicines/Add/",
                 data: {
                     appointmentID : @Model.AppointmentID,
-                    currStatusID : @Model.StatusID
-                    },
-                success: function () {
-                    location.reload();
+                    medicineID : $("#medicineSelector").val(),
+                    posology : $("#posology").val()
+                },
+                success: function (){
+                    $("#medicineSelector").val("default");
+                    $("#medicineSelector").selectpicker("refresh");
+                    $("#posology").val([]);
+                    reloadPrescribedMedicines();
+                },
+                complete: function (){
+                    checkMedicineButton();
                 }
             })
-        }
-    });
+        });
 
-    $("#btnCancel").click(function () {
-        $("#modalCancel").modal();
-    });
 
-    $("#btnConfirmCancel").click(function () {
-        $.ajax({
-            method: "POST",
-            url: "/Appointments/ConfirmCancel/",
-            data: {
-                id : @Model.AppointmentID
-                },
-            success: function () {
-                location.reload();
-            }
-        })
-    });
-
-    $("#btnUpdatePatientInfo").click(function () {
-        $.ajax({
-            method: "POST",
-            url: "/Appointments/UpdatePatientInfo/",
-            data: {
-                appointmentID : @Model.AppointmentID,
-                allergies : $("#allergies").val(),
-                familyMedicalHistory : $("#familyMedicalHistory").val(),
-                longTermMedication : $("#longTermMedication").val(),
-                anamnesis : $("#anamnesis").val()
-            },
-            success: function () {
-                $("#modalSucess").modal();
-            }
-        })
-    });
-
-    $("#btnAddInline").click(function () {
-        $("#btnAddInline").attr("disabled", true);
-        $.ajax({
-            method: "POST",
-            url: "/PrescriptedMedicines/Add/",
-            data: {
-                appointmentID : @Model.AppointmentID,
-                medicineID : $("#medicineSelector").val(),
-                posology : $("#posology").val()
-            },
-            success: function (){
-                $("#medicineSelector").val("default");
-                $("#medicineSelector").selectpicker("refresh");
-                $("#posology").val([]);
+        $('#confirm-delete').on('click', '#btnConfirmDeleteMedicine', function(e) {
+            var $modalDiv = $(e.delegateTarget);
+            var id = $(this).data('itemId');
+            $modalDiv.addClass('loading');
+            $.post('/PrescriptedMedicines/Delete/' + id).then(function () {
+                $modalDiv.modal('hide').removeClass('loading');
                 reloadPrescribedMedicines();
-            },
-            complete: function (){
-                checkMedicineButton();
-            }
-        })
-    });
-
-    function reloadPrescribedMedicines() {
-        $.ajax(
-        {
-            type: 'GET',
-            url: '/PrescriptedMedicines/ListMedicinesByAppointment',
-            data: {
-                appointmentID: @Model.AppointmentID
-            },
-            dataType: 'html',
-            cache: false,
-            async: true,
-            success: function (data) {
-                $('#MedicinesByAppointment').html(data);
-            }
+            });
         });
-    }
+        $('#confirm-delete').on('show.bs.modal', function(e) {
+            var data = $(e.relatedTarget).data();
+            $('.description', this).text(data.itemDescription);
+            $('#btnConfirmDeleteMedicine', this).data('itemId', data.itemId);
+        });
 
-    function checkMedicineButton() {
-        if ($("#medicineSelector").val() && $("#posology").val())
-        {
-            $("#btnAddInline").attr("disabled", false);
+
+        $('#confirm-edit').on('click', '#btnConfirmEditMedicine', function(e) {
+            var $modalDiv = $(e.delegateTarget);
+            var id = $(this).data('itemId');
+            $modalDiv.addClass('loading');
+            $.post('/PrescriptedMedicines/Edit/' + id, { posology: $("#posologyModal").val() }).then(function () {
+                $modalDiv.modal('hide').removeClass('loading');
+                reloadPrescribedMedicines();
+            });
+        });
+        $('#confirm-edit').on('show.bs.modal', function(e) {
+            var data = $(e.relatedTarget).data();
+            $('.description', this).text(data.itemDescription);
+            $('#posologyModal', this).val(data.itemPosology);
+            $('#btnConfirmEditMedicine', this).data('itemId', data.itemId);
+        });
+
+
+        function reloadPrescribedMedicines() {
+            $.ajax(
+            {
+                type: 'GET',
+                url: '/PrescriptedMedicines/ListMedicinesByAppointment',
+                data: {
+                    appointmentID: @Model.AppointmentID
+                },
+                dataType: 'html',
+                cache: false,
+                async: true,
+                success: function (data) {
+                    $('#MedicinesByAppointment').html(data);
+                }
+            });
         }
-        else {
-            $("#btnAddInline").attr("disabled", true);
+
+        function checkMedicineButton() {
+            if ($("#medicineSelector").val() && $("#posology").val())
+            {
+                $("#btnAddInline").attr("disabled", false);
+            }
+            else {
+                $("#btnAddInline").attr("disabled", true);
+            }
         }
-    }
-
-
-    $('#confirm-delete').on('click', '#btnConfirmDeleteMedicine', function(e) {
-        var $modalDiv = $(e.delegateTarget);
-        var id = $(this).data('itemId');        
-        $modalDiv.addClass('loading');
-        $.post('/PrescriptedMedicines/Delete/' + id).then(function () {
-            $modalDiv.modal('hide').removeClass('loading');
-            reloadPrescribedMedicines();
-        });
-    });
-    $('#confirm-delete').on('show.bs.modal', function(e) {
-        var data = $(e.relatedTarget).data();
-        $('.description', this).text(data.itemDescription);
-        $('#btnConfirmDeleteMedicine', this).data('itemId', data.itemId);
-    });
-
-
-    $('#confirm-edit').on('click', '#btnConfirmEditMedicine', function(e) {
-        var $modalDiv = $(e.delegateTarget);
-        var id = $(this).data('itemId');        
-        $modalDiv.addClass('loading');
-        $.post('/PrescriptedMedicines/Edit/' + id, { posology: $("#posologyModal").val() }).then(function () {
-            $modalDiv.modal('hide').removeClass('loading');
-            reloadPrescribedMedicines();
-        });
-    });
-    $('#confirm-edit').on('show.bs.modal', function(e) {
-        var data = $(e.relatedTarget).data();
-        $('.description', this).text(data.itemDescription);
-        $('#posologyModal', this).val(data.itemPosology);
-        $('#btnConfirmEditMedicine', this).data('itemId', data.itemId);
-    });
-})
+    })
 </script>
 }
