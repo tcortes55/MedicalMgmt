@@ -154,6 +154,8 @@
     <div class="modal" id="modalSucess">
         @{Html.RenderPartial("_Success");}
     </div>
+
+    @*Modals - medicine prescription*@
     <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -193,6 +195,45 @@
     </div>
 
     <hr />
+
+    @*Modals - exam prescription*@
+    <div class="modal fade" id="confirm-delete-exam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Confirmar remoção</h4>
+                </div>
+                <div class="modal-body">
+                    Tem certeza que deseja remover a prescrição? <span class="description"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <input type="submit" value="Remover" class="btn btn-danger btn-ok" id="btnConfirmDeleteExam" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="confirm-edit-exam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Editar prescrição</h4>
+                </div>
+                <div class="modal-body">
+                    Editar a prescrição?
+                    <br />
+                    <span class="description"></span>
+                    @Html.TextArea("Detalhes", new { @class = "form-control", @id = "examDetailsModal", @placeholder = "Detalhes do exame..." })
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" value="Confirmar alterações" class="btn btn-primary btn-ok" id="btnConfirmEditExam" />
+                </div>
+            </div>
+        </div>
+    </div>
     
     <div id="MedicinesByAppointment">
         @{Html.RenderAction("ListMedicinesByAppointment", "PrescriptedMedicines", new { appointmentID = Model.AppointmentID });}
@@ -209,6 +250,26 @@
         </div>
         <div class="col-md-12">
             <button class="btn btn-default" id="btnAddInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
+        </div>
+    </div>
+
+    <hr />
+
+    <div id="ExamsByAppointment">
+        @{Html.RenderAction("ListExamsByAppointment", "PrescriptedExams", new { appointmentID = Model.AppointmentID });}
+    </div>
+    <div class="onlyVisibleWhenOngoing">
+        <div id="addExamPrescription">
+            <select id="examSelector" class="selectpicker" data-live-search="true" title="Selecionar exame...">
+                @foreach (var item in ViewBag.ExamList)
+                {
+                    <option value="@item.ExamID">@item.Name</option>
+                }
+            </select>
+            @Html.TextArea("Detalhes", new { @class = "form-control", @id = "examDetails", @placeholder = "Detalhes do exame..." })
+        </div>
+        <div class="col-md-12">
+            <button class="btn btn-default" id="btnAddExamInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
         </div>
     </div>
 
@@ -239,14 +300,22 @@
 
         $(".selectpicker").selectpicker()
         checkMedicineButton();
+        checkExamButton();
 
         $("#posology").keyup(function () {
             checkMedicineButton();
         });
-
         $("#medicineSelector").on("changed.bs.select", function (e) {
             checkMedicineButton();
         });
+
+        $("#examDetails").keyup(function () {
+            checkExamButton();
+        });
+        $("#examSelector").on("changed.bs.select", function (e) {
+            checkExamButton();
+        });
+
 
         var newAppointment = 0;
         newAppointment = @ViewBag.IsNewAppointment;
@@ -268,6 +337,7 @@
             $(".onlyVisibleWhenOngoing").removeClass("hidden")
             $("#btnUpdatePatientInfo").removeClass("hidden")
             $("#btnAddInline").removeClass("hidden")
+            $("#btnAddExamInline").removeClass("hidden")
         }
 
         $("#btnChangeStatus").click(function() {
@@ -353,6 +423,9 @@
             })
         });
 
+
+        //Prescribed medicines
+
         $("#btnAddInline").click(function () {
             $("#btnAddInline").attr("disabled", true);
             $.ajax({
@@ -409,6 +482,63 @@
         });
 
 
+        // Prescribed exams
+        $("#btnAddExamInline").click(function () {
+            $("#btnAddExamInline").attr("disabled", true);
+            $.ajax({
+                method: "POST",
+                url: "/PrescriptedExams/Add/",
+                data: {
+                    appointmentID : @Model.AppointmentID,
+                    examID : $("#examSelector").val(),
+                    examDetails : $("#examDetails").val()
+                },
+                success: function (){
+                    $("#examSelector").val("default");
+                    $("#examSelector").selectpicker("refresh");
+                    $("#examDetails").val([]);
+                    reloadPrescribedExams();
+                },
+                complete: function (){
+                    checkExamButton();
+                }
+            })
+        });
+
+
+        $('#confirm-delete-exam').on('click', '#btnConfirmDeleteExam', function(e) {
+            var $modalDiv = $(e.delegateTarget);
+            var id = $(this).data('itemId');
+            $modalDiv.addClass('loading');
+            $.post('/PrescriptedExams/Delete/' + id).then(function () {
+                $modalDiv.modal('hide').removeClass('loading');
+                reloadPrescribedExams();
+            });
+        });
+        $('#confirm-delete-exam').on('show.bs.modal', function(e) {
+            var data = $(e.relatedTarget).data();
+            $('.description', this).text(data.itemDescription);
+            $('#btnConfirmDeleteExam', this).data('itemId', data.itemId);
+        });
+
+
+        $('#confirm-edit-exam').on('click', '#btnConfirmEditExam', function(e) {
+            var $modalDiv = $(e.delegateTarget);
+            var id = $(this).data('itemId');
+            $modalDiv.addClass('loading');
+            $.post('/PrescriptedExam/Edit/' + id, { examDetails: $("#examDetailsModal").val() }).then(function () {
+                $modalDiv.modal('hide').removeClass('loading');
+                reloadPrescribedExams();
+            });
+        });
+        $('#confirm-edit-exam').on('show.bs.modal', function(e) {
+            var data = $(e.relatedTarget).data();
+            $('.description', this).text(data.itemDescription);
+            $('#examDetailsModal', this).val(data.itemExamDetails);
+            $('#btnConfirmEditExam', this).data('itemId', data.itemId);
+        });
+
+
         function reloadPrescribedMedicines() {
             $.ajax(
             {
@@ -416,7 +546,7 @@
                 url: '/PrescriptedMedicines/ListMedicinesByAppointment',
                 data: {
                     appointmentID: @Model.AppointmentID
-                },
+                    },
                 dataType: 'html',
                 cache: false,
                 async: true,
@@ -433,6 +563,34 @@
             }
             else {
                 $("#btnAddInline").attr("disabled", true);
+            }
+        }
+
+
+        function reloadPrescribedExams() {
+            $.ajax(
+            {
+                type: 'GET',
+                url: '/PrescriptedExams/ListExamsByAppointment',
+                data: {
+                    appointmentID: @Model.AppointmentID
+                },
+                dataType: 'html',
+                cache: false,
+                async: true,
+                success: function (data) {
+                    $('#ExamsByAppointment').html(data);
+                }
+            });
+        }
+
+        function checkExamButton() {
+            if ($("#examSelector").val() && $("#examDetails").val())
+            {
+                $("#btnAddExamInline").attr("disabled", false);
+            }
+            else {
+                $("#btnAddExamInline").attr("disabled", true);
             }
         }
     })

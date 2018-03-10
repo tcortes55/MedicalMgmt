@@ -17,7 +17,29 @@ namespace MedicalMgmt.Controllers.Business
         // GET: PrescriptedExams
         public ActionResult Index()
         {
+            var prescriptedExams = db.PrescriptedExams.Include(p => p.Exam).Include(p => p.Physician);
             return View(db.PrescriptedExams.ToList());
+        }
+
+        // GET: PrescriptedExams/ListExamsByAppointment/5
+        public ActionResult ListExamsByAppointment(int? appointmentID)
+        {
+            if (appointmentID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Appointment appointment = db.Appointments.Find(appointmentID);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.AppointmentStatusID = appointment.StatusID;
+            var examsByAppointment = db.PrescriptedExams
+                                           .Where(x => x.AppointmentID == appointmentID)
+                                           .Include(p => p.Exam)
+                                           .ToList();
+            return PartialView(examsByAppointment);
         }
 
         // GET: PrescriptedExams/Details/5
@@ -56,6 +78,36 @@ namespace MedicalMgmt.Controllers.Business
             }
 
             return View(prescriptedExam);
+        }
+
+        // POST: PrescriptedExams/Add
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        public ActionResult Add(int? appointmentID, int? examID, string examDetails)
+        {
+            if (appointmentID == null || examID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            db.Configuration.ProxyCreationEnabled = false;
+            Appointment appointment = db.Appointments.Find(appointmentID);
+            Exam exam = db.Exams.Find(examID);
+            if (appointment == null || exam == null)
+            {
+                return HttpNotFound();
+            }
+            PrescriptedExam prescriptedExam = new PrescriptedExam();
+            prescriptedExam.AppointmentID = appointment.AppointmentID;
+            prescriptedExam.ExamID = exam.ExamID;
+            prescriptedExam.PatientID = appointment.PatientID;
+            prescriptedExam.PhysicianID = appointment.PhysicianID;
+            prescriptedExam.Details = examDetails;
+
+            db.PrescriptedExams.Add(prescriptedExam);
+            db.SaveChanges();
+
+            return View();
         }
 
         // GET: PrescriptedExams/Edit/5

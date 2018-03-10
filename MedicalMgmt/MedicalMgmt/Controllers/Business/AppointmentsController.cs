@@ -45,6 +45,7 @@ namespace MedicalMgmt.Controllers.Business
 
             ViewBag.IsNewAppointment = TempData["newAppointment"] ?? 0;
             ViewBag.MedicineList = db.Medicines.ToList();
+            ViewBag.ExamList = db.Exams.ToList();
 
             return View(appointment);
         }
@@ -240,7 +241,9 @@ namespace MedicalMgmt.Controllers.Business
 
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null)
-                                                       && (a.PlannedStartDate < DateTime.Now)
+                                                       && (
+                                                            a.StatusID == Constants.SS_AP_FINISHED
+                                                        )
                                                      );
 
             return PartialView(appointments.OrderByDescending(x => x.PlannedStartDate).ToList());
@@ -253,7 +256,12 @@ namespace MedicalMgmt.Controllers.Business
 
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null)
-                                                       && (a.PlannedStartDate > DateTime.Now)
+                                                       && (a.PlannedStartDate > DateTime.Today)
+                                                       && (
+                                                            a.StatusID == Constants.SS_AP_PLANNED ||
+                                                            a.StatusID == Constants.SS_AP_PATIENT_WAITING ||
+                                                            a.StatusID == Constants.SS_AP_ONGOING
+                                                        )
                                                        && (a.StatusID != Constants.SS_AP_CANCELED)
                                                      );
 
