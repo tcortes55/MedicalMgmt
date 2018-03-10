@@ -34,6 +34,7 @@ namespace MedicalMgmt.Controllers.Business
                 return HttpNotFound();
             }
 
+            ViewBag.AppointmentStatusID = appointment.StatusID;
             var medicinesByAppointment = db.PrescriptedMedicines
                                            .Where(x => x.AppointmentID == appointmentID)
                                            .Include(p => p.Medicine)
