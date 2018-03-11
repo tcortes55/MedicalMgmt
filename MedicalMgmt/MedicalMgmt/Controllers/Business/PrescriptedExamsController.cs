@@ -84,7 +84,7 @@ namespace MedicalMgmt.Controllers.Business
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Add(int? appointmentID, int? examID, string examDetails)
+        public ActionResult Add(int? appointmentID, int? examID, string examDetails, bool examSend)
         {
             if (appointmentID == null || examID == null)
             {
@@ -103,6 +103,7 @@ namespace MedicalMgmt.Controllers.Business
             prescriptedExam.PatientID = appointment.PatientID;
             prescriptedExam.PhysicianID = appointment.PhysicianID;
             prescriptedExam.Details = examDetails;
+            prescriptedExam.SendToPacient = examSend;
 
             db.PrescriptedExams.Add(prescriptedExam);
             db.SaveChanges();
@@ -154,7 +155,7 @@ namespace MedicalMgmt.Controllers.Business
         [HttpPost]
         //[ValidateAntiForgeryToken]
         //public ActionResult Edit([Bind(Include = "PrescriptedMedicineID,AppointmentID,PhysicianID,PatientID,MedicineID,Posology")] PrescriptedMedicine prescriptedMedicine)
-        public ActionResult Edit(int? id, string examDetails)
+        public ActionResult Edit(int? id, string examDetails, bool examSend)
         {
             if (id == null)
             {
@@ -167,6 +168,7 @@ namespace MedicalMgmt.Controllers.Business
             }
 
             prescriptedExam.Details = examDetails;
+            prescriptedExam.SendToPacient = examSend;
 
             db.Entry(prescriptedExam).State = EntityState.Modified;
             db.SaveChanges();

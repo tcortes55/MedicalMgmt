@@ -226,6 +226,8 @@
                     <br />
                     <span class="description"></span>
                     @Html.TextArea("Detalhes", new { @class = "form-control", @id = "examDetailsModal", @placeholder = "Detalhes do exame..." })
+                    @Html.CheckBox("Enviar para o paciente", false, new { @class = "", @id = "examSendModal" })
+                    <label for="examSendModal">Enviar para o paciente</label>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -267,6 +269,8 @@
                 }
             </select>
             @Html.TextArea("Detalhes", new { @class = "form-control", @id = "examDetails", @placeholder = "Detalhes do exame..." })
+            @Html.CheckBox("Enviar para o paciente", false, new { @class = "", @id = "examSend" })
+            <label for="examSend">Enviar para o paciente</label>
         </div>
         <div class="col-md-12">
             <button class="btn btn-default" id="btnAddExamInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
@@ -491,12 +495,14 @@
                 data: {
                     appointmentID : @Model.AppointmentID,
                     examID : $("#examSelector").val(),
-                    examDetails : $("#examDetails").val()
+                    examDetails : $("#examDetails").val(),
+                    examSend : $("#examSend").val()
                 },
                 success: function (){
                     $("#examSelector").val("default");
                     $("#examSelector").selectpicker("refresh");
                     $("#examDetails").val([]);
+                    $("#examSend").val([]);
                     reloadPrescribedExams();
                 },
                 complete: function (){
@@ -526,7 +532,15 @@
             var $modalDiv = $(e.delegateTarget);
             var id = $(this).data('itemId');
             $modalDiv.addClass('loading');
-            $.post('/PrescriptedExams/Edit/' + id, { examDetails: $("#examDetailsModal").val() }).then(function () {
+            
+            var a1 = $('#examDetailsModal').val() ;
+            var a2 = $('#examSendModal').prop('checked');
+
+            $.post('/PrescriptedExams/Edit/' + id,
+                    { 
+                        examDetails: a1,
+                        examSend: a2
+                    }).then(function () {
                 $modalDiv.modal('hide').removeClass('loading');
                 reloadPrescribedExams();
             });
@@ -535,6 +549,7 @@
             var data = $(e.relatedTarget).data();
             $('.description', this).text(data.itemDescription);
             $('#examDetailsModal', this).val(data.itemExamDetails);
+            $('#examSendModal', this).prop('checked', (data.itemExamSend.toLowerCase() === 'true' ));
             $('#btnConfirmEditExam', this).data('itemId', data.itemId);
         });
 
