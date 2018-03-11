@@ -10,12 +10,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Details)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Result)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ResultDate)
-            </th>
+            @if (@ViewBag.AppointmentStatusID == MedicalMgmt.General.Constants.SS_AP_FINISHED)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Result)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ResultDate)
+                </th>
+            }
             <th>
                 @Html.DisplayNameFor(model => model.SendToPacient)
             </th>
@@ -34,12 +37,15 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Details)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Result)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ResultDate)
-                </td>
+                @if (@ViewBag.AppointmentStatusID == MedicalMgmt.General.Constants.SS_AP_FINISHED)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Result)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ResultDate)
+                    </td>
+                }
                 <td>
                     @Html.DisplayFor(modelItem => item.SendToPacient)
                 </td>

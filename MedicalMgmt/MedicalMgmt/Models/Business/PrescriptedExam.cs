@@ -29,16 +29,20 @@ namespace MedicalMgmt.Models
 
         [Required]
         [ForeignKey("Exam")]
+        [Display(Name = "Exame")]
         public int ExamID { get; set; }
         public virtual Exam Exam { get; set; }
 
         [StringLength(500)]
+        [Display(Name = "Detalhes")]
         public string Details { get; set; }
 
         [DataType(DataType.DateTime)]
+        [Display(Name = "Data")]
         public DateTime? ResultDate { get; set; }
 
         [StringLength(500)]
+        [Display(Name = "Resultado")]
         public string Result { get; set; }
 
         [Required]

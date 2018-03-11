@@ -34,6 +34,7 @@ namespace MedicalMgmt.Models
 
         [Required]
         [StringLength(300)]
+        [Display(Name = "Posologia")]
         public string Posology { get; set; }
     }
 }
