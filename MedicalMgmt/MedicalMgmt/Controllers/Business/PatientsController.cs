@@ -123,7 +123,8 @@ namespace MedicalMgmt.Controllers.Business
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PatientID,FullName,BirthDate,Telephone,Email,Rg,Cpf,Address,Allergies,FamilyMedicalHistory,LongTermMedication,RegisterDate,Active")] Patient patient)
+        //public ActionResult Edit([Bind(Include = "PatientID,FullName,BirthDate,Telephone,Email,Rg,Cpf,Address,Allergies,FamilyMedicalHistory,LongTermMedication,RegisterDate,Active")] Patient patient)
+        public ActionResult Edit([Bind(Include = "PatientID,FullName,BirthDate,Telephone,Email,Rg,Cpf,Address,Active")] Patient patient)
         {
             if (ModelState.IsValid)
             {

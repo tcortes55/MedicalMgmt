@@ -360,31 +360,31 @@ namespace MedicalMgmt.Controllers.Business
             return View(appointment);
         }
 
-        // GET: Appointments/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Appointment appointment = db.Appointments.Find(id);
-            if (appointment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(appointment);
-        }
+        //// GET: Appointments/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Appointment appointment = db.Appointments.Find(id);
+        //    if (appointment == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(appointment);
+        //}
 
-        // POST: Appointments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Appointment appointment = db.Appointments.Find(id);
-            db.Appointments.Remove(appointment);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: Appointments/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Appointment appointment = db.Appointments.Find(id);
+        //    db.Appointments.Remove(appointment);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {
