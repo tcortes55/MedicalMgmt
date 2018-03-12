@@ -66,29 +66,38 @@
             @Html.DisplayFor(model => model.PlannedEndDate)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PatientArrivingDate)
-        </dt>
+        @if (Model.PatientArrivingDate != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.PatientArrivingDate)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PatientArrivingDate)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.PatientArrivingDate)
+            </dd>
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ActualStartDate)
-        </dt>
+        @if (Model.ActualStartDate != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.ActualStartDate)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ActualStartDate)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ActualStartDate)
+            </dd>
+        }
+        
+        @if (Model.ActualEndDate != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.ActualEndDate)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ActualEndDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ActualEndDate)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ActualEndDate)
+            </dd>
+        }
 
         <dt>
             @Html.DisplayNameFor(model => model.Status.StatusDescription)

@@ -234,37 +234,38 @@ namespace MedicalMgmt.Controllers.Business
             {
                 db.Entry(physician).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = physician.PhysicianID });
             }
             ViewBag.PhysicianID = new SelectList(db.AppUsers, "AppUserID", "Username", physician.PhysicianID);
             return View(physician);
         }
 
         // GET: Physicians/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Physician physician = db.Physicians.Find(id);
-            if (physician == null)
-            {
-                return HttpNotFound();
-            }
-            return View(physician);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Physician physician = db.Physicians.Find(id);
+        //    if (physician == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(physician);
+        //}
 
-        // POST: Physicians/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Physician physician = db.Physicians.Find(id);
-            db.Physicians.Remove(physician);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: Physicians/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Physician physician = db.Physicians.Find(id);
+        //    db.Physicians.Remove(physician);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {

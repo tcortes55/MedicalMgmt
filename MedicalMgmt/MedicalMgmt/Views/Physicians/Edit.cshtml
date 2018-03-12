@@ -50,7 +50,8 @@
 }
 
 <div>
-    @Html.ActionLink("Voltar", "Index")
+    @*@Html.ActionLink("Voltar", "Index")*@
+    @Html.ActionLink("Voltar", "Details", new { id = Model.PhysicianID })
 </div>
 
 @section Scripts {
