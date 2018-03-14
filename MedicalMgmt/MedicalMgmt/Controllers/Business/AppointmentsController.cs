@@ -234,13 +234,60 @@ namespace MedicalMgmt.Controllers.Business
             return PartialView(appointments.OrderByDescending(x => x.PlannedStartDate).ToList());
         }
 
-        public ActionResult ListPrevious(int? patientID, int? physicianID)
+        // GET: Appointments
+        public ActionResult ListAll()
         {
+            //var appointments = db.Appointments.Include(a => a.Patient).Include(a => a.Physician).Include(a => a.AppUser);
+            //return View(appointments.ToList());
+            return View();
+        }
+
+        // GET: Appointments/ListByDate/5
+        // Lists appointments from the specified interval
+        public ActionResult ListByDate(int? patientID, int? physicianID, DateTime startDate, DateTime endDate)
+        {
+            if (physicianID == null && patientID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (startDate == null || endDate == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if ((endDate - startDate).TotalDays > 365)
+            {
+                //TODO: display message informing user that it's not possible to query for more than 365 days
+            }
+
             ViewBag.PatientID = patientID;
             ViewBag.PhysicianID = physicianID;
 
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null)
+                                                       && (a.PlannedStartDate > startDate)
+                                                       && (a.PlannedStartDate < endDate));
+
+            return PartialView(appointments.OrderByDescending(x => x.PlannedStartDate).ToList());
+        }
+
+        // GET: Appointments/ListPrevious/5
+        // Lists appointments for the previous 30 days
+        public ActionResult ListPrevious(int? patientID, int? physicianID)
+        {
+            if (physicianID == null && patientID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ViewBag.PatientID = patientID;
+            ViewBag.PhysicianID = physicianID;
+
+            var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
+                                                       && (a.PhysicianID == physicianID || physicianID == null)
+                                                       && (a.PlannedStartDate > DateTime.Today.AddDays(-30))
+                                                       && (a.PlannedStartDate < DateTime.Today.AddDays(1))
                                                        && (
                                                             a.StatusID == Constants.SS_AP_FINISHED
                                                         )
@@ -249,14 +296,22 @@ namespace MedicalMgmt.Controllers.Business
             return PartialView(appointments.OrderByDescending(x => x.PlannedStartDate).ToList());
         }
 
+        // GET: Appointments/ListFuture/5
+        // Lists future appointments (appointments are only allowed to be scheduled up to 30 days in advance)
         public ActionResult ListFuture(int? patientID, int? physicianID)
         {
+            if (physicianID == null && patientID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             ViewBag.PatientID = patientID;
             ViewBag.PhysicianID = physicianID;
 
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null)
-                                                       && (a.PlannedStartDate > DateTime.Today)
+                                                       //&& (a.PlannedStartDate > DateTime.Today)
+                                                       //&& (a.PlannedStartDate < DateTime.Today.AddDays(30))
                                                        && (
                                                             a.StatusID == Constants.SS_AP_PLANNED ||
                                                             a.StatusID == Constants.SS_AP_PATIENT_WAITING ||

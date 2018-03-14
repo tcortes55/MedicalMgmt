@@ -29,5 +29,15 @@ namespace MedicalMgmt.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<MedicalMgmt.Models.Appointment> Appointments { get; set; }
+
+        public System.Data.Entity.DbSet<MedicalMgmt.Models.AppUser> AppUsers { get; set; }
+
+        public System.Data.Entity.DbSet<MedicalMgmt.Models.Patient> Patients { get; set; }
+
+        public System.Data.Entity.DbSet<MedicalMgmt.Models.Physician> Physicians { get; set; }
+
+        public System.Data.Entity.DbSet<MedicalMgmt.Models.Status> Status { get; set; }
     }
 }

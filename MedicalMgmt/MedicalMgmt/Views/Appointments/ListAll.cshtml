@@ -1,0 +1,93 @@
+﻿@model IEnumerable<MedicalMgmt.Models.Appointment>
+
+@{
+    ViewBag.Title = "ListAll";
+}
+
+<h2>ListAll</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AppUser.AspNetUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Patient.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Physician.Expertise)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status.StatusDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegistrationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedStartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedEndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Anamnesis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientArrivingDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActualStartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActualEndDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppUser.AspNetUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Patient.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Physician.Expertise)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status.StatusDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RegistrationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedStartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedEndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Anamnesis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PatientArrivingDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActualStartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActualEndDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AppointmentID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AppointmentID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AppointmentID })
+        </td>
+    </tr>
+}
+
+</table>
