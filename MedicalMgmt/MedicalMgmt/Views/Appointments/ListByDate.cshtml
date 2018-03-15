@@ -1,0 +1,46 @@
+﻿@model IEnumerable<MedicalMgmt.Models.Appointment>
+
+<table class="table">
+    <tr>
+        <th>
+            Paciente
+        </th>
+        <th>
+            Médico(a)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Physician.Expertise)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status.StatusDescription)
+        </th>
+        <th>
+            Data
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Patient.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Physician.AppUser.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Physician.Expertise)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status.StatusDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedStartDate)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.AppointmentID })
+        </td>
+    </tr>
+}
+
+</table>

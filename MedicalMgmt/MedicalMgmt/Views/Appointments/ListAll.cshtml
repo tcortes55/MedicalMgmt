@@ -1,93 +1,98 @@
 ﻿@model IEnumerable<MedicalMgmt.Models.Appointment>
 
 @{
-    ViewBag.Title = "ListAll";
+    ViewBag.Title = "Consultas";
 }
 
-<h2>ListAll</h2>
+<h2>Consultas</h2>
+<h6>Selecionar paciente e/ou médico(a)</h6>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.AppUser.AspNetUserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Patient.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Physician.Expertise)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status.StatusDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RegistrationDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PlannedStartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PlannedEndDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Anamnesis)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PatientArrivingDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ActualStartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ActualEndDate)
-        </th>
-        <th></th>
-    </tr>
+<select id="patientSelector" class="selectpicker" data-live-search="true" title="Selecionar paciente...">
+    @foreach (var item in ViewBag.PatientList)
+    {
+        <option value="@item.PatientID">@item.FullName</option>
+    }
+</select>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppUser.AspNetUserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Patient.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Physician.Expertise)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status.StatusDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RegistrationDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PlannedStartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PlannedEndDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Anamnesis)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PatientArrivingDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActualStartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActualEndDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AppointmentID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AppointmentID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AppointmentID })
-        </td>
-    </tr>
+<select id="physicianSelector" class="selectpicker" data-live-search="true" title="Selecionar médico...">
+    @foreach (var item in ViewBag.PhysicianList)
+    {
+        <option value="@item.PhysicianID">@item.AppUser.FullName</option>
+    }
+</select>
+
+<h6>Período máximo de busca: 365 dias</h6>
+@Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker", @placeholder = "Data início" } })
+@Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker", @placeholder = "Data fim" } })
+@Html.Hidden("hiddenStartDate", "", new { @id = "hiddenStartDate" })
+@Html.Hidden("hiddenEndDate", "", new { @id = "hiddenEndDate" })
+<input type="submit" value="Pesquisar" class="btn btn-default" id="btnSearch" />
+
+<div id="queryResults"></div>
+
+@Styles.Render("~/Content/bootstrap-select.min.css")
+@section scripts{
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" />
+<script src="~/Scripts/jquery.datetimepicker.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $(".selectpicker").selectpicker()
+
+        $(function () {
+            $('#date_timepicker_start').datetimepicker({
+                format: 'd/m/Y',
+                onShow: function (ct) {
+                    this.setOptions({
+                        maxDate: $('#date_timepicker_end').val() ? $('#date_timepicker_end').val() : false
+                    })
+                },
+                onSelectDate: function (ct) {
+                    $("#hiddenStartDate").val(ct.dateFormat('Y/m/d'))
+                },
+                timepicker: false,
+                lang: 'pt-BR'
+            });
+            $('#date_timepicker_end').datetimepicker({
+                format: 'd/m/Y',
+                onShow: function (ct) {
+                    this.setOptions({
+                        minDate: $('#date_timepicker_start').val() ? $('#date_timepicker_start').val() : false
+                    })
+                },
+                onSelectDate: function (ct) {
+                    $("#hiddenEndDate").val(ct.dateFormat('Y/m/d'))
+                },
+                timepicker: false,
+                lang: 'pt-BR'
+            });
+        });
+
+        $("#btnSearch").click(function () {
+            //var id = $(this).attr("id");
+
+            $.ajax(
+                {
+                    type: "GET",
+                    data: {
+                        physicianID: $("#physicianSelector").val(),
+                        patientID: $("#patientSelector").val(),
+                        startDate: $("#hiddenStartDate").val(),
+                        endDate: $("#hiddenEndDate").val()
+                    },
+                    dataType: "html",
+                    url: "/Appointments/ListByDate/",
+                    success: function (result) {
+                        //alert("Success");
+                        $("#queryResults").html(result);
+                    },
+
+                    error: function (error) {
+                        alert("Fail");
+                    }
+                });
+        });
+    })
+</script>
 }
-
-</table>
