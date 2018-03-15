@@ -45,7 +45,8 @@
                 format: 'd/m/Y',
                 onShow: function (ct) {
                     this.setOptions({
-                        maxDate: $('#date_timepicker_end').val() ? $('#date_timepicker_end').val() : false
+                        maxDate: $('#date_timepicker_end').val() ? $('#date_timepicker_end').val() : false,
+                        formatDate: 'd/m/Y'
                     })
                 },
                 onSelectDate: function (ct) {
@@ -58,7 +59,8 @@
                 format: 'd/m/Y',
                 onShow: function (ct) {
                     this.setOptions({
-                        minDate: $('#date_timepicker_start').val() ? $('#date_timepicker_start').val() : false
+                        minDate: $('#date_timepicker_start').val() ? $('#date_timepicker_start').val() : false,
+                        formatDate: 'd/m/Y'
                     })
                 },
                 onSelectDate: function (ct) {
