@@ -399,6 +399,8 @@
     <Content Include="Views\PrescriptedExams\ListExamsByAppointment.cshtml" />
     <Content Include="Views\Appointments\ListAll.cshtml" />
     <Content Include="Views\Appointments\ListByDate.cshtml" />
+    <Content Include="Views\PrescriptedExams\ListAll.cshtml" />
+    <Content Include="Views\PrescriptedExams\ListByDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

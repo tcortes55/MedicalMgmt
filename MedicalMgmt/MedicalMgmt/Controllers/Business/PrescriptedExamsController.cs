@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MedicalMgmt.Models;
+using System.Globalization;
 
 namespace MedicalMgmt.Controllers.Business
 {
@@ -40,6 +41,60 @@ namespace MedicalMgmt.Controllers.Business
                                            .Include(p => p.Exam)
                                            .ToList();
             return PartialView(examsByAppointment);
+        }
+
+        // GET: PrescriptedExams/ListAll
+        public ActionResult ListAll()
+        {
+            //var appointments = db.Appointments.Include(a => a.Patient).Include(a => a.Physician).Include(a => a.AppUser);
+            //return View(appointments.ToList());
+            ViewBag.PhysicianList = db.Physicians.Include(a => a.AppUser).ToList();
+            ViewBag.PatientList = db.Patients.ToList();
+            return View();
+        }
+
+        // GET: PrescriptedExams/ListByDate/5
+        // Lists prescribed exams from the specified interval
+        public ActionResult ListByDate(int? patientID, int? physicianID, string startDate, string endDate)
+        {
+            var lStartDate = DateTime.ParseExact(startDate, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var lEndDate = DateTime.ParseExact(endDate, "yyyy/MM/dd", CultureInfo.InvariantCulture).AddDays(1);
+
+            if (physicianID == null && patientID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (lStartDate == null || lEndDate == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if ((lEndDate - lStartDate).TotalDays > 365)
+            {
+                //TODO: display message informing user that it's not possible to query for more than 365 days
+            }
+
+            ViewBag.PatientID = patientID;
+            ViewBag.PhysicianID = physicianID;
+
+            //var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
+            //                                           && (a.PhysicianID == physicianID || physicianID == null)
+            //                                           && (a.PlannedStartDate > startDate)
+            //                                           && (a.PlannedStartDate < endDate));
+            var prescribedExams = db.PrescriptedExams.Where(a => (a.Appointment.PlannedStartDate > lStartDate)
+                                                       && (a.Appointment.PlannedStartDate < lEndDate));
+
+            if (patientID != null)
+            {
+                prescribedExams = prescribedExams.Where(a => a.PatientID == patientID);
+            }
+            if (physicianID != null)
+            {
+                prescribedExams = prescribedExams.Where(a => a.PhysicianID == physicianID);
+            }
+
+            return PartialView(prescribedExams.OrderByDescending(x => x.Appointment.PlannedStartDate).ToList());
         }
 
         // GET: PrescriptedExams/Details/5

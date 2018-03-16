@@ -1,0 +1,124 @@
+﻿@model IEnumerable<MedicalMgmt.Models.PrescriptedExam>
+
+@{
+    ViewBag.Title = "Exames prescritos";
+}
+
+<h2>Exames prescritos</h2>
+<h6>Selecionar paciente e/ou médico(a)</h6>
+
+<select id="patientSelector" class="selectpicker filter" data-live-search="true" title="Selecionar paciente...">
+    @foreach (var item in ViewBag.PatientList)
+    {
+        <option value="@item.PatientID">@item.FullName</option>
+    }
+</select>
+
+<select id="physicianSelector" class="selectpicker filter" data-live-search="true" title="Selecionar médico...">
+    @foreach (var item in ViewBag.PhysicianList)
+    {
+        <option value="@item.PhysicianID">@item.AppUser.FullName</option>
+    }
+</select>
+
+<h6>Período máximo de busca: 365 dias</h6>
+@Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker filter", @placeholder = "Data prescrição - início" } })
+@Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker filter", @placeholder = "Data prescrição - fim" } })
+@Html.Hidden("hiddenStartDate", "", new { @id = "hiddenStartDate" })
+@Html.Hidden("hiddenEndDate", "", new { @id = "hiddenEndDate" })
+<input type="submit" value="Pesquisar" class="btn btn-default" id="btnSearch" />
+
+<div id="queryResults"></div>
+
+@Styles.Render("~/Content/bootstrap-select.min.css")
+@section scripts{
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" />
+<script src="~/Scripts/jquery.datetimepicker.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#btnSearch").prop("disabled", true);
+
+        $(".filter").change(function () {
+            if ($('#date_timepicker_start').val()
+                && $('#date_timepicker_end').val()
+                && ($("#patientSelector").val() || $("#physicianSelector").val()))
+            {
+                $("#btnSearch").prop("disabled", false);
+            }
+            else
+            {
+                $("#btnSearch").prop("disabled", true);
+            }
+        });
+
+        function addDays(date, days) {
+            var dateVector = date.split('/');
+            var result = new Date(dateVector[2], dateVector[1]-1, dateVector[0]);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
+
+        $(".selectpicker").selectpicker()
+
+        $(function () {
+            $('#date_timepicker_start').datetimepicker({
+                format: 'd/m/Y',
+                onShow: function (ct) {
+                    this.setOptions({
+                        minDate: $('#date_timepicker_end').val() ? addDays($('#date_timepicker_end').val(), -365) : false,
+                        maxDate: $('#date_timepicker_end').val() ? $('#date_timepicker_end').val() : false,
+                        formatDate: 'd/m/Y'
+                    })
+                },
+                onSelectDate: function (ct) {
+                    $("#hiddenStartDate").val(ct.dateFormat('Y/m/d'))
+                },
+                timepicker: false,
+                lang: 'pt-BR'
+            });
+            $('#date_timepicker_end').datetimepicker({
+                format: 'd/m/Y',
+                onShow: function (ct) {
+                    this.setOptions({
+                        minDate: $('#date_timepicker_start').val() ? $('#date_timepicker_start').val() : false,
+                        maxDate: $('#date_timepicker_start').val() ? addDays($('#date_timepicker_start').val(), 365) : false,
+                        formatDate: 'd/m/Y'
+                    })
+                },
+                onSelectDate: function (ct) {
+                    $("#hiddenEndDate").val(ct.dateFormat('Y/m/d'))
+                },
+                timepicker: false,
+                lang: 'pt-BR'
+            });
+        });
+
+        $("#btnSearch").click(function () {
+            //var id = $(this).attr("id");
+
+            $.ajax(
+                {
+                    type: "GET",
+                    data: {
+                        physicianID: $("#physicianSelector").val(),
+                        patientID: $("#patientSelector").val(),
+                        startDate: $("#hiddenStartDate").val(),
+                        endDate: $("#hiddenEndDate").val()
+                    },
+                    dataType: "html",
+                    url: "/PrescriptedExams/ListByDate/",
+                    success: function (result) {
+                        //alert("Success");
+                        $("#queryResults").html(result);
+                    },
+
+                    error: function (error) {
+                        alert("Fail");
+                    }
+                });
+        });
+    })
+</script>
+}
