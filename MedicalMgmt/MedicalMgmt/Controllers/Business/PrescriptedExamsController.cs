@@ -190,6 +190,7 @@ namespace MedicalMgmt.Controllers.Business
             prescriptedExam.PhysicianID = appointment.PhysicianID;
             prescriptedExam.Details = examDetails;
             prescriptedExam.SendToPacient = examSend;
+            prescriptedExam.StatusID = Constants.SS_EX_REQUESTED;
 
             db.PrescriptedExams.Add(prescriptedExam);
             db.SaveChanges();

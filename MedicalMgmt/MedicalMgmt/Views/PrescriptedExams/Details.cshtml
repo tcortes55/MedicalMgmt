@@ -58,7 +58,7 @@
         <dd>
             @Html.DisplayFor(model => model.Details)
         </dd>
-        @if (!String.IsNullOrEmpty(Model.Result))
+        @if (Model.StatusID == MedicalMgmt.General.Constants.SS_EX_FINISHED)
         {
             <dt>
                 @Html.DisplayNameFor(model => model.Result)
@@ -96,24 +96,30 @@
     </dl>
 </div>
 
-
-<div class="form-group">
-    @Html.LabelFor(model => model.Result, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-12" data-toggle="tooltip" title="">
-        @Html.TextAreaFor(model => model.Result, new { @class = "form-control", @id = "examResult" })
-        @Html.ValidationMessageFor(model => model.Result, "", new { @class = "text-danger" })
+@if (Model.StatusID == MedicalMgmt.General.Constants.SS_EX_REQUESTED)
+{
+    <div class="form-group">
+        @Html.LabelFor(model => model.Result, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-12" data-toggle="tooltip" title="">
+            @Html.TextAreaFor(model => model.Result, new { @class = "form-control", @id = "examResult" })
+            @Html.ValidationMessageFor(model => model.Result, "", new { @class = "text-danger" })
+        </div>
     </div>
-</div>
-<div class="form-group">
-    <div class="col-md-12">
-        <button class="btn btn-primary" id="btnSaveExamResult">Salvar resultado <i class="glyphicon glyphicon-floppy-disk"></i></button>
+    <div class="form-group">
+        <div class="col-md-12">
+            <button class="btn btn-primary" id="btnSaveExamResult">Salvar resultado <i class="glyphicon glyphicon-floppy-disk"></i></button>
+        </div>
     </div>
-</div>
+}
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.PrescriptedExamID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<div class="modal" id="modalSucess">
+    @{Html.RenderPartial("_Success");}
+</div>
 
 @section scripts{
 <script src="~/Scripts/bootstrap-select.min.js"></script>
@@ -132,6 +138,10 @@
                     $("#modalSucess").modal();
                 }
             })
+        });
+
+        $(".refresh").click(function () {
+            location.reload();
         });
 
     })
