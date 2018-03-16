@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MedicalMgmt.Models;
+using MedicalMgmt.General;
 using System.Globalization;
 
 namespace MedicalMgmt.Controllers.Business
@@ -95,6 +96,36 @@ namespace MedicalMgmt.Controllers.Business
             }
 
             return PartialView(prescribedExams.OrderByDescending(x => x.Appointment.PlannedStartDate).ToList());
+        }
+
+        // POST: PrescriptedExams/SaveExamResult/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult SaveExamResult(int? prescriptedExamID, string examResult)
+        {
+            if (prescriptedExamID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PrescriptedExam prescriptedExam = db.PrescriptedExams.Find(prescriptedExamID);
+            if (prescriptedExam == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                prescriptedExam.Result = examResult;
+                prescriptedExam.ResultDate = DateTime.Now;
+                prescriptedExam.StatusID = Constants.SS_EX_FINISHED;
+                db.Entry(prescriptedExam).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = prescriptedExam.PrescriptedExamID});
+            }
+
+            return View(prescriptedExam);
         }
 
         // GET: PrescriptedExams/Details/5

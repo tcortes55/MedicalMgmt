@@ -1,45 +1,54 @@
 ﻿@model MedicalMgmt.Models.PrescriptedExam
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes";
 }
 
-<h2>Details</h2>
+<h2>Detalhes</h2>
 
 <div>
-    <h4>PrescriptedExam</h4>
+    <h4>Exame prescrito</h4>
     <hr />
     <dl class="dl-horizontal">
+
         <dt>
-            @Html.DisplayNameFor(model => model.AppointmentID)
+            Paciente
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AppointmentID)
+            @Html.DisplayFor(model => model.Patient.FullName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PhysicianID)
+            Médico(a)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PhysicianID)
+            @Html.DisplayFor(model => model.Physician.AppUser.FullName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PatientID)
+            @Html.DisplayNameFor(model => model.Physician.Expertise)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PatientID)
+            @Html.DisplayFor(model => model.Physician.Expertise)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ExamID)
+            Data da prescrição
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ExamID)
+            @Html.DisplayFor(model => model.Appointment.PlannedStartDate)
+        </dd>
+
+        <dt>
+            Exame
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Exam.Name)
         </dd>
 
         <dt>
@@ -49,22 +58,24 @@
         <dd>
             @Html.DisplayFor(model => model.Details)
         </dd>
+        @if (!String.IsNullOrEmpty(Model.Result))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Result)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ResultDate)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Result)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ResultDate)
-        </dd>
+            <dt>
+                Data do resultado
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Result)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Result)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ResultDate)
+            </dd>
+        }
 
         <dt>
             @Html.DisplayNameFor(model => model.SendToPacient)
@@ -74,17 +85,55 @@
             @Html.DisplayFor(model => model.SendToPacient)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.StatusID)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.StatusID)
-        </dd>
+        </dd>*@
 
     </dl>
 </div>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Result, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-12" data-toggle="tooltip" title="">
+        @Html.TextAreaFor(model => model.Result, new { @class = "form-control", @id = "examResult" })
+        @Html.ValidationMessageFor(model => model.Result, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-12">
+        <button class="btn btn-primary" id="btnSaveExamResult">Salvar resultado <i class="glyphicon glyphicon-floppy-disk"></i></button>
+    </div>
+</div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.PrescriptedExamID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@section scripts{
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#btnSaveExamResult").click(function () {
+            $.ajax({
+                method: "POST",
+                url: "/PrescriptedExams/SaveExamResult/",
+                data: {
+                    prescriptedExamID : @Model.PrescriptedExamID,
+                    examResult: $("#examResult").val()
+                },
+                success: function () {
+                    $("#modalSucess").modal();
+                }
+            })
+        });
+
+    })
+</script>
+}
