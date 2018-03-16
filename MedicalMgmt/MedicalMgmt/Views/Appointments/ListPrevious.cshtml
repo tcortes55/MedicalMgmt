@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MedicalMgmt.Models.Appointment>
 
 <h4>Consultas anteriores</h4>
-<h6>(Últimos 30 dias; para ver um período maior, clique aqui)</h6>
+<h6>(Últimos 30 dias; para ver um período maior, @Html.ActionLink("clique aqui", "ListAll", "Appointments"))</h6>
 <table class="table">
     <tr>
         @if (ViewBag.PhysicianID == null)

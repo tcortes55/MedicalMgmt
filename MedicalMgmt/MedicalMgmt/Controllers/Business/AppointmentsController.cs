@@ -299,11 +299,13 @@ namespace MedicalMgmt.Controllers.Business
 
             ViewBag.PatientID = patientID;
             ViewBag.PhysicianID = physicianID;
+            var begin = DateTime.Today.AddDays(-30);
+            var end = DateTime.Today.AddDays(1);
 
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null)
-                                                       && (a.PlannedStartDate > DateTime.Today.AddDays(-30))
-                                                       && (a.PlannedStartDate < DateTime.Today.AddDays(1))
+                                                       && (a.PlannedStartDate > begin)
+                                                       && (a.PlannedStartDate < end)
                                                        && (
                                                             a.StatusID == Constants.SS_AP_FINISHED
                                                         )
@@ -326,7 +328,7 @@ namespace MedicalMgmt.Controllers.Business
 
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null)
-                                                       //&& (a.PlannedStartDate > DateTime.Today)
+                                                       && (a.PlannedStartDate > DateTime.Today)
                                                        //&& (a.PlannedStartDate < DateTime.Today.AddDays(30))
                                                        && (
                                                             a.StatusID == Constants.SS_AP_PLANNED ||
