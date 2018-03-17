@@ -4,14 +4,15 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Pacientes";
+    ViewBag.Title = "Marcar consulta - Selecionar pagiente";
 }
 
-<h2>Pacientes</h2>
+<h2>Marcar consulta</h2>
+<h5>Selecione o paciente desejado ou cadastre um @Html.ActionLink("novo paciente", "Create")</h5>
 
-<p>
+@*<p>
     @Html.ActionLink("Criar novo", "Create")
-</p>
+</p>*@
 
 @using (Html.BeginForm("Index", "Patients", FormMethod.Get))
 {

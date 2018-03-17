@@ -97,7 +97,7 @@ namespace MedicalMgmt.Controllers.Business
             {
                 db.Patients.Add(patient);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = patient.PatientID });
             }
 
             return View(patient);
