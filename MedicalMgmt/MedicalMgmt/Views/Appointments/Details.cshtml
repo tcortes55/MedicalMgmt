@@ -502,10 +502,10 @@
                 method: "POST",
                 url: "/PrescriptedExams/Add/",
                 data: {
-                    appointmentID : @Model.AppointmentID,
-                    examID : $("#examSelector").val(),
-                    examDetails : $("#examDetails").val(),
-                    examSend : $("#examSend").val()
+                    appointmentID: @Model.AppointmentID,
+                    examID: $("#examSelector").val(),
+                    examDetails: $("#examDetails").val(),
+                    examSend: $('#examSend').prop('checked')
                 },
                 success: function (){
                     $("#examSelector").val("default");
