@@ -1,0 +1,38 @@
+﻿@model MedicalMgmt.ViewModels.SelectPhysicianData
+
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Users.fin)*@
+            Médico
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Expertise)*@
+            Especialidade
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Physicians)
+    {
+        string selectedRow = "";
+        if (item.PhysicianID == ViewBag.PhysicianID)
+        {
+            Model.Appointment.PhysicianID = item.PhysicianID;
+            selectedRow = "success";
+        }
+        <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.AppUser.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expertise)
+            </td>
+            <td>
+                @Html.ActionLink("Selecionar", "CreateAppointment", new { patientID = ViewBag.PatientID, physicianID = item.PhysicianID })
+            </td>
+        </tr>
+    }
+
+</table>
+

@@ -6,41 +6,57 @@
 
 <h2>Marcar consulta</h2>
 <h5>Selecione o profissional desejado</h5>
-<table class="table">
-    <tr>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Users.fin)*@
-            Médico
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Expertise)*@
-            Especialidade
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.Physicians)
+<select id="physicianSelector" class="selectpicker filter" data-live-search="true" title="Selecionar médico...">
+    @foreach (var item in ViewBag.PhysicianList)
     {
-        string selectedRow = "";
-        if (item.PhysicianID == ViewBag.PhysicianID)
-        {
-            Model.Appointment.PhysicianID = item.PhysicianID;
-            selectedRow = "success";
-        }
-        <tr class="@selectedRow">
-            <td>
-                @Html.DisplayFor(modelItem => item.AppUser.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Expertise)
-            </td>
-            <td>
-                @Html.ActionLink("Selecionar", "CreateAppointment", new { patientID = ViewBag.PatientID, physicianID = item.PhysicianID })
-            </td>
-        </tr>
+        <option value="@item.PhysicianID">@item.AppUser.FullName</option>
     }
+</select>
+<select id="expertiseSelector" class="selectpicker filter" data-live-search="true" title="Selecionar especialidade...">
+    @foreach (var item in ViewBag.PhysicianList)
+    {
+        <option value="@item.Expertise">@item.Expertise</option>
+    }
+</select>
+<input type="submit" value="Pesquisar" class="btn btn-default" id="btnSearch" />
 
-</table>
+<div id="filteredPhysicians">
+    <table class="table">
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Users.fin)*@
+                Médico
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Expertise)*@
+                Especialidade
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Physicians)
+        {
+            string selectedRow = "";
+            if (item.PhysicianID == ViewBag.PhysicianID)
+            {
+                Model.Appointment.PhysicianID = item.PhysicianID;
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUser.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Expertise)
+                </td>
+                <td>
+                    @Html.ActionLink("Selecionar", "CreateAppointment", new { patientID = ViewBag.PatientID, physicianID = item.PhysicianID })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
 
 @if (Model.Appointment.PhysicianID != null && Model.Appointment.PhysicianID > 0)
 {
@@ -59,12 +75,38 @@
     
 }
     
+@Styles.Render("~/Content/bootstrap-select.min.css")
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/bootstrap-select.min.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" />
     <script src="~/Scripts/jquery.datetimepicker.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
+
+        $("#btnSearch").click(function () {
+            //var id = $(this).attr("id");
+
+            $.ajax(
+                {
+                    type: "GET",
+                    data: {
+                        patientID: @ViewBag.PatientID,
+                        physicianID: $("#physicianSelector").val(),
+                        expertise: $("#expertiseSelector").val()
+                    },
+                    dataType: "html",
+                    url: "/Physicians/FilteredPhysicians/",
+                    success: function (result) {
+                        $("#filteredPhysicians").html(result);
+                    },
+
+                    error: function (error) {
+                        alert("Fail");
+                    }
+                });
+        });
+
         $(function () {
             $('#PlannedStartDate').datetimepicker({
 

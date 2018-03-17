@@ -76,7 +76,8 @@ namespace MedicalMgmt.Controllers.Business
         }
 
         // GET: Physicians
-        public ActionResult CreateAppointment(/*string sortOrder, string currentFilter, string searchString, int? page,*/ int? patientID, int? physicianID)
+        public ActionResult CreateAppointment(int? patientID, int? physicianID)
+        //public ActionResult CreateAppointment(/*string sortOrder, string currentFilter, string searchString, int? page,*/ int? patientID, int? physicianID)
         {
             /* ViewBag.CurrentSort = sortOrder;
              ViewBag.UsernameSortParam = String.IsNullOrEmpty(sortOrder) ? "Username_desc" : "";
@@ -121,12 +122,14 @@ namespace MedicalMgmt.Controllers.Business
              int pageNumber = (page ?? 1);
 
              return View(physicians.ToPagedList(pageNumber, pageSize));*/
+            ViewBag.PhysicianList = db.Physicians.Include(a => a.AppUser).ToList();
 
             var viewModel = new SelectPhysicianData();
             viewModel.Patient = db.Patients.Find(patientID);
             viewModel.Physicians = db.Physicians.Where(p => p.AppUser.Active)
-                                                .Include(p => p.Appointment)
-                                                .ToList();
+                                                .Include(p => p.Appointment);
+
+            viewModel.Physicians = viewModel.Physicians.ToList();
             viewModel.Appointment = new Appointment();
             viewModel.Appointment.PatientID = patientID.Value;
 
@@ -159,6 +162,30 @@ namespace MedicalMgmt.Controllers.Business
             }
 
             return View(viewModel);
+        }
+
+        // GET
+        public ActionResult FilteredPhysicians(int? patientID, int? physicianID, string expertise)
+        {
+            ViewBag.PatientID = patientID.Value;
+
+            var viewModel = new SelectPhysicianData();
+            viewModel.Physicians = db.Physicians.Where(p => p.AppUser.Active)
+                                                .Include(p => p.Appointment);
+
+            if (physicianID != null)
+            {
+                viewModel.Physicians = viewModel.Physicians.Where(p => p.PhysicianID == physicianID);
+            }
+
+            if (!String.IsNullOrEmpty(expertise))
+            {
+                viewModel.Physicians = viewModel.Physicians.Where(p => p.Expertise.ToLower() == expertise.ToLower());
+            }
+
+            viewModel.Physicians = viewModel.Physicians.ToList();
+            
+            return PartialView(viewModel);
         }
 
         // GET: Physicians/Details/5

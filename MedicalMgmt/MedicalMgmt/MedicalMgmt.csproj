@@ -402,6 +402,7 @@
     <Content Include="Views\Appointments\ListByDate.cshtml" />
     <Content Include="Views\PrescriptedExams\ListAll.cshtml" />
     <Content Include="Views\PrescriptedExams\ListByDate.cshtml" />
+    <Content Include="Views\Physicians\FilteredPhysicians.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
