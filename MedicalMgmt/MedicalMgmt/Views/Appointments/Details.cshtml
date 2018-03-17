@@ -311,6 +311,9 @@
     $(document).ready(function () {
         //$.ajaxSetup({ cache: false });
 
+
+        // Page initialization
+
         $(".selectpicker").selectpicker()
         checkMedicineButton();
         checkExamButton();
@@ -330,6 +333,9 @@
         });
 
 
+
+        // Checking if this is a new appointment
+
         var newAppointment = 0;
         newAppointment = @ViewBag.IsNewAppointment;
         if(newAppointment == 1)
@@ -342,6 +348,11 @@
         $("#btnUpdatePatientInfo").addClass("hidden")
         $("#btnAddInline").addClass("hidden")
 
+
+
+
+        // Checking if this is an ongoing appointment
+
         var statusOngoing = @MedicalMgmt.General.Constants.SS_AP_ONGOING
 
         if (@Model.StatusID == statusOngoing)
@@ -352,6 +363,10 @@
             $("#btnAddInline").removeClass("hidden")
             $("#btnAddExamInline").removeClass("hidden")
         }
+
+
+
+        // Appointment status modification
 
         $("#btnChangeStatus").click(function() {
             $("#modalChangeStatus").modal();
@@ -402,6 +417,11 @@
             }
         });
 
+
+
+
+        // Appointment cancellation
+
         $("#btnCancel").click(function () {
             $("#modalCancel").modal();
         });
@@ -414,10 +434,19 @@
                     id : @Model.AppointmentID
                     },
                 success: function () {
-                    location.reload();
+                    $("#modalCancel").modal("hide");
+                    $(".refresh").click(function () {
+                        window.location.replace("/Home/Index");
+                    });
+                    $("#modalSucess").modal();
                 }
             })
         });
+
+
+
+
+        // Patient info update
 
         $("#btnUpdatePatientInfo").click(function () {
             $.ajax({
@@ -437,7 +466,10 @@
         });
 
 
-        //Prescribed medicines
+
+
+
+        //Prescribed medicines section
 
         $("#btnAddInline").click(function () {
             $("#btnAddInline").attr("disabled", true);
@@ -495,7 +527,10 @@
         });
 
 
-        // Prescribed exams
+
+
+        // Prescribed exams section
+        
         $("#btnAddExamInline").click(function () {
             $("#btnAddExamInline").attr("disabled", true);
             $.ajax({
@@ -541,18 +576,18 @@
             var $modalDiv = $(e.delegateTarget);
             var id = $(this).data('itemId');
             $modalDiv.addClass('loading');
-            
+
             var a1 = $('#examDetailsModal').val() ;
             var a2 = $('#examSendModal').prop('checked');
 
             $.post('/PrescriptedExams/Edit/' + id,
-                    { 
+                    {
                         examDetails: a1,
                         examSend: a2
                     }).then(function () {
-                $modalDiv.modal('hide').removeClass('loading');
-                reloadPrescribedExams();
-            });
+                        $modalDiv.modal('hide').removeClass('loading');
+                        reloadPrescribedExams();
+                    });
         });
         $('#confirm-edit-exam').on('show.bs.modal', function(e) {
             var data = $(e.relatedTarget).data();
@@ -562,6 +597,10 @@
             $('#btnConfirmEditExam', this).data('itemId', data.itemId);
         });
 
+
+
+
+        // Miscellaneous functions
 
         function reloadPrescribedMedicines() {
             $.ajax(
@@ -598,7 +637,7 @@
                 url: '/PrescriptedExams/ListExamsByAppointment',
                 data: {
                     appointmentID: @Model.AppointmentID
-                },
+                    },
                 dataType: 'html',
                 cache: false,
                 async: true,
