@@ -89,7 +89,7 @@
                 @Html.DisplayFor(model => model.ActualStartDate)
             </dd>
         }
-        
+
         @if (Model.ActualEndDate != null)
         {
             <dt>
@@ -106,86 +106,119 @@
 
     @if (Model.StatusID >= MedicalMgmt.General.Constants.SS_AP_ONGOING)
     {
-    <hr />
-    <div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Patient.Allergies, htmlAttributes: new { @class = "control-label col-md-12" })
-            <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
-                @Html.TextAreaFor(model => model.Patient.Allergies, new { @class = "form-control onlyEditableWhenOngoing", @id = "allergies" })
-                @Html.ValidationMessageFor(model => model.Patient.Allergies, "", new { @class = "text-danger" })
+        <hr />
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading" data-toggle="collapse" data-target="#PatientInfoContainer">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#PatientInfoContainer">Informações do paciente</a>
+                    </h4>
+                </div>
+                <div id="PatientInfoContainer" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Patient.Allergies, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
+                                @Html.TextAreaFor(model => model.Patient.Allergies, new { @class = "form-control onlyEditableWhenOngoing", @id = "allergies" })
+                                @Html.ValidationMessageFor(model => model.Patient.Allergies, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Patient.FamilyMedicalHistory, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
+                                @Html.TextAreaFor(model => model.Patient.FamilyMedicalHistory, new { @class = "form-control onlyEditableWhenOngoing", @id = "familyMedicalHistory" })
+                                @Html.ValidationMessageFor(model => model.Patient.FamilyMedicalHistory, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Patient.LongTermMedication, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
+                                @Html.TextAreaFor(model => model.Patient.LongTermMedication, new { @class = "form-control onlyEditableWhenOngoing", @id = "longTermMedication" })
+                                @Html.ValidationMessageFor(model => model.Patient.LongTermMedication, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Anamnesis, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
+                                @Html.TextAreaFor(model => model.Anamnesis, new { @class = "form-control onlyEditableWhenOngoing", @id = "anamnesis" })
+                                @Html.ValidationMessageFor(model => model.Anamnesis, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary" id="btnUpdatePatientInfo">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Patient.FamilyMedicalHistory, htmlAttributes: new { @class = "control-label col-md-12" })
-            <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
-                @Html.TextAreaFor(model => model.Patient.FamilyMedicalHistory, new { @class = "form-control onlyEditableWhenOngoing", @id = "familyMedicalHistory" })
-                @Html.ValidationMessageFor(model => model.Patient.FamilyMedicalHistory, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Patient.LongTermMedication, htmlAttributes: new { @class = "control-label col-md-12" })
-            <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
-                @Html.TextAreaFor(model => model.Patient.LongTermMedication, new { @class = "form-control onlyEditableWhenOngoing", @id = "longTermMedication" })
-                @Html.ValidationMessageFor(model => model.Patient.LongTermMedication, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Anamnesis, htmlAttributes: new { @class = "control-label col-md-12" })
-            <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
-                @Html.TextAreaFor(model => model.Anamnesis, new { @class = "form-control onlyEditableWhenOngoing", @id = "anamnesis" })
-                @Html.ValidationMessageFor(model => model.Anamnesis, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                <button class="btn btn-primary" id="btnUpdatePatientInfo">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
-            </div>
-        </div>
-    </div>
 
-    <div id="MedicinesContainer">
-        <div id="MedicinesByAppointment">
-            @{Html.RenderAction("ListMedicinesByAppointment", "PrescriptedMedicines", new { appointmentID = Model.AppointmentID });}
-        </div>
-        <div class="onlyVisibleWhenOngoing">
-            <div id="addPrescription">
-                <select id="medicineSelector" class="selectpicker" data-live-search="true" title="Selecionar medicamento...">
-                    @foreach (var item in ViewBag.MedicineList)
-                    {
-                        <option value="@item.MedicineID">@item.CommercialName (@item.GenericName)</option>
-                    }
-                </select>
-                @Html.TextArea("Posologia", new { @class = "form-control", @id = "posology", @placeholder = "Posologia..." })
-            </div>
-            <div class="col-md-12">
-                <button class="btn btn-default" id="btnAddInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
-            </div>
-        </div>
-    </div>
 
-    <hr />
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading" data-toggle="collapse" data-target="#MedicinesContainer">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#MedicinesContainer">Medicamentos</a>
+                    </h4>
+                </div>
+                <div id="MedicinesContainer" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div id="MedicinesByAppointment">
+                            @{Html.RenderAction("ListMedicinesByAppointment", "PrescriptedMedicines", new { appointmentID = Model.AppointmentID });}
+                        </div>
+                        <div class="onlyVisibleWhenOngoing">
+                            <div id="addPrescription">
+                                <select id="medicineSelector" class="selectpicker" data-live-search="true" title="Selecionar medicamento...">
+                                    @foreach (var item in ViewBag.MedicineList)
+                                    {
+                                        <option value="@item.MedicineID">@item.CommercialName (@item.GenericName)</option>
+                                    }
+                                </select>
+                                @Html.TextArea("Posologia", new { @class = "form-control", @id = "posology", @placeholder = "Posologia..." })
+                            </div>
+                            <div class="col-md-12">
+                                <button class="btn btn-default" id="btnAddInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div id="ExamsContainer">
-        <div id="ExamsByAppointment">
-            @{Html.RenderAction("ListExamsByAppointment", "PrescriptedExams", new { appointmentID = Model.AppointmentID });}
-        </div>
-        <div class="onlyVisibleWhenOngoing">
-            <div id="addExamPrescription">
-                <select id="examSelector" class="selectpicker" data-live-search="true" title="Selecionar exame...">
-                    @foreach (var item in ViewBag.ExamList)
-                    {
-                        <option value="@item.ExamID">@item.Name</option>
-                    }
-                </select>
-                @Html.TextArea("Detalhes", new { @class = "form-control", @id = "examDetails", @placeholder = "Detalhes do exame..." })
-                @Html.CheckBox("Enviar para o paciente", false, new { @class = "", @id = "examSend" })
-                <label for="examSend">Enviar para o paciente</label>
+
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading" data-toggle="collapse" data-target="#ExamsContainer">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#ExamsContainer">Exames</a>
+                    </h4>
+                </div>
+                <div id="ExamsContainer" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div id="ExamsByAppointment">
+                            @{Html.RenderAction("ListExamsByAppointment", "PrescriptedExams", new { appointmentID = Model.AppointmentID });}
+                        </div>
+                        <div class="onlyVisibleWhenOngoing">
+                            <div id="addExamPrescription">
+                                <select id="examSelector" class="selectpicker" data-live-search="true" title="Selecionar exame...">
+                                    @foreach (var item in ViewBag.ExamList)
+                                    {
+                                        <option value="@item.ExamID">@item.Name</option>
+                                    }
+                                </select>
+                                @Html.TextArea("Detalhes", new { @class = "form-control", @id = "examDetails", @placeholder = "Detalhes do exame..." })
+                                @Html.CheckBox("Enviar para o paciente", false, new { @class = "", @id = "examSend" })
+                                <label for="examSend">Enviar para o paciente</label>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="btn btn-default" id="btnAddExamInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-12">
-                <button class="btn btn-default" id="btnAddExamInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
-            </div>
         </div>
-    </div>
 
     }
 
@@ -289,27 +322,30 @@
             </div>
         </div>
     </div>
-    
-    
 
-        @if (@ViewBag.NextStatusID != null && @ViewBag.NextStatusID != MedicalMgmt.General.Constants.SS_AP_CANCELED)
-        {
-            <div>
-                <hr />
-                <div class="col-md-12">
-                    <button class="btn btn-primary btn-space" id="btnChangeStatus">Alterar status para "@ViewBag.NextStatusDescription" <i class="glyphicon glyphicon-repeat"></i></button>
-                </div>
-                <div class="col-md-12">
-                    <button class="btn btn-danger btn-space" id="btnCancel">Cancelar consulta <i class="glyphicon glyphicon-ban-circle"></i></button>
-                </div>
+
+
+    @if (@ViewBag.NextStatusID != null && @ViewBag.NextStatusID != MedicalMgmt.General.Constants.SS_AP_CANCELED)
+    {
+        <div>
+            <hr />
+            <div class="col-md-12">
+                <button class="btn btn-primary btn-space" id="btnChangeStatus">Alterar status para "@ViewBag.NextStatusDescription" <i class="glyphicon glyphicon-repeat"></i></button>
             </div>
-        }
-        @*<div class="col-md-12">
-                <p>
-                    @Html.ActionLink("Voltar", null, null, null, new { href = Request.UrlReferrer })
-                </p>
-            </div>*@
+            <div class="col-md-12">
+                <button class="btn btn-danger btn-space" id="btnCancel">Cancelar consulta <i class="glyphicon glyphicon-ban-circle"></i></button>
+            </div>
+        </div>
+    }
+    <div class="col-md-12">
+        <p></p>
     </div>
+    @*<div class="col-md-12">
+            <p>
+                @Html.ActionLink("Voltar", null, null, null, new { href = Request.UrlReferrer })
+            </p>
+        </div>*@
+</div>
 @Styles.Render("~/Content/bootstrap-select.min.css")
 @section scripts{
 <script src="~/Scripts/bootstrap-select.min.js"></script>

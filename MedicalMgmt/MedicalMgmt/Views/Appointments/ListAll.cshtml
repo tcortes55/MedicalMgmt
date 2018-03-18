@@ -6,48 +6,50 @@
 
 <h2>Consultas</h2>
 
-<hr />
-
-<h6>Selecionar paciente e/ou médico(a)</h6>
-<div class="row justify-content-start">
-    <div class="col-md-3">
-        <select id="patientSelector" class="selectpicker filter form-control" data-live-search="true" title="Selecionar paciente...">
-            @foreach (var item in ViewBag.PatientList)
-            {
-                <option value="@item.PatientID">@item.FullName</option>
-            }
-        </select>
-    </div>
-    <div class="col-md-3">
-        <select id="physicianSelector" class="selectpicker filter form-control" data-live-search="true" title="Selecionar médico...">
-            @foreach (var item in ViewBag.PhysicianList)
-            {
-                <option value="@item.PhysicianID">@item.AppUser.FullName</option>
-            }
-        </select>
-    </div>
-</div>
-<br />
-<h6>Período máximo de busca: 365 dias</h6>
-@*<div class="container">*@
-<div class="row justify-content-start">
-    <div class="col-md-3">
-        @Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker filter", @placeholder = "Data início" } })
-    </div>
-    <div class="col-md-3">
-        @Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker filter", @placeholder = "Data fim" } })
-    </div>
-</div>
-@*</div>*@
-@Html.Hidden("hiddenStartDate", "", new { @id = "hiddenStartDate" })
-@Html.Hidden("hiddenEndDate", "", new { @id = "hiddenEndDate" })
-<br />
 <div>
-    <input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
-    <input type="submit" value="Pesquisar" class="btn btn-primary" id="btnSearch" />
-</div>
+    <hr />
 
-<div id="queryResults"></div>
+    <h6>Selecionar paciente e/ou médico(a)</h6>
+    <div class="row justify-content-start">
+        <div class="col-md-3">
+            <select id="patientSelector" class="selectpicker filter form-control" data-live-search="true" title="Selecionar paciente...">
+                @foreach (var item in ViewBag.PatientList)
+                {
+                    <option value="@item.PatientID">@item.FullName</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select id="physicianSelector" class="selectpicker filter form-control" data-live-search="true" title="Selecionar médico...">
+                @foreach (var item in ViewBag.PhysicianList)
+                {
+                    <option value="@item.PhysicianID">@item.AppUser.FullName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <br />
+    <h6>Período máximo de busca: 365 dias</h6>
+    @*<div class="container">*@
+    <div class="row justify-content-start">
+        <div class="col-md-3">
+            @Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker filter", @placeholder = "Data início" } })
+        </div>
+        <div class="col-md-3">
+            @Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker filter", @placeholder = "Data fim" } })
+        </div>
+    </div>
+    @*</div>*@
+    @Html.Hidden("hiddenStartDate", "", new { @id = "hiddenStartDate" })
+    @Html.Hidden("hiddenEndDate", "", new { @id = "hiddenEndDate" })
+    <br />
+    <div>
+        <input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
+        <input type="submit" value="Pesquisar" class="btn btn-primary" id="btnSearch" />
+    </div>
+
+    <div id="queryResults"></div>
+</div>
 
 @Styles.Render("~/Content/bootstrap-select.min.css")
 @section scripts{
