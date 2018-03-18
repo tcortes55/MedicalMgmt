@@ -341,14 +341,13 @@
             </div>
         </div>
     }
-    <div class="col-md-12">
-        <p></p>
+
+    @*Forcing correct placemente of footer:*@
+    <div class='row'>
+        <div class='span12'>
+        </div>
     </div>
-    @*<div class="col-md-12">
-            <p>
-                @Html.ActionLink("Voltar", null, null, null, new { href = Request.UrlReferrer })
-            </p>
-        </div>*@
+
 </div>
 @Styles.Render("~/Content/bootstrap-select.min.css")
 @section scripts{
