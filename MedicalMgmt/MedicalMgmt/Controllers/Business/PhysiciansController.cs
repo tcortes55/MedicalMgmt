@@ -187,6 +187,51 @@ namespace MedicalMgmt.Controllers.Business
             
             return PartialView(viewModel);
         }
+        
+        // GET: Physicians
+        public ActionResult GetAppointmentsByDay(int? patientID, int? physicianID)
+        {
+            ViewBag.PhysicianList = db.Physicians.Include(a => a.AppUser).ToList();
+
+            var viewModel = new SelectPhysicianData();
+            viewModel.Patient = db.Patients.Find(patientID);
+            viewModel.Physicians = db.Physicians.Where(p => p.AppUser.Active)
+                                                .Include(p => p.Appointment);
+
+            viewModel.Physicians = viewModel.Physicians.ToList();
+            viewModel.Appointment = new Appointment();
+            viewModel.Appointment.PatientID = patientID.Value;
+
+            ViewBag.PatientID = patientID.Value;
+            if (physicianID != null)
+            {
+                ViewBag.PhysicianID = physicianID.Value;
+                viewModel.Appointment.PhysicianID = physicianID.Value;
+
+                var dayBegin = DateTime.Now.Date;
+                var dayEnd = dayBegin.AddDays(1);
+                var appointments = db.Appointments.Where(a => a.PhysicianID == physicianID
+                                                       && a.PlannedStartDate > dayBegin
+                                                       && a.PlannedStartDate < dayEnd
+                                                       && a.StatusID != Constants.SS_AP_CANCELED);
+
+                var fullSchedule = ConfigurationManager.AppSettings["FullSchedule"].Split(',');
+                var existingTimes = new string[] { }.ToList();
+                foreach (Appointment ap in appointments)
+                {
+                    existingTimes.Add(ap.PlannedStartDate.Hour.ToString().PadLeft(2, '0')
+                                      + ":"
+                                      + ap.PlannedStartDate.Minute.ToString().PadLeft(2, '0')
+                                      );
+                }
+
+                var availableTimesForDay = fullSchedule.Except(existingTimes).ToList();
+
+                ViewBag.AvailableToday = availableTimesForDay;
+            }
+
+            return View(viewModel);
+        }
 
         // GET: Physicians/Details/5
         public ActionResult Details(int? id)

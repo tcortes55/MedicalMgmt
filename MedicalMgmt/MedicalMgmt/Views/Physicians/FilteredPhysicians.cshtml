@@ -29,7 +29,8 @@
                 @Html.DisplayFor(modelItem => item.Expertise)
             </td>
             <td>
-                @Html.ActionLink("Selecionar", "CreateAppointment", new { patientID = ViewBag.PatientID, physicianID = item.PhysicianID })
+                @*@Html.ActionLink("Selecionar", "CreateAppointment", new { patientID = ViewBag.PatientID, physicianID = item.PhysicianID })*@
+                <input type="submit" value="Selecionar" class="btn btn-default btnSelectPhysician" id="@item.PhysicianID" />
             </td>
         </tr>
     }

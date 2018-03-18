@@ -20,6 +20,7 @@
 </select>
 <input type="submit" value="Pesquisar" class="btn btn-default" id="btnSearch" />
 
+
 <div id="filteredPhysicians">
     <table class="table">
         <tr>
@@ -50,7 +51,8 @@
                     @Html.DisplayFor(modelItem => item.Expertise)
                 </td>
                 <td>
-                    @Html.ActionLink("Selecionar", "CreateAppointment", new { patientID = ViewBag.PatientID, physicianID = item.PhysicianID })
+                    @*@Html.ActionLink("Selecionar", "CreateAppointment", new { patientID = ViewBag.PatientID, physicianID = item.PhysicianID })*@
+                    <input type="submit" value="Selecionar" class="btn btn-default btnSelectPhysician" id="@item.PhysicianID" />
                 </td>
             </tr>
         }
@@ -58,7 +60,7 @@
     </table>
 </div>
 
-@if (Model.Appointment.PhysicianID != null && Model.Appointment.PhysicianID > 0)
+@*@if (Model.Appointment.PhysicianID != null && Model.Appointment.PhysicianID > 0)
 {
     <div>
         @using (Html.BeginForm("Create", "Appointments"))
@@ -73,7 +75,20 @@
         }
     </div>
     
-}
+}*@
+
+<div id="selectDateTime" hidden="hidden">
+    @using (Html.BeginForm("Create", "Appointments"))
+    {
+        @Html.AntiForgeryToken()
+        //Model.Appointment.PatientID = Model.Patient.PatientID;
+            
+        @Html.HiddenFor(model => model.Appointment.PatientID)
+        @Html.EditorFor(model => model.Appointment.PhysicianID, new { htmlAttributes = new { @id = "hiddenPhysician", @hidden = "hidden" } })
+        @Html.EditorFor(model => model.Appointment.PlannedStartDate, new { htmlAttributes = new { @Value = DateTime.Now, @id = "PlannedStartDate", @class = "form-control datepicker" } })
+        <input type="submit" value="Marcar consulta" class="btn btn-primary" id="btnCreateAppointment" />
+    }
+</div>
     
 @Styles.Render("~/Content/bootstrap-select.min.css")
 @section Scripts {
@@ -99,6 +114,7 @@
                     url: "/Physicians/FilteredPhysicians/",
                     success: function (result) {
                         $("#filteredPhysicians").html(result);
+                        reloadSelectButtons();
                     },
 
                     error: function (error) {
@@ -107,59 +123,83 @@
                 });
         });
 
-        $(function () {
-            $('#PlannedStartDate').datetimepicker({
+        reloadSelectButtons();
 
-                allowTimes: [
-                    $.ajax({
-                        method: "GET",
-                        url: "/Appointments/GetByPhysicianIdAndDate/",
-                        data: {
-                            physicianID: '@Model.Appointment.PhysicianID',
-                            selectedDate: new Date().dateFormat('Y/m/d')
+
+
+        function reloadSelectButtons () {
+
+            $(".btnSelectPhysician").click(function() {
+                
+                $('#PlannedStartDate').val([])
+
+                var physicianID = this.id;
+                $('#hiddenPhysician').val(physicianID);
+
+                $(function () {
+                    $('#PlannedStartDate').datetimepicker({
+
+                        allowTimes: [
+                            $.ajax({
+                                method: "GET",
+                                url: "/Appointments/GetByPhysicianIdAndDate/",
+                                data: {
+                                    physicianID: physicianID,
+                                    selectedDate: new Date().dateFormat('Y/m/d')
+                                },
+                                success: function (response) {
+                                    $('#PlannedStartDate').datetimepicker({ allowTimes: response })
+                                },
+                                fail: function () {
+                                    alert("lala");
+                                }
+                            })
+                        ],
+
+                        onGenerate: function (ct) {
+                            jQuery(this).find('.xdsoft_date.xdsoft_weekend')
+                              .addClass('xdsoft_disabled');
                         },
-                        success: function (response) {
-                            $('#PlannedStartDate').datetimepicker({ allowTimes: response })
-                        }
-                    })
-                ],
 
-                onGenerate: function (ct) {
-                    jQuery(this).find('.xdsoft_date.xdsoft_weekend')
-                      .addClass('xdsoft_disabled');
-                },
-
-                //https://stackoverflow.com/questions/16361364/accessing-mvcs-model-property-from-javascript
-                //https://stackoverflow.com/questions/20471511/how-to-get-data-from-model-to-javascript-mvc-4
-                onSelectDate: function (ct, $i) {
-                    $.ajax({
-                        method: "GET",
-                        url: "/Appointments/GetByPhysicianIdAndDate/",
-                        data: {
-                            physicianID: '@Model.Appointment.PhysicianID',
-                            selectedDate: ct.dateFormat('Y/m/d')
+                        //https://stackoverflow.com/questions/16361364/accessing-mvcs-model-property-from-javascript
+                        //https://stackoverflow.com/questions/20471511/how-to-get-data-from-model-to-javascript-mvc-4
+                        onSelectDate: function (ct, $i) {
+                            $.ajax({
+                                method: "GET",
+                                url: "/Appointments/GetByPhysicianIdAndDate/",
+                                data: {
+                                    physicianID: physicianID,
+                                    selectedDate: ct.dateFormat('Y/m/d')
+                                },
+                                success: function (response) {
+                                    $('#PlannedStartDate').datetimepicker({ allowTimes: response })
+                                },
+                                fail: function () {
+                                    alert("lala");
+                                }
+                            })
                         },
-                        success: function (response) {
-                            $('#PlannedStartDate').datetimepicker({ allowTimes: response })
-                        }
-                    })
-                },
 
-                inline: true,
+                        inline: true,
 
-                minDate: 0,
+                        minDate: 0,
 
-                //minTime: a,
+                        //minTime: a,
 
-                //maxTime: '18:00',
+                        //maxTime: '18:00',
 
-                //disabledDates: '24.01.2018 09:00',
+                        //disabledDates: '24.01.2018 09:00',
 
-                step: 20,
+                        step: 20,
 
-                lang: 'pt-BR'
+                        lang: 'pt-BR'
+                    });
+                });
+
+                $('#selectDateTime').prop("hidden", false);
+
             });
-        });
+        };
 
     });
 
