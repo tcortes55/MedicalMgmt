@@ -52,8 +52,8 @@
                 @if (@ViewBag.AppointmentStatusID == MedicalMgmt.General.Constants.SS_AP_ONGOING)
                 {
                     <td>
-                        <button type="button" class="btn btn-default btn-sm" data-item-id="@item.PrescriptedExamID" data-item-description="@item.Exam.Name (@item.Details)" data-item-exam-details="@item.Details" data-item-exam-send="@item.SendToPacient" data-toggle="modal" data-target="#confirm-edit-exam">Editar</button> |
-                        <button type="button" class="btn btn-danger btn-sm" data-item-id="@item.PrescriptedExamID" data-item-description="@item.Exam.Name (@item.Details)" data-toggle="modal" data-target="#confirm-delete-exam">Remover</button>
+                        <button type="button" class="btn btn-default btn-sm" data-item-id="@item.PrescriptedExamID" data-item-description="@item.Exam.Name (@item.Details)" data-item-exam-details="@item.Details" data-item-exam-send="@item.SendToPacient" data-toggle="modal" data-target="#confirm-edit-exam"><i class="glyphicon glyphicon-edit"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm" data-item-id="@item.PrescriptedExamID" data-item-description="@item.Exam.Name (@item.Details)" data-toggle="modal" data-target="#confirm-delete-exam"><i class="glyphicon glyphicon-trash"></i></button>
                     </td>
                 }
             </tr>
