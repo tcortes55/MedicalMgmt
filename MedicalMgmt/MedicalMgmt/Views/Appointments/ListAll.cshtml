@@ -21,13 +21,21 @@
     }
 </select>
 
+<br />
+<br />
 <h6>Período máximo de busca: 365 dias</h6>
-@Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker filter", @placeholder = "Data início" } })
-@Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker filter", @placeholder = "Data fim" } })
+<div class="col-md-2">
+    @Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker filter", @placeholder = "Data início" } })
+</div>
+<div class="col-md-2">
+    @Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker filter", @placeholder = "Data fim" } })
+</div>
 @Html.Hidden("hiddenStartDate", "", new { @id = "hiddenStartDate" })
 @Html.Hidden("hiddenEndDate", "", new { @id = "hiddenEndDate" })
-<input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
-<input type="submit" value="Pesquisar" class="btn btn-primary" id="btnSearch" />
+<div>
+    <input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
+    <input type="submit" value="Pesquisar" class="btn btn-primary" id="btnSearch" />
+</div>
 
 <div id="queryResults"></div>
 

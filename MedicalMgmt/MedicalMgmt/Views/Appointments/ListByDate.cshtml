@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<MedicalMgmt.Models.Appointment>
 
+<hr />
 <table class="table">
     <tr>
         <th>
@@ -38,7 +39,7 @@
             @Html.DisplayFor(modelItem => item.PlannedStartDate)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id=item.AppointmentID })
+            @Html.ActionLink("Details", "Details", new { id = item.AppointmentID }, new { @class = "btn btn-primary" })
         </td>
     </tr>
 }

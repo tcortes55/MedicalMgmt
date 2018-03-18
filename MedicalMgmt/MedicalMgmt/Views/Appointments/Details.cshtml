@@ -4,10 +4,12 @@
     ViewBag.Title = "Detalhes da consulta";
 }
 
-<h2>Detalhes</h2>
+<h2>Detalhes da consulta</h2>
 
 <div>
-    <h4>Consulta</h4>
+    <h4>
+        @Html.DisplayFor(model => model.Status.StatusDescription)
+    </h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -99,192 +101,196 @@
             </dd>
         }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Status.StatusDescription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status.StatusDescription)
-        </dd>
     </dl>
+
+
+    @if (Model.StatusID >= MedicalMgmt.General.Constants.SS_AP_ONGOING)
+    {
+    <hr />
+    <div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Patient.Allergies, htmlAttributes: new { @class = "control-label col-md-12" })
+            <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
+                @Html.TextAreaFor(model => model.Patient.Allergies, new { @class = "form-control onlyEditableWhenOngoing", @id = "allergies" })
+                @Html.ValidationMessageFor(model => model.Patient.Allergies, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Patient.FamilyMedicalHistory, htmlAttributes: new { @class = "control-label col-md-12" })
+            <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
+                @Html.TextAreaFor(model => model.Patient.FamilyMedicalHistory, new { @class = "form-control onlyEditableWhenOngoing", @id = "familyMedicalHistory" })
+                @Html.ValidationMessageFor(model => model.Patient.FamilyMedicalHistory, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Patient.LongTermMedication, htmlAttributes: new { @class = "control-label col-md-12" })
+            <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
+                @Html.TextAreaFor(model => model.Patient.LongTermMedication, new { @class = "form-control onlyEditableWhenOngoing", @id = "longTermMedication" })
+                @Html.ValidationMessageFor(model => model.Patient.LongTermMedication, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Anamnesis, htmlAttributes: new { @class = "control-label col-md-12" })
+            <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
+                @Html.TextAreaFor(model => model.Anamnesis, new { @class = "form-control onlyEditableWhenOngoing", @id = "anamnesis" })
+                @Html.ValidationMessageFor(model => model.Anamnesis, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <button class="btn btn-primary" id="btnUpdatePatientInfo">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="MedicinesContainer">
+        <div id="MedicinesByAppointment">
+            @{Html.RenderAction("ListMedicinesByAppointment", "PrescriptedMedicines", new { appointmentID = Model.AppointmentID });}
+        </div>
+        <div class="onlyVisibleWhenOngoing">
+            <div id="addPrescription">
+                <select id="medicineSelector" class="selectpicker" data-live-search="true" title="Selecionar medicamento...">
+                    @foreach (var item in ViewBag.MedicineList)
+                    {
+                        <option value="@item.MedicineID">@item.CommercialName (@item.GenericName)</option>
+                    }
+                </select>
+                @Html.TextArea("Posologia", new { @class = "form-control", @id = "posology", @placeholder = "Posologia..." })
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-default" id="btnAddInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
+            </div>
+        </div>
+    </div>
 
     <hr />
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Patient.Allergies, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
-            @Html.TextAreaFor(model => model.Patient.Allergies, new { @class = "form-control onlyEditableWhenOngoing", @id = "allergies" })
-            @Html.ValidationMessageFor(model => model.Patient.Allergies, "", new { @class = "text-danger" })
+    <div id="ExamsContainer">
+        <div id="ExamsByAppointment">
+            @{Html.RenderAction("ListExamsByAppointment", "PrescriptedExams", new { appointmentID = Model.AppointmentID });}
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Patient.FamilyMedicalHistory, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
-            @Html.TextAreaFor(model => model.Patient.FamilyMedicalHistory, new { @class = "form-control onlyEditableWhenOngoing", @id = "familyMedicalHistory" })
-            @Html.ValidationMessageFor(model => model.Patient.FamilyMedicalHistory, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Patient.LongTermMedication, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
-            @Html.TextAreaFor(model => model.Patient.LongTermMedication, new { @class = "form-control onlyEditableWhenOngoing", @id = "longTermMedication" })
-            @Html.ValidationMessageFor(model => model.Patient.LongTermMedication, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Anamnesis, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
-            @Html.TextAreaFor(model => model.Anamnesis, new { @class = "form-control onlyEditableWhenOngoing", @id = "anamnesis" })
-            @Html.ValidationMessageFor(model => model.Anamnesis, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-12">
-            <button class="btn btn-primary" id="btnUpdatePatientInfo">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
+        <div class="onlyVisibleWhenOngoing">
+            <div id="addExamPrescription">
+                <select id="examSelector" class="selectpicker" data-live-search="true" title="Selecionar exame...">
+                    @foreach (var item in ViewBag.ExamList)
+                    {
+                        <option value="@item.ExamID">@item.Name</option>
+                    }
+                </select>
+                @Html.TextArea("Detalhes", new { @class = "form-control", @id = "examDetails", @placeholder = "Detalhes do exame..." })
+                @Html.CheckBox("Enviar para o paciente", false, new { @class = "", @id = "examSend" })
+                <label for="examSend">Enviar para o paciente</label>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-default" id="btnAddExamInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
+            </div>
         </div>
     </div>
 
+    }
 
-    <div class="modal" id="modalChangeStatus">
-        @{Html.RenderAction("ChangeStatus", "Appointments", new
+    <div id="modals">
+        <div class="modal" id="modalChangeStatus">
+            @{Html.RenderAction("ChangeStatus", "Appointments", new
         {
             @appointmentID = @Model.AppointmentID,
             @currStatusID = @Model.StatusID
         });
-        }
-    </div>
-    <div class="modal" id="modalCancel">
-        @{Html.RenderAction("Cancel", "Appointments", new
+            }
+        </div>
+        <div class="modal" id="modalCancel">
+            @{Html.RenderAction("Cancel", "Appointments", new
         {
             @id = @Model.AppointmentID
         });
-        }
-    </div>
-    <div class="modal" id="modalSucess">
-        @{Html.RenderPartial("_Success");}
-    </div>
+            }
+        </div>
+        <div class="modal" id="modalSucess">
+            @{Html.RenderPartial("_Success");}
+        </div>
 
-    @*Modals - medicine prescription*@
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Confirmar remoção</h4>
-                </div>
-                <div class="modal-body">
-                    Tem certeza que deseja remover a prescrição? <span class="description"></span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <input type="submit" value="Remover" class="btn btn-danger btn-ok" id="btnConfirmDeleteMedicine" />
+        @*Modals - medicine prescription*@
+        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirmar remoção</h4>
+                    </div>
+                    <div class="modal-body">
+                        Tem certeza que deseja remover a prescrição? <span class="description"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        <input type="submit" value="Remover" class="btn btn-danger btn-ok" id="btnConfirmDeleteMedicine" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" id="confirm-edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Editar prescrição</h4>
-                </div>
-                <div class="modal-body">
-                    Editar a prescrição?
-                    <br />
-                    <span class="description"></span>
-                    @Html.TextArea("Posologia", new { @class = "form-control", @id = "posologyModal", @placeholder = "Posologia..." })
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <input type="submit" value="Confirmar alterações" class="btn btn-primary btn-ok" id="btnConfirmEditMedicine" />
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <hr />
-
-    @*Modals - exam prescription*@
-    <div class="modal fade" id="confirm-delete-exam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Confirmar remoção</h4>
-                </div>
-                <div class="modal-body">
-                    Tem certeza que deseja remover a prescrição? <span class="description"></span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <input type="submit" value="Remover" class="btn btn-danger btn-ok" id="btnConfirmDeleteExam" />
+        <div class="modal fade" id="confirm-edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Editar prescrição</h4>
+                    </div>
+                    <div class="modal-body">
+                        Editar a prescrição?
+                        <br />
+                        <span class="description"></span>
+                        @Html.TextArea("Posologia", new { @class = "form-control", @id = "posologyModal", @placeholder = "Posologia..." })
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <input type="submit" value="Confirmar alterações" class="btn btn-primary btn-ok" id="btnConfirmEditMedicine" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" id="confirm-edit-exam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Editar prescrição</h4>
+
+        @*Modals - exam prescription*@
+        <div class="modal fade" id="confirm-delete-exam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirmar remoção</h4>
+                    </div>
+                    <div class="modal-body">
+                        Tem certeza que deseja remover a prescrição? <span class="description"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        <input type="submit" value="Remover" class="btn btn-danger btn-ok" id="btnConfirmDeleteExam" />
+                    </div>
                 </div>
-                <div class="modal-body">
-                    Editar a prescrição?
-                    <br />
-                    <span class="description"></span>
-                    @Html.TextArea("Detalhes", new { @class = "form-control", @id = "examDetailsModal", @placeholder = "Detalhes do exame..." })
-                    @Html.CheckBox("Enviar para o paciente", false, new { @class = "", @id = "examSendModal" })
-                    <label for="examSendModal">Enviar para o paciente</label>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <input type="submit" value="Confirmar alterações" class="btn btn-primary btn-ok" id="btnConfirmEditExam" />
+            </div>
+        </div>
+        <div class="modal fade" id="confirm-edit-exam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Editar prescrição</h4>
+                    </div>
+                    <div class="modal-body">
+                        Editar a prescrição?
+                        <br />
+                        <span class="description"></span>
+                        @Html.TextArea("Detalhes", new { @class = "form-control", @id = "examDetailsModal", @placeholder = "Detalhes do exame..." })
+                        @Html.CheckBox("Enviar para o paciente", false, new { @class = "", @id = "examSendModal" })
+                        <label for="examSendModal">Enviar para o paciente</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <input type="submit" value="Confirmar alterações" class="btn btn-primary btn-ok" id="btnConfirmEditExam" />
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <div id="MedicinesByAppointment">
-        @{Html.RenderAction("ListMedicinesByAppointment", "PrescriptedMedicines", new { appointmentID = Model.AppointmentID });}
-    </div>
-    <div class="onlyVisibleWhenOngoing">
-        <div id="addPrescription">
-            <select id="medicineSelector" class="selectpicker" data-live-search="true" title="Selecionar medicamento...">
-                @foreach (var item in ViewBag.MedicineList)
-                {
-                    <option value="@item.MedicineID">@item.CommercialName (@item.GenericName)</option>
-                }
-            </select>
-            @Html.TextArea("Posologia", new { @class = "form-control", @id = "posology", @placeholder = "Posologia..." })
-        </div>
-        <div class="col-md-12">
-            <button class="btn btn-default" id="btnAddInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
-        </div>
-    </div>
-
-    <hr />
-
-    <div id="ExamsByAppointment">
-        @{Html.RenderAction("ListExamsByAppointment", "PrescriptedExams", new { appointmentID = Model.AppointmentID });}
-    </div>
-    <div class="onlyVisibleWhenOngoing">
-        <div id="addExamPrescription">
-            <select id="examSelector" class="selectpicker" data-live-search="true" title="Selecionar exame...">
-                @foreach (var item in ViewBag.ExamList)
-                {
-                    <option value="@item.ExamID">@item.Name</option>
-                }
-            </select>
-            @Html.TextArea("Detalhes", new { @class = "form-control", @id = "examDetails", @placeholder = "Detalhes do exame..." })
-            @Html.CheckBox("Enviar para o paciente", false, new { @class = "", @id = "examSend" })
-            <label for="examSend">Enviar para o paciente</label>
-        </div>
-        <div class="col-md-12">
-            <button class="btn btn-default" id="btnAddExamInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
-        </div>
-    </div>
+    
 
         @if (@ViewBag.NextStatusID != null && @ViewBag.NextStatusID != MedicalMgmt.General.Constants.SS_AP_CANCELED)
         {
