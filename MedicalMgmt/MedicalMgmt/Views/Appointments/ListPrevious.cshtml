@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MedicalMgmt.Models.Appointment>
 
 <h3>Consultas anteriores</h3>
-<h6>(Últimos 30 dias; para ver um período maior, @Html.ActionLink("clique aqui", "ListAll", "Appointments"))</h6>
+<h6>(Últimos 30 dias; para ver um período maior, @Html.ActionLink("clique aqui", "ListAll", "Appointments", new { @class = "custom-link" }))</h6>
 <table class="table">
     <tr>
         @if (ViewBag.PhysicianID == null)
@@ -22,9 +22,9 @@
         <th>
             @Html.DisplayNameFor(model => model.PlannedStartDate)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Status.StatusDescription)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
@@ -49,9 +49,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PlannedStartDate)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Status.StatusDescription)
-            </td>
+            </td>*@
             <td>
                 @Html.ActionLink("Detalhes", "Details", new { id = item.AppointmentID }, new { @class = "btn btn-primary" })
             </td>

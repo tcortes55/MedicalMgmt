@@ -1101,12 +1101,12 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #e95420;
+  color: #003B3D;
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: #ac3911;
+  color: #8DDDE1;
   text-decoration: underline;
 }
 a:focus {
@@ -1460,7 +1460,8 @@ dd {
     float: left;
     width: 160px;
     clear: left;
-    text-align: right;
+    /*text-align: right;*/
+    text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -6776,4 +6777,8 @@ th {
   color: #ffffff;
   background-color: #005E63;
   border-color: #005E63;
+}
+
+.custom-link {
+  text-decoration: underline;
 }

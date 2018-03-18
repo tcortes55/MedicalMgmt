@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<MedicalMgmt.Models.Appointment>
 
-<h3>Próximas consultas</h3>
+<h3>Consultas do dia</h3>
 <table class="table">
     <tr>
         @if (ViewBag.PhysicianID == null)
@@ -19,11 +19,12 @@
             </th>
         }
         <th>
-            @Html.DisplayNameFor(model => model.PlannedStartDate)
+            @*@Html.DisplayNameFor(model => model.PlannedStartDate)*@
+            Hora
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Status.StatusDescription)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
@@ -46,11 +47,12 @@
                 </td>
             }
             <td>
+                @*@Html.DisplayFor(modelItem => item.PlannedStartDate)*@
                 @Html.DisplayFor(modelItem => item.PlannedStartDate)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Status.StatusDescription)
-            </td>
+            </td>*@
             <td>
                 @Html.ActionLink("Detalhes", "Details", new { id = item.AppointmentID }, new { @class = "btn btn-primary" })
             </td>
