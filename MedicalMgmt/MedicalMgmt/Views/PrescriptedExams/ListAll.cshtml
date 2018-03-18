@@ -5,30 +5,51 @@
 }
 
 <h2>Exames prescritos</h2>
-<h6>Selecionar paciente e/ou médico(a)</h6>
 
-<select id="patientSelector" class="selectpicker filter" data-live-search="true" title="Selecionar paciente...">
-    @foreach (var item in ViewBag.PatientList)
-    {
-        <option value="@item.PatientID">@item.FullName</option>
-    }
-</select>
+<div>
+    <hr />
 
-<select id="physicianSelector" class="selectpicker filter" data-live-search="true" title="Selecionar médico...">
-    @foreach (var item in ViewBag.PhysicianList)
-    {
-        <option value="@item.PhysicianID">@item.AppUser.FullName</option>
-    }
-</select>
+    <h6>Selecionar paciente e/ou médico(a)</h6>
+    <div class="row justify-content-start">
+        <div class="col-md-3">
+            <select id="patientSelector" class="selectpicker filter form-control" data-live-search="true" title="Selecionar paciente...">
+                @foreach (var item in ViewBag.PatientList)
+                {
+                    <option value="@item.PatientID">@item.FullName</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select id="physicianSelector" class="selectpicker filter form-control" data-live-search="true" title="Selecionar médico...">
+                @foreach (var item in ViewBag.PhysicianList)
+                {
+                    <option value="@item.PhysicianID">@item.AppUser.FullName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <br />
+    <h6>Período máximo de busca: 365 dias</h6>
+    <div class="row justify-content-start">
+        <div class="col-md-3">
+            @Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker filter", @placeholder = "Data prescrição - início" } })
+        </div>
+        <div class="col-md-3">
+            @Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker filter", @placeholder = "Data prescrição - fim" } })
+        </div>
+    </div>
+    @*@Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker filter", @placeholder = "Data prescrição - início" } })
+    @Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker filter", @placeholder = "Data prescrição - fim" } })*@
+    @Html.Hidden("hiddenStartDate", "", new { @id = "hiddenStartDate" })
+    @Html.Hidden("hiddenEndDate", "", new { @id = "hiddenEndDate" })
+    <br />
+    <div>
+        <input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
+        <input type="submit" value="Pesquisar" class="btn btn-primary" id="btnSearch" />
+    </div>
 
-<h6>Período máximo de busca: 365 dias</h6>
-@Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker filter", @placeholder = "Data prescrição - início" } })
-@Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker filter", @placeholder = "Data prescrição - fim" } })
-@Html.Hidden("hiddenStartDate", "", new { @id = "hiddenStartDate" })
-@Html.Hidden("hiddenEndDate", "", new { @id = "hiddenEndDate" })
-<input type="submit" value="Pesquisar" class="btn btn-default" id="btnSearch" />
-
-<div id="queryResults"></div>
+    <div id="queryResults"></div>
+</div>
 
 @Styles.Render("~/Content/bootstrap-select.min.css")
 @section scripts{
@@ -39,6 +60,14 @@
     $(document).ready(function () {
 
         $("#btnSearch").prop("disabled", true);
+
+        $("#btnClear").click(function () {
+            $('#patientSelector').selectpicker('val', '');
+            $('#physicianSelector').selectpicker('val', '');
+            $('#date_timepicker_start').val([]);
+            $('#date_timepicker_end').val([]);
+            $("#btnSearch").prop("disabled", true);
+        });
 
         $(".filter").change(function () {
             if ($('#date_timepicker_start').val()
