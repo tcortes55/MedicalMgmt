@@ -26,7 +26,8 @@
 @Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker filter", @placeholder = "Data fim" } })
 @Html.Hidden("hiddenStartDate", "", new { @id = "hiddenStartDate" })
 @Html.Hidden("hiddenEndDate", "", new { @id = "hiddenEndDate" })
-<input type="submit" value="Pesquisar" class="btn btn-default" id="btnSearch" />
+<input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
+<input type="submit" value="Pesquisar" class="btn btn-primary" id="btnSearch" />
 
 <div id="queryResults"></div>
 
@@ -39,6 +40,14 @@
     $(document).ready(function () {
 
         $("#btnSearch").prop("disabled", true);
+
+        $("#btnClear").click(function () {
+            $('#patientSelector').selectpicker('val', '');
+            $('#physicianSelector').selectpicker('val', '');
+            $('#date_timepicker_start').val([]);
+            $('#date_timepicker_end').val([]);
+            $("#btnSearch").prop("disabled", true);
+        });
 
         $(".filter").change(function () {
             if ($('#date_timepicker_start').val()
