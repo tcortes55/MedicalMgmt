@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<MedicalMgmt.Models.Appointment>
 
-<h4>Próximas consultas</h4>
+<h3>Próximas consultas</h3>
 <table class="table">
     <tr>
         @if (ViewBag.PhysicianID == null)
@@ -52,7 +52,7 @@
                 @Html.DisplayFor(modelItem => item.Status.StatusDescription)
             </td>
             <td>
-                @Html.ActionLink("Detalhes", "Details", new { id = item.AppointmentID })
+                @Html.ActionLink("Detalhes", "Details", new { id = item.AppointmentID }, new { @class = "btn btn-primary" })
             </td>
         </tr>
     }

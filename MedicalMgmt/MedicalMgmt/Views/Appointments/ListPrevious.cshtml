@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<MedicalMgmt.Models.Appointment>
 
-<h4>Consultas anteriores</h4>
+<h3>Consultas anteriores</h3>
 <h6>(Últimos 30 dias; para ver um período maior, @Html.ActionLink("clique aqui", "ListAll", "Appointments"))</h6>
 <table class="table">
     <tr>
@@ -53,7 +53,7 @@
                 @Html.DisplayFor(modelItem => item.Status.StatusDescription)
             </td>
             <td>
-                @Html.ActionLink("Detalhes", "Details", new { id = item.AppointmentID })
+                @Html.ActionLink("Detalhes", "Details", new { id = item.AppointmentID }, new { @class = "btn btn-primary" })
             </td>
         </tr>
     }
