@@ -129,12 +129,16 @@
 
         function reloadSelectButtons () {
             
-            $('#PlannedStartDate').datetimepicker('reset');
             $('#selectDateTime').prop("hidden", true);
+            $('#PlannedStartDate').datetimepicker('reset');
+            $('#PlannedStartDate').val([]);
+            checkCreateAppointmentButton();
 
             $(".btnSelectPhysician").click(function() {
                 
                 $('#PlannedStartDate').datetimepicker('reset');
+                $('#PlannedStartDate').val([]);
+                checkCreateAppointmentButton();
 
                 var physicianID = this.id;
                 $('#hiddenPhysician').val(physicianID);
@@ -183,6 +187,10 @@
                             })
                         },
 
+                        onSelectTime: function (ct, $i) {
+                            checkCreateAppointmentButton();
+                        },
+
                         inline: true,
 
                         minDate: 0,
@@ -203,6 +211,16 @@
 
             });
         };
+
+        function checkCreateAppointmentButton() {
+            if ($("#hiddenPhysician").val() && $("#PlannedStartDate").val())
+            {
+                $("#btnCreateAppointment").attr("disabled", false);
+            }
+            else {
+                $("#btnCreateAppointment").attr("disabled", true);
+            }
+        }
 
     });
 
