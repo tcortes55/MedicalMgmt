@@ -128,10 +128,13 @@
 
 
         function reloadSelectButtons () {
+            
+            $('#PlannedStartDate').datetimepicker('reset');
+            $('#selectDateTime').prop("hidden", true);
 
             $(".btnSelectPhysician").click(function() {
                 
-                $('#PlannedStartDate').val([])
+                $('#PlannedStartDate').datetimepicker('reset');
 
                 var physicianID = this.id;
                 $('#hiddenPhysician').val(physicianID);
