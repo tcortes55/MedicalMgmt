@@ -6797,3 +6797,8 @@ th {
   margin-top: 3px;
   margin-bottom: 3px;
 }
+
+.no-lateral-padding {
+    padding-left: 0px;
+    padding-right: 0px;
+}

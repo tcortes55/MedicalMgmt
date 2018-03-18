@@ -5,7 +5,6 @@
 }
 
 <h2>Detalhes da consulta</h2>
-
 <div>
     <h4>
         @Html.DisplayFor(model => model.Status.StatusDescription)
@@ -116,37 +115,38 @@
                 </div>
                 <div id="PatientInfoContainer" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <div class="form-group">
+                        <div class="form-group col-md-12 no-lateral-padding">
                             @Html.LabelFor(model => model.Patient.Allergies, htmlAttributes: new { @class = "control-label col-md-12" })
                             <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
                                 @Html.TextAreaFor(model => model.Patient.Allergies, new { @class = "form-control onlyEditableWhenOngoing", @id = "allergies" })
                                 @Html.ValidationMessageFor(model => model.Patient.Allergies, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="patient-info-break"></div>
+                        <div class="form-group col-md-12 no-lateral-padding">
                             @Html.LabelFor(model => model.Patient.FamilyMedicalHistory, htmlAttributes: new { @class = "control-label col-md-12" })
                             <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
                                 @Html.TextAreaFor(model => model.Patient.FamilyMedicalHistory, new { @class = "form-control onlyEditableWhenOngoing", @id = "familyMedicalHistory" })
                                 @Html.ValidationMessageFor(model => model.Patient.FamilyMedicalHistory, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group col-md-12 no-lateral-padding">
                             @Html.LabelFor(model => model.Patient.LongTermMedication, htmlAttributes: new { @class = "control-label col-md-12" })
                             <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
                                 @Html.TextAreaFor(model => model.Patient.LongTermMedication, new { @class = "form-control onlyEditableWhenOngoing", @id = "longTermMedication" })
                                 @Html.ValidationMessageFor(model => model.Patient.LongTermMedication, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group col-md-12 no-lateral-padding">
                             @Html.LabelFor(model => model.Anamnesis, htmlAttributes: new { @class = "control-label col-md-12" })
                             <div class="col-md-12" data-toggle="tooltip" title="Editável somente durante uma consulta em andamento">
                                 @Html.TextAreaFor(model => model.Anamnesis, new { @class = "form-control onlyEditableWhenOngoing", @id = "anamnesis" })
                                 @Html.ValidationMessageFor(model => model.Anamnesis, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group col-md-12 no-lateral-padding">
                             <div class="col-md-12">
-                                <button class="btn btn-primary" id="btnUpdatePatientInfo">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
+                                <button class="btn btn-primary" id="btnUpdatePatientInfo"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar</button>
                             </div>
                         </div>
                     </div>
@@ -330,10 +330,10 @@
         <div>
             <hr />
             <div class="col-md-12">
-                <button class="btn btn-primary btn-space" id="btnChangeStatus">Alterar status para "@ViewBag.NextStatusDescription" <i class="glyphicon glyphicon-repeat"></i></button>
+                <button class="btn btn-primary btn-space" id="btnChangeStatus"><i class="glyphicon glyphicon-chevron-right"></i> Alterar status para "@ViewBag.NextStatusDescription"</button>
             </div>
             <div class="col-md-12">
-                <button class="btn btn-danger btn-space" id="btnCancel">Cancelar consulta <i class="glyphicon glyphicon-ban-circle"></i></button>
+                <button class="btn btn-danger btn-space" id="btnCancel"><i class="glyphicon glyphicon-ban-circle"></i> Cancelar consulta</button>
             </div>
         </div>
     }
