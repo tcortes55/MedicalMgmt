@@ -6802,3 +6802,12 @@ th {
     padding-left: 0px;
     padding-right: 0px;
 }
+
+.line-space {
+    height: 6px;
+}
+
+.textarea-maxsize {
+    max-width: 560px;
+    width: 100%;
+}

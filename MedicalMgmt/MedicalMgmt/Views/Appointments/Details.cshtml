@@ -164,12 +164,13 @@
                 </div>
                 <div id="MedicinesContainer" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <div id="MedicinesByAppointment">
+                        <div id="MedicinesByAppointment" class="col-md-12 no-lateral-padding">
                             @{Html.RenderAction("ListMedicinesByAppointment", "PrescriptedMedicines", new { appointmentID = Model.AppointmentID });}
                         </div>
                         <div class="onlyVisibleWhenOngoing">
-                            <div id="addPrescription">
-                                <select id="medicineSelector" class="selectpicker" data-live-search="true" title="Selecionar medicamento...">
+                            <hr />
+                            <div id="addPrescription" class="col-md-12 no-lateral-padding">
+                                <select id="medicineSelector" class="selectpicker form-control textarea-maxsize" data-live-search="true" title="Selecionar medicamento...">
                                     @foreach (var item in ViewBag.MedicineList)
                                     {
                                         <option value="@item.MedicineID">@item.CommercialName (@item.GenericName)</option>
@@ -177,8 +178,9 @@
                                 </select>
                                 @Html.TextArea("Posologia", new { @class = "form-control", @id = "posology", @placeholder = "Posologia..." })
                             </div>
-                            <div class="col-md-12">
-                                <button class="btn btn-default" id="btnAddInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
+                            <div class="col-md-12 line-space"></div>
+                            <div class="col-md-12 no-lateral-padding">
+                                <button class="btn btn-primary" id="btnAddInline"><i class="glyphicon glyphicon-plus"></i> Adicionar</button>
                             </div>
                         </div>
                     </div>
@@ -196,12 +198,13 @@
                 </div>
                 <div id="ExamsContainer" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <div id="ExamsByAppointment">
+                        <div id="ExamsByAppointment" class="col-md-12 no-lateral-padding">
                             @{Html.RenderAction("ListExamsByAppointment", "PrescriptedExams", new { appointmentID = Model.AppointmentID });}
                         </div>
                         <div class="onlyVisibleWhenOngoing">
-                            <div id="addExamPrescription">
-                                <select id="examSelector" class="selectpicker" data-live-search="true" title="Selecionar exame...">
+                            <hr />
+                            <div id="addExamPrescription" class="col-md-12 no-lateral-padding">
+                                <select id="examSelector" class="selectpicker form-control textarea-maxsize" data-live-search="true" title="Selecionar exame...">
                                     @foreach (var item in ViewBag.ExamList)
                                     {
                                         <option value="@item.ExamID">@item.Name</option>
@@ -211,8 +214,9 @@
                                 @Html.CheckBox("Enviar para o paciente", false, new { @class = "", @id = "examSend" })
                                 <label for="examSend">Enviar para o paciente</label>
                             </div>
-                            <div class="col-md-12">
-                                <button class="btn btn-default" id="btnAddExamInline">Adicionar <i class="glyphicon glyphicon-plus"></i></button>
+                            <div class="col-md-12 line-space"></div>
+                            <div class="col-md-12 no-lateral-padding">
+                                <button class="btn btn-primary" id="btnAddExamInline"><i class="glyphicon glyphicon-plus"></i> Adicionar</button>
                             </div>
                         </div>
                     </div>

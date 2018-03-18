@@ -33,9 +33,11 @@
             </td>
             @if (@ViewBag.AppointmentStatusID == MedicalMgmt.General.Constants.SS_AP_ONGOING)
             {
-                <td>
-                    <button type="button" class="btn btn-default btn-sm" data-item-id="@item.PrescriptedMedicineID" data-item-description="@item.Medicine.CommercialName (@item.Medicine.GenericName)" data-item-posology="@item.Posology" data-toggle="modal" data-target="#confirm-edit"><i class="glyphicon glyphicon-edit"></i></button>
-                    <button type="button" class="btn btn-danger btn-sm" data-item-id="@item.PrescriptedMedicineID" data-item-description="@item.Medicine.CommercialName (@item.Medicine.GenericName)" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-trash"></i></button>
+                <td align="right">
+                    @*<div class="table-inside-buttons">*@
+                        <button type="button" class="btn btn-default btn-sm" data-item-id="@item.PrescriptedMedicineID" data-item-description="@item.Medicine.CommercialName (@item.Medicine.GenericName)" data-item-posology="@item.Posology" data-toggle="modal" data-target="#confirm-edit"><i class="glyphicon glyphicon-edit"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm" data-item-id="@item.PrescriptedMedicineID" data-item-description="@item.Medicine.CommercialName (@item.Medicine.GenericName)" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-trash"></i></button>
+                    @*</div>*@
                 </td>
             }
         </tr>

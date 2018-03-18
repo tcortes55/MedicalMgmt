@@ -22,10 +22,12 @@ select,
 textarea {
     max-width: 280px;
 }*/
-input,
-select {
+input
+ {
     max-width: 280px;
 }
+select,
 textarea {
     max-width: 560px;
+    width: 100%;
 }
