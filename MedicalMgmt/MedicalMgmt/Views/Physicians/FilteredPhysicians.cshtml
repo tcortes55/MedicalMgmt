@@ -15,13 +15,13 @@
 
     @foreach (var item in Model.Physicians)
     {
-        string selectedRow = "";
-        if (item.PhysicianID == ViewBag.PhysicianID)
-        {
-            Model.Appointment.PhysicianID = item.PhysicianID;
-            selectedRow = "success";
-        }
-        <tr class="@selectedRow">
+        //string selectedRow = "";
+        //if (item.PhysicianID == ViewBag.PhysicianID)
+        //{
+        //    Model.Appointment.PhysicianID = item.PhysicianID;
+        //    selectedRow = "success";
+        //}
+        <tr class="tableRow" id="row_@item.PhysicianID">
             <td>
                 @Html.DisplayFor(modelItem => item.AppUser.FullName)
             </td>
