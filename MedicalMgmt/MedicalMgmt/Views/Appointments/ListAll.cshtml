@@ -10,7 +10,7 @@
 
 <h6>Selecionar paciente e/ou médico(a)</h6>
 <div class="row justify-content-start">
-    <div class="col-sm-3">
+    <div class="col-md-3">
         <select id="patientSelector" class="selectpicker filter form-control" data-live-search="true" title="Selecionar paciente...">
             @foreach (var item in ViewBag.PatientList)
             {
@@ -18,7 +18,7 @@
             }
         </select>
     </div>
-    <div class="col-sm-3">
+    <div class="col-md-3">
         <select id="physicianSelector" class="selectpicker filter form-control" data-live-search="true" title="Selecionar médico...">
             @foreach (var item in ViewBag.PhysicianList)
             {
@@ -31,10 +31,10 @@
 <h6>Período máximo de busca: 365 dias</h6>
 @*<div class="container">*@
 <div class="row justify-content-start">
-    <div class="col-sm-3">
+    <div class="col-md-3">
         @Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker filter", @placeholder = "Data início" } })
     </div>
-    <div class="col-sm-3">
+    <div class="col-md-3">
         @Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker filter", @placeholder = "Data fim" } })
     </div>
 </div>
