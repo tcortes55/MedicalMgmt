@@ -176,6 +176,7 @@ namespace MedicalMgmt.Controllers
                     appUser.Rg = model.Rg;
                     appUser.Cpf = model.Cpf;
                     appUser.Address = model.Address;
+                    appUser.RegisterDate = DateTime.Now;
                     appUser.Active = true;
 
                     if (model.Name.ToUpper() == MedicalMgmt.General.Constants.PROFILE_PHYSICIAN)
