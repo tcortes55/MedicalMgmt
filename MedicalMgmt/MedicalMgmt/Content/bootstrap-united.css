@@ -6811,3 +6811,8 @@ th {
     max-width: 560px;
     width: 100%;
 }
+
+#btnCreateAppointment {
+    max-width: 308px !important;
+    width: 100% !important;
+}

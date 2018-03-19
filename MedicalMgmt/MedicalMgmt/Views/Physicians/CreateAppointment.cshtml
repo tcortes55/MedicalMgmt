@@ -6,21 +6,36 @@
 
 <h2>Marcar consulta</h2>
 <h5>Selecione o profissional desejado</h5>
-<select id="physicianSelector" class="selectpicker filter" data-live-search="true" title="Selecionar médico...">
-    @foreach (var item in ViewBag.PhysicianList)
-    {
-        <option value="@item.PhysicianID">@item.AppUser.FullName</option>
-    }
-</select>
-<select id="expertiseSelector" class="selectpicker filter" data-live-search="true" title="Selecionar especialidade...">
-    @foreach (var item in ViewBag.PhysicianList)
-    {
-        <option value="@item.Expertise">@item.Expertise</option>
-    }
-</select>
-<input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
-<input type="submit" value="Pesquisar" class="btn btn-default" id="btnSearch" />
+<hr />
+<div class="row justify-content-start">
+    <div class="col-md-3">
+        <select id="physicianSelector" class="selectpicker filter" data-live-search="true" title="Selecionar médico...">
+            @foreach (var item in ViewBag.PhysicianList)
+            {
+                <option value="@item.PhysicianID">@item.AppUser.FullName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select id="expertiseSelector" class="selectpicker filter" data-live-search="true" title="Selecionar especialidade...">
+            @foreach (var item in ViewBag.PhysicianList)
+            {
+                <option value="@item.Expertise">@item.Expertise</option>
+            }
+        </select>
+    </div>
 
+    @*<div class="line-space"></div>*@
+    <div class="col-md-6">
+        @*<div>*@
+        <input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
+        @*</div>
+            <div>*@
+        <input type="submit" value="Pesquisar" class="btn btn-primary" id="btnSearch" />
+        @*</div>*@
+    </div>
+</div>
+<br />
 
 <div id="filteredPhysicians">
     <table class="table">
@@ -38,12 +53,6 @@
 
         @foreach (var item in Model.Physicians)
         {
-            //string selectedRow = "";
-            //if (item.PhysicianID == ViewBag.PhysicianID)
-            //{
-            //    Model.Appointment.PhysicianID = item.PhysicianID;
-            //    selectedRow = "success";
-            //}
             <tr class="tableRow" id="row_@item.PhysicianID">
                 <td>
                     @Html.DisplayFor(modelItem => item.AppUser.FullName)
@@ -51,9 +60,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Expertise)
                 </td>
-                <td>
+                <td align="right">
                     @*@Html.ActionLink("Selecionar", "CreateAppointment", new { patientID = ViewBag.PatientID, physicianID = item.PhysicianID })*@
-                    <input type="submit" value="Selecionar" class="btn btn-default btnSelectPhysician" id="@item.PhysicianID" />
+                    <input type="submit" value="Selecionar" class="btn btn-primary btnSelectPhysician" id="@item.PhysicianID" />
                 </td>
             </tr>
         }
@@ -77,18 +86,25 @@
     </div>
     
 }*@
-
 <div id="selectDateTime" hidden="hidden">
     @using (Html.BeginForm("Create", "Appointments"))
     {
         @Html.AntiForgeryToken()
         //Model.Appointment.PatientID = Model.Patient.PatientID;
-            
+
         @Html.HiddenFor(model => model.Appointment.PatientID)
         @Html.EditorFor(model => model.Appointment.PhysicianID, new { htmlAttributes = new { @id = "hiddenPhysician", @hidden = "hidden" } })
         @Html.EditorFor(model => model.Appointment.PlannedStartDate, new { htmlAttributes = new { @Value = DateTime.Now, @id = "PlannedStartDate", @class = "form-control datepicker" } })
-        <input type="submit" value="Marcar consulta" class="btn btn-primary" id="btnCreateAppointment" />
+        <div class="form-group col-md-12 no-lateral-padding">
+            <input type="submit" value="Marcar consulta" class="btn btn-primary" id="btnCreateAppointment" />
+        </div>
     }
+</div>
+    
+@*Forcing correct placemente of footer:*@
+<div class='row'>
+    <div class='span12'>
+    </div>
 </div>
     
 @Styles.Render("~/Content/bootstrap-select.min.css")

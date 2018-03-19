@@ -15,12 +15,6 @@
 
     @foreach (var item in Model.Physicians)
     {
-        //string selectedRow = "";
-        //if (item.PhysicianID == ViewBag.PhysicianID)
-        //{
-        //    Model.Appointment.PhysicianID = item.PhysicianID;
-        //    selectedRow = "success";
-        //}
         <tr class="tableRow" id="row_@item.PhysicianID">
             <td>
                 @Html.DisplayFor(modelItem => item.AppUser.FullName)
@@ -28,9 +22,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Expertise)
             </td>
-            <td>
+            <td align="right">
                 @*@Html.ActionLink("Selecionar", "CreateAppointment", new { patientID = ViewBag.PatientID, physicianID = item.PhysicianID })*@
-                <input type="submit" value="Selecionar" class="btn btn-default btnSelectPhysician" id="@item.PhysicianID" />
+                <input type="submit" value="Selecionar" class="btn btn-primary btnSelectPhysician" id="@item.PhysicianID" />
             </td>
         </tr>
     }
