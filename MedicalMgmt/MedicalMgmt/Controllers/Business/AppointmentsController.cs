@@ -331,14 +331,35 @@ namespace MedicalMgmt.Controllers.Business
                                                        && (a.PlannedStartDate > DateTime.Today)
                                                        //&& (a.PlannedStartDate < DateTime.Today.AddDays(30))
                                                        && (
-                                                            a.StatusID == Constants.SS_AP_PLANNED ||
-                                                            a.StatusID == Constants.SS_AP_PATIENT_WAITING ||
-                                                            a.StatusID == Constants.SS_AP_ONGOING
+                                                            a.StatusID == Constants.SS_AP_PLANNED
                                                         )
-                                                       && (a.StatusID != Constants.SS_AP_CANCELED)
                                                      );
 
             return PartialView(appointments.OrderBy(x => x.PlannedStartDate).ToList());
+        }
+
+        // GET: Appointments/ListFuture/5
+        // Lists future appointments (appointments are only allowed to be scheduled up to 30 days in advance)
+        public ActionResult ListWaiting(int? patientID, int? physicianID)
+        {
+            if (physicianID == null && patientID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ViewBag.PatientID = patientID;
+            ViewBag.PhysicianID = physicianID;
+
+            var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
+                                                       && (a.PhysicianID == physicianID || physicianID == null)
+                                                       && (a.PlannedStartDate > DateTime.Today)
+                                                       && (
+                                                            a.StatusID == Constants.SS_AP_PATIENT_WAITING ||
+                                                            a.StatusID == Constants.SS_AP_ONGOING
+                                                        )
+                                                     );
+
+            return PartialView(appointments.OrderBy(x => x.PlannedStartDate).OrderByDescending(x => x.StatusID).ToList());
         }
 
         // GET: Appointments/Create
