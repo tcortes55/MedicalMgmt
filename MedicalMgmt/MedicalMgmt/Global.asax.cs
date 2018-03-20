@@ -19,7 +19,7 @@ namespace MedicalMgmt
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            Database.SetInitializer(new DropCreateDatabaseAlways<MedicalMgmtDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MedicalMgmtDbContext>());
         }
     }
 }
