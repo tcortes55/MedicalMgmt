@@ -143,6 +143,7 @@ namespace MedicalMgmt.Controllers
         //
         // GET: /Account/Register
         //[AllowAnonymous]
+        [Authorize(Roles = MedicalMgmt.General.Constants.PROFILE_ADMIN)]
         public ActionResult Register()
         {
             ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
@@ -155,6 +156,7 @@ namespace MedicalMgmt.Controllers
         [HttpPost]
         //[AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = MedicalMgmt.General.Constants.PROFILE_ADMIN)]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
