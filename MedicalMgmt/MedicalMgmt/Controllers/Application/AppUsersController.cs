@@ -12,6 +12,7 @@ using System.Configuration;
 
 namespace MedicalMgmt.Controllers.Application
 {
+    [Authorize]
     public class AppUsersController : Controller
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();

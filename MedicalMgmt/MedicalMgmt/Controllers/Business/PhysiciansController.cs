@@ -14,6 +14,7 @@ using MedicalMgmt.General;
 
 namespace MedicalMgmt.Controllers.Business
 {
+    [Authorize]
     public class PhysiciansController : Controller
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();

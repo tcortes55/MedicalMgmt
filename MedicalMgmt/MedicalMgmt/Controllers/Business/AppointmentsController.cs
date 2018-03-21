@@ -13,6 +13,7 @@ using System.Configuration;
 
 namespace MedicalMgmt.Controllers.Business
 {
+    [Authorize]
     public class AppointmentsController : Controller
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();

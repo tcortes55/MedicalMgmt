@@ -12,6 +12,7 @@ using System.Globalization;
 
 namespace MedicalMgmt.Controllers.Business
 {
+    [Authorize]
     public class PrescriptedExamsController : Controller
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();

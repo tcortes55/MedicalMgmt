@@ -10,6 +10,7 @@ using MedicalMgmt.Models;
 
 namespace MedicalMgmt.Controllers.Application
 {
+    [Authorize]
     public class StatusController : Controller
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();

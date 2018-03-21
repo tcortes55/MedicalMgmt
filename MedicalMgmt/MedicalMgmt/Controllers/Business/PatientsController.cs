@@ -12,6 +12,7 @@ using PagedList;
 
 namespace MedicalMgmt.Controllers.Business
 {
+    [Authorize]
     public class PatientsController : Controller
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();

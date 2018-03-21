@@ -10,6 +10,7 @@ using MedicalMgmt.Models;
 
 namespace MedicalMgmt.Controllers.Business
 {
+    [Authorize]
     public class PrescriptedMedicinesController : Controller
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();
