@@ -6821,3 +6821,7 @@ th {
     max-width: 308px !important;
     width: 100% !important;
 }
+
+.custom-margin-20px {
+    margin-left: 20px;
+}
