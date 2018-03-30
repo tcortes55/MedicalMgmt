@@ -12,7 +12,7 @@
         @if (User.IsInRole(MedicalMgmt.General.Constants.PROFILE_ADMIN))
         {
             <li>
-                @Html.ActionLink("Novo usuário", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+                @Html.ActionLink("Criar usuário", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
             </li>
         }
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Logoff</a></li>

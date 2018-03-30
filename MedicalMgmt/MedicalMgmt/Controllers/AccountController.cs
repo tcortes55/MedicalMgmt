@@ -167,7 +167,7 @@ namespace MedicalMgmt.Controllers
                 if (result.Succeeded)
                 {
                     await this.UserManager.AddToRoleAsync(user.Id, model.Name);
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     var appUser = new AppUser();
                     appUser.AspNetUserId = user.Id;
@@ -181,7 +181,7 @@ namespace MedicalMgmt.Controllers
                     appUser.RegisterDate = DateTime.Now;
                     appUser.Active = true;
 
-                    if (model.Name.ToUpper() == MedicalMgmt.General.Constants.PROFILE_PHYSICIAN)
+                    if (model.Name == MedicalMgmt.General.Constants.PROFILE_PHYSICIAN)
                     {
                         appUser.Physician = new Physician();
                         appUser.Physician.Expertise = model.Expertise;
@@ -191,13 +191,14 @@ namespace MedicalMgmt.Controllers
 
                     db.AppUsers.Add(appUser);
                     db.SaveChanges();
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
