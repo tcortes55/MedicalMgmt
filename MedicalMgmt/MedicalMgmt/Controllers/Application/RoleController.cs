@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace MedicalMgmt.Controllers.Application
 {
-    [Authorize]
+    //[Authorize]
     public class RoleController : Controller
     {
         ApplicationDbContext context;

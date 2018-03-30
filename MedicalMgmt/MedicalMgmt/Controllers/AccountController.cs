@@ -142,7 +142,7 @@ namespace MedicalMgmt.Controllers
 
         //
         // GET: /Account/Register
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [Authorize(Roles = MedicalMgmt.General.Constants.PROFILE_ADMIN)]
         public ActionResult Register()
         {
@@ -154,7 +154,7 @@ namespace MedicalMgmt.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = MedicalMgmt.General.Constants.PROFILE_ADMIN)]
         public async Task<ActionResult> Register(RegisterViewModel model)

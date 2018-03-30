@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -184,13 +186,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201803200032533_m1.cs" />
-    <Compile Include="Migrations\201803200032533_m1.Designer.cs">
-      <DependentUpon>201803200032533_m1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803200034233_m2.cs" />
-    <Compile Include="Migrations\201803200034233_m2.Designer.cs">
-      <DependentUpon>201803200034233_m2.cs</DependentUpon>
+    <Compile Include="Migrations\201803301651176_a3.cs" />
+    <Compile Include="Migrations\201803301651176_a3.Designer.cs">
+      <DependentUpon>201803301651176_a3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -230,6 +228,12 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bootstrap-select.js.map" />
     <Content Include="Content\bootstrap-select.css.map" />
+    <None Include="Properties\PublishProfiles\MedicalMgmt - FTP %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\MedicalMgmt - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\MedicalMgmt - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\MedicalMgmt - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\MedicalMgmtUS2 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\MedicalMgmtUS2 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\i18n\defaults-ar_AR.js" />
     <Content Include="Scripts\i18n\defaults-ar_AR.min.js" />
@@ -425,11 +429,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201803200032533_m1.resx">
-      <DependentUpon>201803200032533_m1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803200034233_m2.resx">
-      <DependentUpon>201803200034233_m2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803301651176_a3.resx">
+      <DependentUpon>201803301651176_a3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
