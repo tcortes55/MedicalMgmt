@@ -118,5 +118,24 @@
 </p>
 
 <hr />
-@{ Html.RenderAction("ListFuture", "Appointments", new { patientID = Model.PatientID }); }
-@{ Html.RenderAction("ListPrevious", "Appointments", new { patientID = Model.PatientID }); }
+
+<div id="futureAppointments">
+    @{ Html.RenderAction("ListFuture", "Appointments", new { patientID = Model.PatientID }); }
+</div>
+<hr />
+<br />
+
+<div id="previousAppointments">
+    @{ Html.RenderAction("ListPrevious", "Appointments", new { patientID = Model.PatientID }); }
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+    </script>
+@Scripts.Render("~/Scripts/jquery.validate.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+}
