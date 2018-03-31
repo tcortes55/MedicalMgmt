@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using MedicalMgmt.Models;
+//using PagedList;
 
 namespace MedicalMgmt.ViewModels
 {
@@ -12,7 +13,7 @@ namespace MedicalMgmt.ViewModels
         public Patient Patient { get; set; }
 
         // List of active physicians
-        public IEnumerable<Physician> Physicians { get; set; }
+        public PagedList.IPagedList<Physician> Physicians { get; set; }
 
         // Appointment that will be created
         public Appointment Appointment { get; set; }

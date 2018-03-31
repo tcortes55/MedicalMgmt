@@ -1,4 +1,6 @@
 ﻿@model MedicalMgmt.ViewModels.SelectPhysicianData
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <table class="table">
     <tr>
@@ -30,4 +32,9 @@
     }
 
 </table>
-
+Page @(Model.Physicians.PageCount < Model.Physicians.PageNumber ? 0 : Model.Physicians.PageNumber) of @Model.Physicians.PageCount
+@Html.PagedListPager(
+            Model.Physicians,
+            page => Url.Action("FilteredPhysicians", new { page, patientID = ViewBag.PatientID }),
+            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "filteredPhysicians" })
+        )
