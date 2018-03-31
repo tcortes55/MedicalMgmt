@@ -1,4 +1,7 @@
-﻿@model IEnumerable<MedicalMgmt.Models.PrescriptedExam>
+﻿@*@model IEnumerable<MedicalMgmt.Models.PrescriptedExam>*@
+@model PagedList.IPagedList<MedicalMgmt.Models.PrescriptedExam>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <hr />
 <table class="table">
@@ -13,10 +16,10 @@
             Exame
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Details)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Details)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Result)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Result)
         </th>
         <th>
             Data prescrição
@@ -24,30 +27,40 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Patient.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Physician.AppUser.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Exam.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Details)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Result)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Appointment.PlannedStartDate)
-        </td>
-        <td align="right">
-            @Html.ActionLink("Abrir", "Details", new { id = item.PrescriptedExamID }, new { @class = "btn btn-primary" })
-        </td>
-    </tr>
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Patient.FullName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Physician.AppUser.FullName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Exam.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Details)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Result)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Appointment.PlannedStartDate)
+    </td>
+    <td align="right">
+        @Html.ActionLink("Abrir", "Details", new { id = item.PrescriptedExamID }, new { @class = "btn btn-primary" })
+    </td>
+</tr>
 }
 
 </table>
+@Html.PagedListPager(
+                    Model,
+                    page => Url.Action("ListByDate", new { page,
+                                                           patientID = ViewBag.PatientID,
+                                                           physicianID = ViewBag.PhysicianID,
+                                                           startDate = ViewBag.StartDate,
+                                                           endDate = ViewBag.EndDate }),
+                    PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "queryResults" })
+                    )

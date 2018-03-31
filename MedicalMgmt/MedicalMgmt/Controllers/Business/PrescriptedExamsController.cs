@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using MedicalMgmt.Models;
 using MedicalMgmt.General;
 using System.Globalization;
+using System.Configuration;
+using PagedList;
 
 namespace MedicalMgmt.Controllers.Business
 {
@@ -16,6 +18,9 @@ namespace MedicalMgmt.Controllers.Business
     public class PrescriptedExamsController : Controller
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();
+
+        private static string pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
+        int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
 
         // GET: PrescriptedExams
         public ActionResult Index()
@@ -57,10 +62,11 @@ namespace MedicalMgmt.Controllers.Business
 
         // GET: PrescriptedExams/ListByDate/5
         // Lists prescribed exams from the specified interval
-        public ActionResult ListByDate(int? patientID, int? physicianID, string startDate, string endDate)
+        public ActionResult ListByDate(int? patientID, int? physicianID, string startDate, string endDate, int? page)
         {
             var lStartDate = DateTime.ParseExact(startDate, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var lEndDate = DateTime.ParseExact(endDate, "yyyy/MM/dd", CultureInfo.InvariantCulture).AddDays(1);
+            int pageNumber = (page ?? 1);
 
             if (physicianID == null && patientID == null)
             {
@@ -79,11 +85,9 @@ namespace MedicalMgmt.Controllers.Business
 
             ViewBag.PatientID = patientID;
             ViewBag.PhysicianID = physicianID;
-
-            //var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
-            //                                           && (a.PhysicianID == physicianID || physicianID == null)
-            //                                           && (a.PlannedStartDate > startDate)
-            //                                           && (a.PlannedStartDate < endDate));
+            ViewBag.StartDate = startDate;
+            ViewBag.EndDate = endDate;
+            
             var prescribedExams = db.PrescriptedExams.Where(a => (a.Appointment.PlannedStartDate > lStartDate)
                                                        && (a.Appointment.PlannedStartDate < lEndDate));
 
@@ -96,7 +100,10 @@ namespace MedicalMgmt.Controllers.Business
                 prescribedExams = prescribedExams.Where(a => a.PhysicianID == physicianID);
             }
 
-            return PartialView(prescribedExams.OrderByDescending(x => x.Appointment.PlannedStartDate).ToList());
+            var prescribedExamsPaged = prescribedExams.OrderByDescending(x => x.Appointment.PlannedStartDate)
+                                                      .ToPagedList(pageNumber, pageSize);
+
+            return PartialView(prescribedExamsPaged);
         }
 
         // POST: PrescriptedExams/SaveExamResult/5

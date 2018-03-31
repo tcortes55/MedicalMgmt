@@ -32,10 +32,10 @@
     <h6>Período máximo de busca: 365 dias</h6>
     <div class="row justify-content-start">
         <div class="col-md-3">
-            @Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker filter", @placeholder = "Data prescrição - início" } })
+            @Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker filter", @placeholder = "Data solicitação - início" } })
         </div>
         <div class="col-md-3">
-            @Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker filter", @placeholder = "Data prescrição - fim" } })
+            @Html.Editor("endDate", new { htmlAttributes = new { @id = "date_timepicker_end", @class = "form-control datepicker filter", @placeholder = "Data solicitação - fim" } })
         </div>
     </div>
     @*@Html.Editor("startDate", new { htmlAttributes = new { @id = "date_timepicker_start", @class = "form-control datepicker filter", @placeholder = "Data prescrição - início" } })
@@ -169,4 +169,8 @@
         }
     })
 </script>
+    
+@Scripts.Render("~/Scripts/jquery.validate.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
 }
