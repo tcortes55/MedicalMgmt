@@ -307,7 +307,7 @@ namespace MedicalMgmt.Controllers.Business
             int pageNumber = (page ?? 1);
 
             var begin = DateTime.Today.AddDays(-30);
-            var end = DateTime.Today.AddDays(1);
+            var end = DateTime.Today.AddDays(31); //in case a patient arrives before his/her appointment's date, it'll still be considered
 
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null)
