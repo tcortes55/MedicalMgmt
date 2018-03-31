@@ -72,28 +72,28 @@
     </table>
     Page @(Model.Physicians.PageCount < Model.Physicians.PageNumber ? 0 : Model.Physicians.PageNumber) of @Model.Physicians.PageCount
     @Html.PagedListPager(
-            Model.Physicians,
-            page => Url.Action("FilteredPhysicians", new { page, patientID = ViewBag.PatientID }),
-            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "filteredPhysicians" })
-        )
+                        Model.Physicians,
+                        page => Url.Action("FilteredPhysicians", new { page, patientID = ViewBag.PatientID }),
+                        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "filteredPhysicians" })
+                    )
 </div>
 
 @*@if (Model.Appointment.PhysicianID != null && Model.Appointment.PhysicianID > 0)
-{
-    <div>
-        @using (Html.BeginForm("Create", "Appointments"))
-        {
-            @Html.AntiForgeryToken()
-            //Model.Appointment.PatientID = Model.Patient.PatientID;
-            
-            @Html.HiddenFor(model => model.Appointment.PatientID)
-            @Html.HiddenFor(model => model.Appointment.PhysicianID)
-            @Html.EditorFor(model => model.Appointment.PlannedStartDate, new { htmlAttributes = new { @Value = DateTime.Now, @id="PlannedStartDate", @class = "form-control datepicker" } })
-            <input type="submit" value="Marcar consulta" class="btn btn-primary" />
-        }
-    </div>
-    
-}*@
+    {
+        <div>
+            @using (Html.BeginForm("Create", "Appointments"))
+            {
+                @Html.AntiForgeryToken()
+                //Model.Appointment.PatientID = Model.Patient.PatientID;
+
+                @Html.HiddenFor(model => model.Appointment.PatientID)
+                @Html.HiddenFor(model => model.Appointment.PhysicianID)
+                @Html.EditorFor(model => model.Appointment.PlannedStartDate, new { htmlAttributes = new { @Value = DateTime.Now, @id="PlannedStartDate", @class = "form-control datepicker" } })
+                <input type="submit" value="Marcar consulta" class="btn btn-primary" />
+            }
+        </div>
+
+    }*@
 <div id="selectDateTime" hidden="hidden">
     @using (Html.BeginForm("Create", "Appointments"))
     {
@@ -108,16 +108,17 @@
         </div>
     }
 </div>
-    
+
 @*Forcing correct placemente of footer:*@
 <div class='row'>
     <div class='span12'>
     </div>
 </div>
-    
+
 @Styles.Render("~/Content/bootstrap-select.min.css")
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @*@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")*@
     <script src="~/Scripts/bootstrap-select.min.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" />
     <script src="~/Scripts/jquery.datetimepicker.js"></script>
@@ -139,7 +140,7 @@
                     url: "/Physicians/FilteredPhysicians/",
                     success: function (result) {
                         $("#filteredPhysicians").html(result);
-                        reloadSelectButtons();
+                        //reloadSelectButtons();
                     },
 
                     error: function (error) {
@@ -155,17 +156,22 @@
 
         reloadSelectButtons();
 
+        $("#filteredPhysicians").on("DOMSubtreeModified", function () {
+            reloadSelectButtons();
+        })
 
+        
+    });
 
-        function reloadSelectButtons () {
-            
+    function reloadSelectButtons () {
+
             $('#selectDateTime').prop("hidden", true);
             $('#PlannedStartDate').datetimepicker('reset');
             $('#PlannedStartDate').val([]);
             checkCreateAppointmentButton();
 
             $(".btnSelectPhysician").click(function() {
-                
+
                 var physicianID = this.id;
                 $('#hiddenPhysician').val(physicianID);
                 var rowID = "#row_" + physicianID;
@@ -255,8 +261,8 @@
             }
         }
 
-    });
-
-</script>
-
+    </script>
+    @Scripts.Render("~/Scripts/jquery.validate.min.js")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
 }
