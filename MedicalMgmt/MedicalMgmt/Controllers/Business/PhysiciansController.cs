@@ -81,51 +81,7 @@ namespace MedicalMgmt.Controllers.Business
 
         // GET: Physicians
         public ActionResult CreateAppointment(int? patientID, int? physicianID, int? page)
-        //public ActionResult CreateAppointment(/*string sortOrder, string currentFilter, string searchString, int? page,*/ int? patientID, int? physicianID)
         {
-            /* ViewBag.CurrentSort = sortOrder;
-             ViewBag.UsernameSortParam = String.IsNullOrEmpty(sortOrder) ? "Username_desc" : "";
-             ViewBag.ExpertiseSortParam = sortOrder == "Expertise" ? "Expertise_desc" : "Expertise";
-
-             if (searchString != null)
-             {
-                 page = 1;
-             }
-             else
-             {
-                 searchString = currentFilter;
-             }
-
-             ViewBag.CurrentFilter = searchString;
-
-             var physicians = db.Physicians.Include(p => p.User);
-
-             if (!String.IsNullOrEmpty(searchString))
-             {
-                 physicians = physicians.Where(p => p.User.Username.Contains(searchString));
-             }
-
-             switch (sortOrder)
-             {
-                 case "Username_desc":
-                     physicians = physicians.OrderByDescending(p => p.User.Username);
-                     break;
-                 case "Expertise":
-                     physicians = physicians.OrderBy(p => p.Expertise);
-                     break;
-                 case "Expertise_desc":
-                     physicians = physicians.OrderByDescending(p => p.Expertise);
-                     break;
-                 default:
-                     physicians = physicians.OrderBy(p => p.User.Username);
-                     break;
-             }
-
-             var pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
-             int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
-             int pageNumber = (page ?? 1);
-
-             return View(physicians.ToPagedList(pageNumber, pageSize));*/
             ViewBag.PhysicianList = db.Physicians.Include(a => a.AppUser).OrderBy(p => p.AppUser.FullName).ToList();
             
             int pageNumber = (page ?? 1);

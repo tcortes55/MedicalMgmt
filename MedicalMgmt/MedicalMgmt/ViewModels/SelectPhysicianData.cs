@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using MedicalMgmt.Models;
-//using PagedList;
 
 namespace MedicalMgmt.ViewModels
 {
