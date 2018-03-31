@@ -18,12 +18,12 @@
         </dd>
 
         @*<dt>
-            @Html.DisplayNameFor(model => model.AppUser.FullName)
-        </dt>
+                @Html.DisplayNameFor(model => model.AppUser.FullName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.AppUser.FullName)
-        </dd>*@
+            <dd>
+                @Html.DisplayFor(model => model.AppUser.FullName)
+            </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.Expertise)
@@ -54,12 +54,29 @@
 <hr />
 <br />
 
-@{ Html.RenderAction("ListWaiting", "Appointments", new { physicianID = Model.PhysicianID }); }
+<div id="waitingAppointments">
+    @{ Html.RenderAction("ListWaiting", "Appointments", new { physicianID = Model.PhysicianID }); }
+</div>
 <hr />
 <br />
 
-@{ Html.RenderAction("ListFuture", "Appointments", new { physicianID = Model.PhysicianID }); }
+<div id="futureAppointments">
+    @{ Html.RenderAction("ListFuture", "Appointments", new { physicianID = Model.PhysicianID }); }
+</div>
 <hr />
 <br />
 
-@{ Html.RenderAction("ListPrevious", "Appointments", new { physicianID = Model.PhysicianID }); }
+<div id="previousAppointments">
+    @{ Html.RenderAction("ListPrevious", "Appointments", new { physicianID = Model.PhysicianID }); }
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+    </script>
+@Scripts.Render("~/Scripts/jquery.validate.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+}

@@ -36,5 +36,5 @@ Page @(Model.Physicians.PageCount < Model.Physicians.PageNumber ? 0 : Model.Phys
 @Html.PagedListPager(
             Model.Physicians,
             page => Url.Action("FilteredPhysicians", new { page, patientID = ViewBag.PatientID }),
-            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "filteredPhysicians" })
+            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "futureAppointments" })
         )

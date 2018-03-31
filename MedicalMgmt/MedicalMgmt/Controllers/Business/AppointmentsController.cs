@@ -10,6 +10,7 @@ using MedicalMgmt.Models;
 using MedicalMgmt.General;
 using System.Globalization;
 using System.Configuration;
+using PagedList;
 
 namespace MedicalMgmt.Controllers.Business
 {
@@ -17,6 +18,9 @@ namespace MedicalMgmt.Controllers.Business
     public class AppointmentsController : Controller
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();
+
+        private static string pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
+        int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
 
         // GET: Appointments
         public ActionResult Index()
@@ -291,7 +295,7 @@ namespace MedicalMgmt.Controllers.Business
 
         // GET: Appointments/ListPrevious/5
         // Lists appointments for the previous 30 days
-        public ActionResult ListPrevious(int? patientID, int? physicianID)
+        public ActionResult ListPrevious(int? patientID, int? physicianID, int? page)
         {
             if (physicianID == null && patientID == null)
             {
@@ -300,6 +304,8 @@ namespace MedicalMgmt.Controllers.Business
 
             ViewBag.PatientID = patientID;
             ViewBag.PhysicianID = physicianID;
+            int pageNumber = (page ?? 1);
+
             var begin = DateTime.Today.AddDays(-30);
             var end = DateTime.Today.AddDays(1);
 
@@ -307,17 +313,16 @@ namespace MedicalMgmt.Controllers.Business
                                                        && (a.PhysicianID == physicianID || physicianID == null)
                                                        && (a.PlannedStartDate > begin)
                                                        && (a.PlannedStartDate < end)
-                                                       && (
-                                                            a.StatusID == Constants.SS_AP_FINISHED
-                                                        )
-                                                     );
+                                                       && (a.StatusID == Constants.SS_AP_FINISHED))
+                                              .OrderByDescending(x => x.PlannedStartDate)
+                                              .ToPagedList(pageNumber, pageSize);
 
-            return PartialView(appointments.OrderByDescending(x => x.PlannedStartDate).ToList());
+            return PartialView(appointments);
         }
 
         // GET: Appointments/ListFuture/5
         // Lists future appointments (appointments are only allowed to be scheduled up to 30 days in advance)
-        public ActionResult ListFuture(int? patientID, int? physicianID)
+        public ActionResult ListFuture(int? patientID, int? physicianID, int? page)
         {
             if (physicianID == null && patientID == null)
             {
@@ -326,22 +331,25 @@ namespace MedicalMgmt.Controllers.Business
 
             ViewBag.PatientID = patientID;
             ViewBag.PhysicianID = physicianID;
+            int pageNumber = (page ?? 1);
+
+            var begin = DateTime.Today;
+            var end = begin.AddDays(31);
 
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null)
-                                                       && (a.PlannedStartDate > DateTime.Today)
-                                                       //&& (a.PlannedStartDate < DateTime.Today.AddDays(30))
-                                                       && (
-                                                            a.StatusID == Constants.SS_AP_PLANNED
-                                                        )
-                                                     );
+                                                       && (a.PlannedStartDate > begin)
+                                                       && (a.PlannedStartDate < end)
+                                                       && (a.StatusID == Constants.SS_AP_PLANNED))
+                                              .OrderBy(a => a.PlannedStartDate)
+                                              .ToPagedList(pageNumber, pageSize);
 
-            return PartialView(appointments.OrderBy(x => x.PlannedStartDate).ToList());
+            return PartialView(appointments);
         }
 
         // GET: Appointments/ListFuture/5
         // Lists future appointments (appointments are only allowed to be scheduled up to 30 days in advance)
-        public ActionResult ListWaiting(int? patientID, int? physicianID)
+        public ActionResult ListWaiting(int? patientID, int? physicianID, int? page)
         {
             if (physicianID == null && patientID == null)
             {
@@ -350,17 +358,18 @@ namespace MedicalMgmt.Controllers.Business
 
             ViewBag.PatientID = patientID;
             ViewBag.PhysicianID = physicianID;
+            int pageNumber = (page ?? 1);
 
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null)
                                                        && (a.PlannedStartDate > DateTime.Today)
-                                                       && (
-                                                            a.StatusID == Constants.SS_AP_PATIENT_WAITING ||
-                                                            a.StatusID == Constants.SS_AP_ONGOING
-                                                        )
-                                                     );
-
-            return PartialView(appointments.OrderBy(x => x.PlannedStartDate).OrderByDescending(x => x.StatusID).ToList());
+                                                       && (a.StatusID == Constants.SS_AP_PATIENT_WAITING ||
+                                                           a.StatusID == Constants.SS_AP_ONGOING))
+                                              .OrderBy(x => x.PlannedStartDate)
+                                              .OrderByDescending(x => x.StatusID)
+                                              .ToPagedList(pageNumber, pageSize);
+            
+            return PartialView(appointments);
         }
 
         // GET: Appointments/Create

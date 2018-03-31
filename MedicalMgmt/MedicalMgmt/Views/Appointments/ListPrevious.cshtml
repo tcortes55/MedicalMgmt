@@ -1,4 +1,7 @@
-﻿@model IEnumerable<MedicalMgmt.Models.Appointment>
+﻿@*@model IEnumerable<MedicalMgmt.Models.Appointment>*@
+@model PagedList.IPagedList<MedicalMgmt.Models.Appointment>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <h3>Consultas anteriores</h3>
 <h6>(Últimos 30 dias; para ver um período maior, @Html.ActionLink("clique aqui", "ListAll", "Appointments", new { @class = "custom-link" }))</h6>
@@ -20,11 +23,11 @@
             </th>
         }
         <th>
-            @Html.DisplayNameFor(model => model.PlannedStartDate)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().PlannedStartDate)
         </th>
         @*<th>
-            @Html.DisplayNameFor(model => model.Status.StatusDescription)
-        </th>*@
+                @Html.DisplayNameFor(model => model.Status.StatusDescription)
+            </th>*@
         <th></th>
     </tr>
 
@@ -50,8 +53,8 @@
                 @Html.DisplayFor(modelItem => item.PlannedStartDate)
             </td>
             @*<td>
-                @Html.DisplayFor(modelItem => item.Status.StatusDescription)
-            </td>*@
+                    @Html.DisplayFor(modelItem => item.Status.StatusDescription)
+                </td>*@
             <td align="right">
                 @Html.ActionLink("Abrir", "Details", new { id = item.AppointmentID }, new { @class = "btn btn-primary" })
             </td>
@@ -60,3 +63,8 @@
 
 </table>
 
+@Html.PagedListPager(
+            Model,
+            page => Url.Action("ListPrevious", new { page, patientID = ViewBag.PatientID, physicianID = ViewBag.PhysicianID }),
+            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "previousAppointments" })
+)
