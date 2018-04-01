@@ -5,10 +5,56 @@
 
 <div class="jumbotron">
     <h1>MedicalMgmt</h1>
-    <p class="lead">Olá, @User.Identity.GetUserName()!</p>
+    <p class="lead">Lorem ipsum dolor sit amet</p>
     @*<p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
 </div>
 
+<div class="col-md-12">
+    <a href="~/Patients">
+        <div class="col-md-3">
+            <div class="box text-center home-link">
+                <i class="fa fa-user-md fa-3x circled bg-skin"></i>
+                <h4 class="h-bold">Marcar consulta</h4>
+                <p>
+                    Selecionar paciente (ou cadastrar novo), médico e horário para marcação de consulta.
+                </p>
+            </div>
+        </div>
+    </a>
+    <a href="~/Appointments/ListAll">
+        <div class="col-md-3">
+            <div class="box text-center home-link">
+                <i class="fa fa-check fa-3x circled bg-skin"></i>
+                <h4 class="h-bold">Pesquisar consultas</h4>
+                <p>
+                    Buscar consultas filtrando por paciente, médico e data; alterar status ou cancelar.
+                </p>
+            </div>
+        </div>
+    </a>
+    <a href="~/PrescriptedExams/ListAll">
+        <div class="col-md-3">
+            <div class="box text-center home-link">
+                <i class="fa fa-check fa-3x circled bg-skin"></i>
+                <h4 class="h-bold">Exames solicitados</h4>
+                <p>
+                    Buscar exames solicitados filtrando por paciente, médico e data; ver detalhes ou inserir resultado.
+                </p>
+            </div>
+        </div>
+    </a>
+    <a href="~/Medicines">
+        <div class="col-md-3">
+            <div class="box text-center home-link">
+                <i class="fa fa-user-md fa-3x circled bg-skin"></i>
+                <h4 class="h-bold">Medicamentos cadastrados</h4>
+                <p>
+                    Ver medicamentos cadastrados no sistema e/ou cadastrar um novo medicamento.
+                </p>
+            </div>
+        </div>
+    </a>
+</div>
 @*<div class="row">
         <div class="col-md-4">
             <h2>Getting started</h2>
@@ -30,3 +76,9 @@
             <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
         </div>
     </div>*@
+
+@*Forcing correct placemente of footer:*@
+<div class='row'>
+    <div class='span12'>
+    </div>
+</div>
