@@ -10,30 +10,23 @@
 <h2>Medicamentos</h2>
 
 <p>
-    @Html.ActionLink("Criar novo", "Create")
+    @Html.ActionLink("Cadastrar novo", "Create")
 </p>
 
-@using (Html.BeginForm("Index", "Medicines", FormMethod.Get))
-{
-    <p>
-        Nome: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Buscar" />
-    </p>
-}
 
 <table class="table">
     <tr>
         <th>
-            @*@Html.DisplayNameFor(model => model.CommercialName)*@
-            @Html.ActionLink("Nome comercial", "Index", new { sortOrder = ViewBag.CommercialNameSortParam, currentFilter = ViewBag.CurrentFilter })
+            @Html.DisplayNameFor(model => model.FirstOrDefault().CommercialName)
+            @*@Html.ActionLink("Nome comercial", "Index", new { sortOrder = ViewBag.CommercialNameSortParam, currentFilter = ViewBag.CurrentFilter })*@
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.GenericName)*@
-            @Html.ActionLink("Nome genérico", "Index", new { sortOrder = ViewBag.GenericNameSortParam, currentFilter = ViewBag.CurrentFilter })
+            @Html.DisplayNameFor(model => model.FirstOrDefault().GenericName)
+            @*@Html.ActionLink("Nome genérico", "Index", new { sortOrder = ViewBag.GenericNameSortParam, currentFilter = ViewBag.CurrentFilter })*@
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.Manufacturer)*@
-            @Html.ActionLink("Fabricante", "Index", new { sortOrder = ViewBag.ManufacturerSortParam, currentFilter = ViewBag.CurrentFilter })
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Manufacturer)
+            @*@Html.ActionLink("Fabricante", "Index", new { sortOrder = ViewBag.ManufacturerSortParam, currentFilter = ViewBag.CurrentFilter })*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().Active)
@@ -56,16 +49,12 @@
             @Html.DisplayFor(modelItem => item.Active)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id = item.MedicineID }) @*|
-    @Html.ActionLink("Detalhes", "Details", new { id = item.MedicineID }) |
-    @Html.ActionLink("Excluir", "Delete", new { id = item.MedicineID })*@
+            @Html.ActionLink("Editar", "Edit", new { id = item.MedicineID })
         </td>
     </tr>
 }
 
 </table>
-<br />
-
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

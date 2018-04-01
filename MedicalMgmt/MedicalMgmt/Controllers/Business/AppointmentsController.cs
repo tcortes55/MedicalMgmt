@@ -251,10 +251,11 @@ namespace MedicalMgmt.Controllers.Business
 
         // GET: Appointments/ListByDate/5
         // Lists appointments from the specified interval
-        public ActionResult ListByDate(int? patientID, int? physicianID, string startDate, string endDate)
+        public ActionResult ListByDate(int? patientID, int? physicianID, string startDate, string endDate, int? page)
         {
             var lStartDate = DateTime.ParseExact(startDate, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var lEndDate = DateTime.ParseExact(endDate, "yyyy/MM/dd", CultureInfo.InvariantCulture).AddDays(1);
+            int pageNumber = (page ?? 1);
 
             if (physicianID == null && patientID == null)
             {
@@ -273,11 +274,9 @@ namespace MedicalMgmt.Controllers.Business
 
             ViewBag.PatientID = patientID;
             ViewBag.PhysicianID = physicianID;
-
-            //var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
-            //                                           && (a.PhysicianID == physicianID || physicianID == null)
-            //                                           && (a.PlannedStartDate > startDate)
-            //                                           && (a.PlannedStartDate < endDate));
+            ViewBag.StartDate = startDate;
+            ViewBag.EndDate = endDate;
+            
             var appointments = db.Appointments.Where(a => (a.PlannedStartDate > lStartDate)
                                                        && (a.PlannedStartDate < lEndDate));
 
@@ -290,7 +289,9 @@ namespace MedicalMgmt.Controllers.Business
                 appointments = appointments.Where(a => a.PhysicianID == physicianID);
             }
 
-            return PartialView(appointments.OrderByDescending(x => x.PlannedStartDate).ToList());
+            var appointmentsPaged = appointments.OrderByDescending(x => x.PlannedStartDate).ToPagedList(pageNumber, pageSize);
+
+            return PartialView(appointmentsPaged);
         }
 
         // GET: Appointments/ListPrevious/5
