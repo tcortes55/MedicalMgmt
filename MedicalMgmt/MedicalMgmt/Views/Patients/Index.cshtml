@@ -23,12 +23,12 @@
                 }
             </select>
         </div>
+        <div class="col-md-6">
+            <input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
+            <input type="submit" value="Pesquisar" class="btn btn-primary" id="btnSearch" />
+        </div>
     </div>
-
-    <div>
-        <input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
-        <input type="submit" value="Pesquisar" class="btn btn-primary" id="btnSearch" />
-    </div>
+    <br />
 
     <div id="queryResults">
         <table class="table">
@@ -66,13 +66,13 @@
                     </td>
                     <td align="right">
                         @Html.ActionLink("Detalhes",
-                                                                             "Details",
-                                                                             new { id = item.PatientID },
-                                                                             new { @class = "btn btn-default" })
+                                                                                  "Details",
+                                                                                  new { id = item.PatientID },
+                                                                                  new { @class = "btn btn-default" })
                         @Html.ActionLink("Marcar consulta",
-                                                                             "CreateAppointment",
-                                                                             new { controller = "Physicians", patientID = item.PatientID },
-                                                                             new { @class = "btn btn-primary" })
+                                                                                  "CreateAppointment",
+                                                                                  new { controller = "Physicians", patientID = item.PatientID },
+                                                                                  new { @class = "btn btn-primary" })
                     </td>
                 </tr>
             }
@@ -80,7 +80,7 @@
         </table>
 
         @Html.PagedListPager(Model, page => Url.Action("Index",
-                                     new { page }))
+                                          new { page }))
     </div>
 </div>
 
@@ -94,25 +94,12 @@
         $(document).ready(function () {
 
             $(".selectpicker").selectpicker()
-
-            //$("#btnSearch").prop("disabled", true);
-
+            
             $("#btnClear").click(function () {
                 $('#patientSelector').selectpicker('val', '');
-                //$("#btnSearch").prop("disabled", true);
             });
 
-            //$(".filter").change(function () {
-            //    if ($("#patientSelector").val()) {
-            //        $("#btnSearch").prop("disabled", false);
-            //    }
-            //    else {
-            //        $("#btnSearch").prop("disabled", true);
-            //    }
-            //});
-
             $("#btnSearch").click(function () {
-                //var id = $(this).attr("id");
 
                 $.ajax(
                     {
@@ -128,7 +115,7 @@
                         },
 
                         error: function (error) {
-                            alert("Fail");
+                            //alert("Fail");
                         }
                     });
             });
