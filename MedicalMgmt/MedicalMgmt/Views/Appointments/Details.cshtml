@@ -377,6 +377,11 @@
             checkExamButton();
         });
 
+        $(".btn-load").click(function () {
+            var $this = $(this);
+            $this.button('loading');
+        });
+
 
 
         // Checking if this is a new appointment
