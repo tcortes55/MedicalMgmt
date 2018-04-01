@@ -12,7 +12,7 @@ namespace MedicalMgmt.Controllers
     {
         public ActionResult Index()
         {
-            if (User.IsInRole("Medico"))
+            if (User.IsInRole(MedicalMgmt.General.Constants.PROFILE_PHYSICIAN))
             {
                 return RedirectToAction("DetailsRedirect", "Physicians", new { userId = User.Identity.GetUserId() });
             }

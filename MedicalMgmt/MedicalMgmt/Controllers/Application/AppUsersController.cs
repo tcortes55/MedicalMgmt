@@ -70,6 +70,14 @@ namespace MedicalMgmt.Controllers.Application
             return View(users.ToPagedList(pageNumber, pageSize));
         }
 
+        // GET: AppUsers/DetailsRedirect/5
+        public ActionResult DetailsRedirect(string userId)
+        {
+            int appUserID = db.AppUsers.Where(u => u.AspNetUserId == userId).Select(u => u.AppUserID).SingleOrDefault();
+
+            return RedirectToAction("Details", new { id = appUserID });
+        }
+
         // GET: Users/Details/5
         public ActionResult Details(int? id)
         {
