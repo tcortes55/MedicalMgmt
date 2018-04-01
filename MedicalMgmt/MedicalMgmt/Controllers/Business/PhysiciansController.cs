@@ -211,6 +211,14 @@ namespace MedicalMgmt.Controllers.Business
             return View(viewModel);
         }
 
+        // GET: Physicians/DetailsRedirect/5
+        public ActionResult DetailsRedirect(string userId)
+        {
+            int appUserID = db.AppUsers.Where(u => u.AspNetUserId == userId).Select(u => u.AppUserID).SingleOrDefault();
+
+            return RedirectToAction("Details", new { id = appUserID });
+        }
+
         // GET: Physicians/Details/5
         public ActionResult Details(int? id)
         {

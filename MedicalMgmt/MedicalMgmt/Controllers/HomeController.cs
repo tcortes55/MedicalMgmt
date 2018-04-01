@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace MedicalMgmt.Controllers
 {
@@ -11,6 +12,11 @@ namespace MedicalMgmt.Controllers
     {
         public ActionResult Index()
         {
+            if (User.IsInRole("Medico"))
+            {
+                return RedirectToAction("DetailsRedirect", "Physicians", new { userId = User.Identity.GetUserId() });
+            }
+
             return View();
         }
 
