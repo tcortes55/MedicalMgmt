@@ -17,6 +17,9 @@ namespace MedicalMgmt.Controllers.Business
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();
 
+        private static string pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
+        int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
+
         //// GET: Patients
         //public ActionResult Index()
         //{
@@ -24,44 +27,32 @@ namespace MedicalMgmt.Controllers.Business
         //}
 
         // GET: Patients
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(int? page)
         {
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.FullNameSortParam = String.IsNullOrEmpty(sortOrder) ? "FullName_desc" : "";
-
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewBag.CurrentFilter = searchString;
+            int pageNumber = (page ?? 1);
 
             var patients = from p in db.Patients select p;
+            ViewBag.PatientList = patients.ToList();
 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                patients = patients.Where(p => p.FullName.Contains(searchString));
-            }
+            return View(patients.OrderBy(p => p.FullName).ToPagedList(pageNumber, pageSize));
+        }
 
-            switch (sortOrder)
-            {
-                case "FullName_desc":
-                    patients = patients.OrderByDescending(p => p.FullName);
-                    break;
-                default:
-                    patients = patients.OrderBy(p => p.FullName);
-                    break;
-            }
-
-            var pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
-            int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
+        // GET: Patients/List/5
+        // Lists patients
+        public ActionResult List(int? patientID, int? page)
+        {
             int pageNumber = (page ?? 1);
+            ViewBag.PatientID = patientID;
+
+            if (patientID == null)
+            {
+                var patientsUnfiltered = db.Patients.OrderBy(p => p.FullName).ToPagedList(pageNumber, pageSize);
+                return PartialView(patientsUnfiltered);
+            }
+
+            var patients = db.Patients.Where(p => p.PatientID == patientID).OrderBy(p => p.FullName).ToPagedList(pageNumber, pageSize);
             
-            return View(patients.ToPagedList(pageNumber, pageSize));
+            return PartialView(patients);
         }
 
         // GET: Patients/Details/5

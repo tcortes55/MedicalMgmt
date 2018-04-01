@@ -4,64 +4,137 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Marcar consulta - Selecionar pagiente";
+    ViewBag.Title = "Marcar consulta - Selecionar paciente";
 }
 
 <h2>Marcar consulta</h2>
-<h5>Selecione o paciente desejado ou cadastre um @Html.ActionLink("novo paciente", "Create", null, new { @class = "custom-link" })</h5>
 
-@*<p>
-    @Html.ActionLink("Criar novo", "Create")
-</p>*@
+<div>
+    <hr />
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().FullName)
-            @*@Html.ActionLink("Nome completo", "Index", new { sortOrder = ViewBag.FullNameSortParam, currentFilter = ViewBag.CurrentFilter })*@
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Rg)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Cpf)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Active)
-        </th>
-        <th></th>
-    </tr>
+    <h5>Selecione o paciente desejado ou cadastre um @Html.ActionLink("novo paciente", "Create", null, new { @class = "custom-link" })</h5>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rg)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cpf)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td align="right">
-            @Html.ActionLink("Detalhes",
-                             "Details",
-                             new { id = item.PatientID },
-                             new { @class = "btn btn-default" })
-            @Html.ActionLink("Marcar consulta",
-                             "CreateAppointment",
-                             new { controller = "Physicians", patientID = item.PatientID },
-                             new { @class = "btn btn-primary" })
-        </td>
-    </tr>
+    <div class="row justify-content-start">
+        <div class="col-md-3">
+            <select id="patientSelector" class="selectpicker filter form-control" data-live-search="true" title="Selecionar paciente...">
+                @foreach (var item in ViewBag.PatientList)
+                {
+                    <option value="@item.PatientID">@item.FullName</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
+        <input type="submit" value="Pesquisar" class="btn btn-primary" id="btnSearch" />
+    </div>
+
+    <div id="queryResults">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().FullName)
+                    @*@Html.ActionLink("Nome completo", "Index", new { sortOrder = ViewBag.FullNameSortParam, currentFilter = ViewBag.CurrentFilter })*@
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Rg)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cpf)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Active)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rg)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cpf)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>
+                    <td align="right">
+                        @Html.ActionLink("Detalhes",
+                                                                             "Details",
+                                                                             new { id = item.PatientID },
+                                                                             new { @class = "btn btn-default" })
+                        @Html.ActionLink("Marcar consulta",
+                                                                             "CreateAppointment",
+                                                                             new { controller = "Physicians", patientID = item.PatientID },
+                                                                             new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+                                     new { page }))
+    </div>
+</div>
+
+
+@Styles.Render("~/Content/bootstrap-select.min.css")
+@section scripts{
+    <script src="~/Scripts/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" />
+    <script src="~/Scripts/jquery.datetimepicker.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $(".selectpicker").selectpicker()
+
+            //$("#btnSearch").prop("disabled", true);
+
+            $("#btnClear").click(function () {
+                $('#patientSelector').selectpicker('val', '');
+                //$("#btnSearch").prop("disabled", true);
+            });
+
+            //$(".filter").change(function () {
+            //    if ($("#patientSelector").val()) {
+            //        $("#btnSearch").prop("disabled", false);
+            //    }
+            //    else {
+            //        $("#btnSearch").prop("disabled", true);
+            //    }
+            //});
+
+            $("#btnSearch").click(function () {
+                //var id = $(this).attr("id");
+
+                $.ajax(
+                    {
+                        type: "GET",
+                        data: {
+                            patientID: $("#patientSelector").val()
+                        },
+                        dataType: "html",
+                        url: "/Patients/List/",
+                        success: function (result) {
+                            //alert("Success");
+                            $("#queryResults").html(result);
+                        },
+
+                        error: function (error) {
+                            alert("Fail");
+                        }
+                    });
+            });
+        })
+    </script>
+    @Scripts.Render("~/Scripts/jquery.validate.min.js")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
 }
-
-</table>
-<br />
-
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
