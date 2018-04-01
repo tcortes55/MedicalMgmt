@@ -166,7 +166,7 @@ namespace MedicalMgmt.Controllers.Business
         // GET: Physicians
         public ActionResult GetAppointmentsByDay(int? patientID, int? physicianID, int? page)
         {
-            ViewBag.PhysicianList = db.Physicians.Include(a => a.AppUser).ToList();
+            ViewBag.PhysicianList = db.Physicians.Include(a => a.AppUser).OrderBy(a => a.AppUser.FullName).ToList();
             int pageNumber = (page ?? 1);
 
             var viewModel = new SelectPhysicianData();

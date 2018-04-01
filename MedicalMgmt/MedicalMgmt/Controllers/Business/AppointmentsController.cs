@@ -49,8 +49,8 @@ namespace MedicalMgmt.Controllers.Business
             }
 
             ViewBag.IsNewAppointment = TempData["newAppointment"] ?? 0;
-            ViewBag.MedicineList = db.Medicines.ToList();
-            ViewBag.ExamList = db.Exams.ToList();
+            ViewBag.MedicineList = db.Medicines.OrderBy(m => m.CommercialName).ToList();
+            ViewBag.ExamList = db.Exams.OrderBy(e => e.Name).ToList();
 
             return View(appointment);
         }
@@ -244,8 +244,8 @@ namespace MedicalMgmt.Controllers.Business
         {
             //var appointments = db.Appointments.Include(a => a.Patient).Include(a => a.Physician).Include(a => a.AppUser);
             //return View(appointments.ToList());
-            ViewBag.PhysicianList = db.Physicians.Include(a => a.AppUser).ToList();
-            ViewBag.PatientList = db.Patients.ToList();
+            ViewBag.PhysicianList = db.Physicians.Include(a => a.AppUser).OrderBy(p => p.AppUser.FullName).ToList();
+            ViewBag.PatientList = db.Patients.OrderBy(p => p.FullName).ToList();
             return View();
         }
 
