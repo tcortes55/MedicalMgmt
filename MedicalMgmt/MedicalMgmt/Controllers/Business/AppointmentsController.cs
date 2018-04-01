@@ -373,34 +373,34 @@ namespace MedicalMgmt.Controllers.Business
             return PartialView(appointments);
         }
 
-        // GET: Appointments/Create
-        public ActionResult Create()
-        {
-            ViewBag.PatientID = new SelectList(db.Patients, "PatientID", "FullName");
-            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise");
-            ViewBag.AppUserID = new SelectList(db.AppUsers, "AppUserID", "Username");
-            return View();
-        }
+        //// GET: Appointments/Create
+        //public ActionResult Create()
+        //{
+        //    ViewBag.PatientID = new SelectList(db.Patients, "PatientID", "FullName");
+        //    ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise");
+        //    ViewBag.AppUserID = new SelectList(db.AppUsers, "AppUserID", "Username");
+        //    return View();
+        //}
 
-        // POST: Appointments/Create2
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create2([Bind(Include = "AppointmentID,PhysicianID,PatientID,AppUserID,RegistrationDate,PlannedStartDate,PlannedEndDate,Anamnesis,PatientArrivingDate,ActualStartDate,ActualEndDate,StatusID")] Appointment appointment)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Appointments.Add(appointment);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+        //// POST: Appointments/Create2
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create2([Bind(Include = "AppointmentID,PhysicianID,PatientID,AppUserID,RegistrationDate,PlannedStartDate,PlannedEndDate,Anamnesis,PatientArrivingDate,ActualStartDate,ActualEndDate,StatusID")] Appointment appointment)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Appointments.Add(appointment);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
 
-            ViewBag.PatientID = new SelectList(db.Patients, "PatientID", "FullName", appointment.PatientID);
-            ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", appointment.PhysicianID);
-            ViewBag.AppUserID = new SelectList(db.AppUsers, "AppUserID", "Username", appointment.AppUserID);
-            return View(appointment);
-        }
+        //    ViewBag.PatientID = new SelectList(db.Patients, "PatientID", "FullName", appointment.PatientID);
+        //    ViewBag.PhysicianID = new SelectList(db.Physicians, "PhysicianID", "Expertise", appointment.PhysicianID);
+        //    ViewBag.AppUserID = new SelectList(db.AppUsers, "AppUserID", "Username", appointment.AppUserID);
+        //    return View(appointment);
+        //}
 
         // POST: Appointments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

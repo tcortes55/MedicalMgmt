@@ -105,11 +105,16 @@
         @Html.EditorFor(model => model.Appointment.PhysicianID, new { htmlAttributes = new { @id = "hiddenPhysician", @hidden = "hidden" } })
         @Html.EditorFor(model => model.Appointment.PlannedStartDate, new { htmlAttributes = new { @Value = DateTime.Now, @id = "PlannedStartDate", @class = "form-control datepicker" } })
         <div class="form-group col-md-12 no-lateral-padding">
-            <input type="submit" value="Marcar consulta" class="btn btn-primary" id="btnCreateAppointment" />
+            <input type="submit" value="Marcar consulta" class="btn btn-primary btn-load" data-loading-text="Carregando..." id="btnCreateAppointment" />
         </div>
     }
 </div>
-
+<div style="margin:3em;">
+    <button type="button" class="btn btn-primary btn-load " id="load" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order">Submit Order</button>
+    <br>
+    <br>
+    <button type="button" class="btn btn-primary btn-load" id="load" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Processing Order">Submit Order</button>
+</div>
 @*Forcing correct placemente of footer:*@
 <div class='row'>
     <div class='span12'>
@@ -125,6 +130,11 @@
     <script src="~/Scripts/jquery.datetimepicker.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
+
+        $(".btn-load").click(function () {
+            var $this = $(this);
+            $this.button('loading');
+        });
 
         $("#btnSearch").click(function () {
             //var id = $(this).attr("id");
