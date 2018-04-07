@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using MedicalMgmt.Models;
 using PagedList;
 using System.Configuration;
+using Microsoft.AspNet.Identity;
 
 namespace MedicalMgmt.Controllers.Application
 {
@@ -139,13 +140,18 @@ namespace MedicalMgmt.Controllers.Application
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AppUserID,Username,FullName,Telephone,Email,Rg,Cpf,Address,RegisterDate,Active")] AppUser appUser)
+        public ActionResult Edit([Bind(Include = "AppUserID,AspNetUserId,Username,FullName,Telephone,Email,Rg,Cpf,Address,RegisterDate,Active")] AppUser appUser)
         {
+            if (appUser.AspNetUserId != User.Identity.GetUserId())
+            {
+                return View(appUser);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(appUser).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = appUser.AppUserID });
             }
             return View(appUser);
         }
