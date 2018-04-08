@@ -114,12 +114,12 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.PatientID }) |
-    @Html.ActionLink("Voltar", "Index")
+    @Html.ActionLink("Editar", "Edit", new { id = Model.PatientID }, new { @class = "btn btn-default" })
+    @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-default" })
 </p>
 <p>
     @Html.ActionLink("Marcar consulta", "CreateAppointment",
-                             new { controller = "Physicians", patientID = Model.PatientID })
+                             new { controller = "Physicians", patientID = Model.PatientID }, new { @class = "btn btn-primary" })
 </p>
 
 <hr />

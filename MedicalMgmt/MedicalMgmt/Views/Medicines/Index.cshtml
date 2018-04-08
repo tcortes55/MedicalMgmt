@@ -9,10 +9,8 @@
 
 <h2>Medicamentos</h2>
 
-<p>
-    @Html.ActionLink("Cadastrar novo", "Create")
-</p>
-
+<hr />
+<h5>Selecione o medicamento desejado ou cadastre um @Html.ActionLink("novo medicamento", "Create", null, new { @class = "custom-link" })</h5>
 
 <table class="table">
     <tr>
@@ -48,8 +46,8 @@
         <td>
             @Html.DisplayFor(modelItem => item.Active)
         </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id = item.MedicineID })
+        <td align="right">
+            @Html.ActionLink("Editar", "Edit", new { id = item.MedicineID }, new { @class = "btn btn-default" })
         </td>
     </tr>
 }
