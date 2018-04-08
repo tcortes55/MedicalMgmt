@@ -10,6 +10,8 @@ using MedicalMgmt.Models;
 using PagedList;
 using System.Configuration;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
 
 namespace MedicalMgmt.Controllers.Application
 {
@@ -20,6 +22,19 @@ namespace MedicalMgmt.Controllers.Application
 
         private static string pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
         int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
+
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         //// GET: Users
         //public ActionResult Index()
@@ -125,7 +140,7 @@ namespace MedicalMgmt.Controllers.Application
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AppUserID,AspNetUserId,Username,FullName,Telephone,Email,Rg,Cpf,Address,RegisterDate,Active")] AppUser appUser)
+        public async Task<ActionResult> Edit([Bind(Include = "AppUserID,AspNetUserId,Username,FullName,Telephone,Email,Rg,Cpf,Address,RegisterDate,Active")] AppUser appUser)
         {
             if (appUser.AspNetUserId != User.Identity.GetUserId() && !User.IsInRole(General.Constants.PROFILE_ADMIN))
             {
@@ -134,6 +149,19 @@ namespace MedicalMgmt.Controllers.Application
 
             if (ModelState.IsValid)
             {
+                if (appUser.Active == false)
+                {
+                    await UserManager.SetLockoutEnabledAsync(appUser.AspNetUserId, true);
+                    await UserManager.SetLockoutEndDateAsync(appUser.AspNetUserId, DateTime.MaxValue.AddDays(-1));
+                }
+                else
+                {
+                    if (UserManager.IsLockedOut(appUser.AspNetUserId) && appUser.Active == true)
+                    {
+                        await UserManager.SetLockoutEnabledAsync(appUser.AspNetUserId, false);
+                    }
+                }
+
                 db.Entry(appUser).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = appUser.AppUserID });
