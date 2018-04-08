@@ -100,7 +100,7 @@ namespace MedicalMgmt.Controllers.Business
                 prescribedExams = prescribedExams.Where(a => a.PhysicianID == physicianID);
             }
 
-            var prescribedExamsPaged = prescribedExams.OrderByDescending(x => x.Appointment.PlannedStartDate)
+            var prescribedExamsPaged = prescribedExams.OrderBy(x => x.Appointment.PlannedStartDate)
                                                       .ToPagedList(pageNumber, pageSize);
 
             return PartialView(prescribedExamsPaged);

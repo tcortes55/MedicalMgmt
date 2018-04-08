@@ -98,20 +98,22 @@
 
 @if (Model.StatusID == MedicalMgmt.General.Constants.SS_EX_REQUESTED)
 {
-    <div class="col-md-12 no-lateral-padding">
-        <div class="form-group">
-            @Html.LabelFor(model => model.Result, htmlAttributes: new { @class = "control-label col-md-12 no-lateral-padding" })
-            <div class="col-md-12 no-lateral-padding" data-toggle="tooltip" title="">
-                @Html.TextAreaFor(model => model.Result, new { @class = "form-control", @id = "examResult" })
-                @Html.ValidationMessageFor(model => model.Result, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-12 no-lateral-padding">
-                <button class="btn btn-primary" id="btnSaveExamResult"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar resultado</button>
-            </div>
+<div class="col-md-12 no-lateral-padding">
+    <div class="form-group">
+        @Html.LabelFor(model => model.Result, htmlAttributes: new { @class = "control-label col-md-12 no-lateral-padding" })
+        <div class="col-md-12 no-lateral-padding" data-toggle="tooltip" title="">
+            @Html.TextAreaFor(model => model.Result, new { @class = "form-control", @id = "examResult" })
+            @Html.ValidationMessageFor(model => model.Result, "", new { @class = "text-danger" })
         </div>
     </div>
+    <div class="col-md-12 line-space"></div>
+    <div class="col-md-12 line-space"></div>
+    <div class="form-group">
+        <div class="col-md-12 no-lateral-padding">
+            <button class="btn btn-primary" id="btnSaveExamResult"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar resultado</button>
+        </div>
+    </div>
+</div>
 }
 
 <div class="col-md-12 line-space"></div>

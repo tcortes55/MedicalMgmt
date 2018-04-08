@@ -236,7 +236,7 @@ namespace MedicalMgmt.Controllers.Business
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null));
             
-            return PartialView(appointments.OrderByDescending(x => x.PlannedStartDate).ToList());
+            return PartialView(appointments.OrderBy(x => x.PlannedStartDate).ToList());
         }
 
         // GET: Appointments
@@ -289,7 +289,7 @@ namespace MedicalMgmt.Controllers.Business
                 appointments = appointments.Where(a => a.PhysicianID == physicianID);
             }
 
-            var appointmentsPaged = appointments.OrderByDescending(x => x.PlannedStartDate).ToPagedList(pageNumber, pageSize);
+            var appointmentsPaged = appointments.OrderBy(x => x.PlannedStartDate).ToPagedList(pageNumber, pageSize);
 
             return PartialView(appointmentsPaged);
         }
