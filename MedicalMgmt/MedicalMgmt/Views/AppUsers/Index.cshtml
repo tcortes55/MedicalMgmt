@@ -9,69 +9,120 @@
 
 <h2>Usuários</h2>
 
-<p>
-    @Html.ActionLink("Criar novo", "Create")
-</p>
+<div>
+    <hr />
 
-@using (Html.BeginForm("Index", "Users", FormMethod.Get))
-{
-    <p>
-        Nome: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Buscar" />
-    </p>
+    <h5>Selecione o usuário desejado ou cadastre um @Html.ActionLink("novo usuário", "Create", null, new { @class = "custom-link" })</h5>
+    
+    <div class="row justify-content-start">
+        <div class="col-md-3">
+            <select id="appUserSelector" class="selectpicker filter form-control" data-live-search="true" title="Selecionar usuário...">
+                @foreach (var item in ViewBag.AppUsersList)
+                {
+                    <option value="@item.AppUserID">@item.FullName</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-6">
+            <input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
+            <input type="submit" value="Pesquisar" class="btn btn-primary" id="btnSearch" />
+        </div>
+    </div>
+    <br />
+
+    <div id="queryResults">
+        <table class="table">
+            <tr>
+                <th>
+                    @* //TODO: encontrar um jeito de exibir a label dentro do link *@
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Username)
+                    @*@Html.ActionLink("Usuário", "Index", new { sortOrder = ViewBag.UsernameSortParam, currentFilter = ViewBag.CurrentFilter })*@
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().FullName)
+                    @*@Html.ActionLink("Nome completo", "Index", new { sortOrder = ViewBag.FullNameSortParam, currentFilter = ViewBag.CurrentFilter })*@
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Rg)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Cpf)
+                    </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Active)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Rg)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cpf)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>
+                    <td align="right">
+                        @*@Html.ActionLink("Editar", "Edit", new { id = item.AppUserID })*@
+                        @Html.ActionLink("Detalhes", "Details", new { id = item.AppUserID }, new { @class = "btn btn-default" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+</div>
+
+
+@Styles.Render("~/Content/bootstrap-select.min.css")
+@section scripts{
+    <script src="~/Scripts/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" />
+    <script src="~/Scripts/jquery.datetimepicker.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $(".selectpicker").selectpicker()
+
+            $("#btnClear").click(function () {
+                $('#appUserSelector').selectpicker('val', '');
+            });
+
+            $("#btnSearch").click(function () {
+
+                $.ajax(
+                    {
+                        type: "GET",
+                        data: {
+                            appUserID: $("#appUserSelector").val()
+                        },
+                        dataType: "html",
+                        url: "/AppUsers/List/",
+                        success: function (result) {
+                            //alert("Success");
+                            $("#queryResults").html(result);
+                        },
+
+                        error: function (error) {
+                            //alert("Fail");
+                        }
+                    });
+            });
+        })
+    </script>
+    @Scripts.Render("~/Scripts/jquery.validate.min.js")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
 }
-
-<table class="table">
-    <tr>
-        <th>
-            @* //TODO: encontrar um jeito de exibir a label dentro do link *@
-            @*@Html.DisplayNameFor(model => model.Username)*@
-            @Html.ActionLink("Usuário", "Index", new { sortOrder = ViewBag.UsernameSortParam, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.FullName)*@
-            @Html.ActionLink("Nome completo", "Index", new { sortOrder = ViewBag.FullNameSortParam, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Rg)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Cpf)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Active)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Username)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rg)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cpf)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id = item.AppUserID }) |
-            @Html.ActionLink("Detalhes", "Details", new { id = item.AppUserID }) @*|
-            @Html.ActionLink("Excluir", "Delete", new { id = item.UserID })*@
-        </td>
-    </tr>
-}
-
-</table>
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

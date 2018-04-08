@@ -1,0 +1,55 @@
+﻿@model PagedList.IPagedList<MedicalMgmt.Models.AppUser>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<table class="table">
+    <tr>
+        <th>
+            @* //TODO: encontrar um jeito de exibir a label dentro do link *@
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Username)
+            @*@Html.ActionLink("Usuário", "Index", new { sortOrder = ViewBag.UsernameSortParam, currentFilter = ViewBag.CurrentFilter })*@
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().FullName)
+            @*@Html.ActionLink("Nome completo", "Index", new { sortOrder = ViewBag.FullNameSortParam, currentFilter = ViewBag.CurrentFilter })*@
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Rg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Cpf)
+            </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Active)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Rg)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cpf)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td align="right">
+                @*@Html.ActionLink("Editar", "Edit", new { id = item.AppUserID })*@
+                @Html.ActionLink("Detalhes", "Details", new { id = item.AppUserID }, new { @class = "btn btn-default" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

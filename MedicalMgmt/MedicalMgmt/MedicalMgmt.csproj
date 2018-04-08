@@ -419,6 +419,7 @@
     <Content Include="Views\Physicians\FilteredPhysicians.cshtml" />
     <Content Include="Views\Appointments\ListWaiting.cshtml" />
     <Content Include="Views\Patients\List.cshtml" />
+    <Content Include="Views\AppUsers\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

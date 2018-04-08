@@ -18,57 +18,42 @@ namespace MedicalMgmt.Controllers.Application
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();
 
+        private static string pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
+        int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
+
         //// GET: Users
         //public ActionResult Index()
         //{
         //    return View(db.Users.ToList());
         //}
 
-        // GET: Users
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        // GET: AppUsers
+        public ActionResult Index(int? page)
         {
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.UsernameSortParam = String.IsNullOrEmpty(sortOrder) ? "Username_desc" : "";
-            ViewBag.FullNameSortParam = sortOrder == "FullName" ? "FullName_desc" : "FullName";
-
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewBag.CurrentFilter = searchString;
-
-            var users = from u in db.AppUsers select u;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                users = users.Where(u => u.FullName.Contains(searchString));
-            }
-
-            switch (sortOrder)
-            {
-                case "Username_desc":
-                    users = users.OrderByDescending(u => u.Username);
-                    break;
-                case "FullName":
-                    users = users.OrderBy(u => u.FullName);
-                    break;
-                case "FullName_desc":
-                    users = users.OrderByDescending(u => u.FullName);
-                    break;
-                default:
-                    users = users.OrderBy(u => u.Username);
-                    break;
-            }
-
-            var pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
-            int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
             int pageNumber = (page ?? 1);
-            return View(users.ToPagedList(pageNumber, pageSize));
+            
+            var appUsers = from u in db.AppUsers select u;
+            ViewBag.AppUsersList = appUsers.OrderBy(u => u.FullName).ToList();
+            
+            return View(appUsers.OrderBy(u => u.FullName).ToPagedList(pageNumber, pageSize));
+        }
+
+        // GET: AppUsers/List/5
+        // Lists application users
+        public ActionResult List(int? appUserID, int? page)
+        {
+            int pageNumber = (page ?? 1);
+            ViewBag.AppUserID = appUserID;
+
+            if (appUserID == null)
+            {
+                var appUsersUnfiltered = db.AppUsers.OrderBy(p => p.FullName).ToPagedList(pageNumber, pageSize);
+                return PartialView(appUsersUnfiltered);
+            }
+
+            var appUsers = db.AppUsers.Where(u => u.AppUserID == appUserID).OrderBy(p => p.FullName).ToPagedList(pageNumber, pageSize);
+
+            return PartialView(appUsers);
         }
 
         // GET: AppUsers/DetailsRedirect/5
