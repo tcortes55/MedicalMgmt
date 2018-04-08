@@ -31,7 +31,8 @@ namespace MedicalMgmt.Controllers.Business
         {
             int pageNumber = (page ?? 1);
 
-            var patients = from p in db.Patients select p;
+            //var patients = from p in db.Patients select p;
+            var patients = db.Patients.Where(p => p.Active == true);
             ViewBag.PatientList = patients.OrderBy(p => p.FullName).ToList();
 
             return View(patients.OrderBy(p => p.FullName).ToPagedList(pageNumber, pageSize));

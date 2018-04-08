@@ -49,7 +49,7 @@ namespace MedicalMgmt.Controllers.Business
             }
 
             ViewBag.IsNewAppointment = TempData["newAppointment"] ?? 0;
-            ViewBag.MedicineList = db.Medicines.OrderBy(m => m.CommercialName).ToList();
+            ViewBag.MedicineList = db.Medicines.Where(m => m.Active == true).OrderBy(m => m.CommercialName).ToList();
             ViewBag.ExamList = db.Exams.OrderBy(e => e.Name).ToList();
 
             return View(appointment);

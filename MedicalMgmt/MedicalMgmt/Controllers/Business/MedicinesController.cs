@@ -17,6 +17,9 @@ namespace MedicalMgmt.Controllers.Business
     {
         private MedicalMgmtDbContext db = new MedicalMgmtDbContext();
 
+        private static string pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
+        int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
+
         //// GET: Medicines
         //public ActionResult Index()
         //{
@@ -24,59 +27,13 @@ namespace MedicalMgmt.Controllers.Business
         //}
 
         // GET: Medicines
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(int? page)
         {
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.CommercialNameSortParam = String.IsNullOrEmpty(sortOrder) ? "CommercialName_desc" : "";
-            ViewBag.GenericNameSortParam = sortOrder == "GenericName" ? "GenericName_desc" : "GenericName";
-            ViewBag.ManufacturerSortParam = sortOrder == "Manufacturer" ? "Manufacturer_desc" : "Manufacturer";
-
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewBag.CurrentFilter = searchString;
-
             var medicines = from m in db.Medicines select m;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                medicines = medicines.Where(m => m.GenericName.Contains(searchString));
-            }
-
-            switch (sortOrder)
-            {
-                case "CommercialName_desc":
-                    medicines = medicines.OrderByDescending(m => m.CommercialName);
-                    break;
-                case "GenericName":
-                    medicines = medicines.OrderBy(m => m.GenericName);
-                    break;
-                case "GenericName_desc":
-                    medicines = medicines.OrderByDescending(m => m.GenericName);
-                    break;
-                case "Manufacturer":
-                    medicines = medicines.OrderBy(m => m.Manufacturer);
-                    break;
-                case "Manufacturer_desc":
-                    medicines = medicines.OrderByDescending(m => m.Manufacturer);
-                    break;
-                default:
-                    medicines = medicines.OrderBy(m => m.CommercialName);
-                    break;
-            }
-
-            var pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
-            int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
+            
             int pageNumber = (page ?? 1);
-            return View(medicines.ToPagedList(pageNumber, pageSize));
 
-            //return View(db.Medicines.ToList());
+            return View(medicines.OrderBy(m => m.CommercialName).ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Medicines/List
