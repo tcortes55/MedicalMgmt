@@ -5,19 +5,24 @@
     {
     @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @*@Html.ActionLink("Olá " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
-            @Html.ActionLink("Meu perfil", "DetailsRedirect", "AppUsers", routeValues: new { userId = User.Identity.GetUserId() }, htmlAttributes: new { title = "Manage" })
+<ul class="nav navbar-nav navbar-right">
+    <li>
+        @*@Html.ActionLink("Olá " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+        @Html.ActionLink("Meu perfil", "DetailsRedirect", "AppUsers", routeValues: new { userId = User.Identity.GetUserId() }, htmlAttributes: new { title = "Manage" })
+    </li>
+    @if (User.IsInRole(MedicalMgmt.General.Constants.PROFILE_ADMIN))
+    {
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="False">Administrador<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                @*<li>@Html.ActionLink("Pesquisar consulta", "ListAll", "Appointments")</li>*@
+                <li>@Html.ActionLink("Gerenciar usuários", "Index", "AppUsers")</li>
+                <li>@Html.ActionLink("Criar usuário", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            </ul>
         </li>
-        @if (User.IsInRole(MedicalMgmt.General.Constants.PROFILE_ADMIN))
-        {
-            <li>
-                @Html.ActionLink("Criar usuário", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
-            </li>
-        }
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Logoff</a></li>
-    </ul>
+    }
+    <li><a href="javascript:document.getElementById('logoutForm').submit()">Logoff</a></li>
+</ul>
     }
 }
 else

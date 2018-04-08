@@ -142,7 +142,7 @@ namespace MedicalMgmt.Controllers.Application
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "AppUserID,AspNetUserId,Username,FullName,Telephone,Email,Rg,Cpf,Address,RegisterDate,Active")] AppUser appUser)
         {
-            if (appUser.AspNetUserId != User.Identity.GetUserId())
+            if (appUser.AspNetUserId != User.Identity.GetUserId() && !User.IsInRole(General.Constants.PROFILE_ADMIN))
             {
                 return View(appUser);
             }
