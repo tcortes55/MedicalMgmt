@@ -16,7 +16,8 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Patient.FullName)
+            @*@Html.DisplayFor(model => model.Patient.FullName)*@
+            @Html.ActionLink(Model.Patient.FullName, "Details", "Patients", new { id = Model.PatientID }, new { @class = "custom-link" })
         </dd>
 
         <dt>
@@ -24,7 +25,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Physician.AppUser.FullName)
+            @if (User.IsInRole(MedicalMgmt.General.Constants.PROFILE_PHYSICIAN))
+            {
+                @Html.DisplayFor(model => model.Physician.AppUser.FullName)
+            }
+            else
+            { 
+                @Html.ActionLink(Model.Physician.AppUser.FullName, "Details", "Physicians", new { id = Model.PhysicianID }, new { @class = "custom-link" })
+            }
         </dd>
 
         <dt>

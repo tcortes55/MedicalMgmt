@@ -41,8 +41,12 @@
                             {
                                 <li>@Html.ActionLink("Marcar consulta", "Index", "Patients")</li>
                             }
-                            <li>@Html.ActionLink("Pesquisar consulta", "ListAll", "Appointments")</li>
-                            @*<li class="divider"></li>*@
+                            <li>@Html.ActionLink("Pesquisar consultas", "ListAll", "Appointments")</li>
+                            @if (!User.IsInRole(MedicalMgmt.General.Constants.PROFILE_PHYSICIAN))
+                            {
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Pesquisar médico", "Index", "Physicians")</li>
+                            }
                         </ul>
                     </li>
                     <li class="dropdown">

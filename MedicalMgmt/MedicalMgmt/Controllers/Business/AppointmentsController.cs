@@ -11,6 +11,7 @@ using MedicalMgmt.General;
 using System.Globalization;
 using System.Configuration;
 using PagedList;
+using Microsoft.AspNet.Identity;
 
 namespace MedicalMgmt.Controllers.Business
 {
@@ -21,6 +22,13 @@ namespace MedicalMgmt.Controllers.Business
 
         private static string pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
         int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
+        
+        public int GetAppUserIdFromAspNetId(string aspNetUserId)
+        {
+            int appUserId = db.AppUsers.Where(u => u.AspNetUserId == aspNetUserId).Select(u => u.AppUserID).SingleOrDefault();
+
+            return appUserId;
+        }
 
         // GET: Appointments
         public ActionResult Index()
@@ -41,7 +49,7 @@ namespace MedicalMgmt.Controllers.Business
             {
                 return HttpNotFound();
             }
-            if (appointment.StatusID != Constants.SS_AP_CANCELED && appointment.StatusID != Constants.SS_AP_FINISHED)
+            if (appointment.StatusID != General.Constants.SS_AP_CANCELED && appointment.StatusID != General.Constants.SS_AP_FINISHED)
             {
                 var nextStatusDescription = db.Statuses.Find(appointment.StatusID + 1).StatusDescription; //TODO: remove magic number
                 ViewBag.NextStatusID = appointment.StatusID + 1;
@@ -89,7 +97,7 @@ namespace MedicalMgmt.Controllers.Business
 
             if (ModelState.IsValid)
             {
-                appointment.StatusID = Constants.SS_AP_CANCELED;
+                appointment.StatusID = General.Constants.SS_AP_CANCELED;
                 db.Entry(appointment).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = appointment.AppointmentID });
@@ -110,7 +118,7 @@ namespace MedicalMgmt.Controllers.Business
             {
                 return HttpNotFound();
             }
-            if (appointment.StatusID != Constants.SS_AP_CANCELED && appointment.StatusID != Constants.SS_AP_FINISHED)
+            if (appointment.StatusID != General.Constants.SS_AP_CANCELED && appointment.StatusID != General.Constants.SS_AP_FINISHED)
             {
                 var nextStatusDescription = db.Statuses.Find(appointment.StatusID + 1).StatusDescription; //TODO: remove magic number
                 ViewBag.NextStatusDescription = nextStatusDescription;
@@ -140,13 +148,13 @@ namespace MedicalMgmt.Controllers.Business
             {
                 switch (currStatusID)
                 {
-                    case Constants.SS_AP_PLANNED:
+                    case General.Constants.SS_AP_PLANNED:
                         appointment.PatientArrivingDate = DateTime.Now;
                         break;
-                    case Constants.SS_AP_PATIENT_WAITING:
+                    case General.Constants.SS_AP_PATIENT_WAITING:
                         appointment.ActualStartDate = DateTime.Now;
                         break;
-                    case Constants.SS_AP_ONGOING:
+                    case General.Constants.SS_AP_ONGOING:
                         appointment.ActualEndDate = DateTime.Now;
                         break;
                 }
@@ -210,7 +218,7 @@ namespace MedicalMgmt.Controllers.Business
             var appointments = db.Appointments.Where(a => a.PhysicianID == physicianID
                                                        && a.PlannedStartDate > dayBegin
                                                        && a.PlannedStartDate < dayEnd
-                                                       && a.StatusID != Constants.SS_AP_CANCELED);
+                                                       && a.StatusID != General.Constants.SS_AP_CANCELED);
 
             //https://stackoverflow.com/questions/20815252/to-remove-common-string-from-two-string-array-in-net
             var fullSchedule = ConfigurationManager.AppSettings["FullSchedule"].Split(',');
@@ -314,7 +322,7 @@ namespace MedicalMgmt.Controllers.Business
                                                        && (a.PhysicianID == physicianID || physicianID == null)
                                                        && (a.PlannedStartDate > begin)
                                                        && (a.PlannedStartDate < end)
-                                                       && (a.StatusID == Constants.SS_AP_FINISHED))
+                                                       && (a.StatusID == General.Constants.SS_AP_FINISHED))
                                               .OrderByDescending(x => x.PlannedStartDate)
                                               .ToPagedList(pageNumber, pageSize);
 
@@ -341,7 +349,7 @@ namespace MedicalMgmt.Controllers.Business
                                                        && (a.PhysicianID == physicianID || physicianID == null)
                                                        && (a.PlannedStartDate > begin)
                                                        && (a.PlannedStartDate < end)
-                                                       && (a.StatusID == Constants.SS_AP_PLANNED))
+                                                       && (a.StatusID == General.Constants.SS_AP_PLANNED))
                                               .OrderBy(a => a.PlannedStartDate)
                                               .ToPagedList(pageNumber, pageSize);
 
@@ -364,8 +372,8 @@ namespace MedicalMgmt.Controllers.Business
             var appointments = db.Appointments.Where(a => (a.PatientID == patientID || patientID == null)
                                                        && (a.PhysicianID == physicianID || physicianID == null)
                                                        && (a.PlannedStartDate > DateTime.Today)
-                                                       && (a.StatusID == Constants.SS_AP_PATIENT_WAITING ||
-                                                           a.StatusID == Constants.SS_AP_ONGOING))
+                                                       && (a.StatusID == General.Constants.SS_AP_PATIENT_WAITING ||
+                                                           a.StatusID == General.Constants.SS_AP_ONGOING))
                                               .OrderBy(x => x.PlannedStartDate)
                                               .OrderByDescending(x => x.StatusID)
                                               .ToPagedList(pageNumber, pageSize);
@@ -409,10 +417,10 @@ namespace MedicalMgmt.Controllers.Business
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AppointmentID,PhysicianID,PatientID,PlannedStartDate")] Appointment appointment)
         {
-            appointment.AppUserID = 1; //TODO: replace for current user ID
+            appointment.AppUserID = GetAppUserIdFromAspNetId(User.Identity.GetUserId());
             appointment.RegistrationDate = DateTime.Now;
             appointment.PlannedEndDate = appointment.PlannedStartDate.AddMinutes(20); //TODO: remove magic number
-            appointment.StatusID = Constants.SS_AP_PLANNED;
+            appointment.StatusID = General.Constants.SS_AP_PLANNED;
 
             if (ModelState.IsValid)
             {
