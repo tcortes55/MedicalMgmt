@@ -30,59 +30,20 @@ namespace MedicalMgmt.Controllers.Business
         //}
 
         // GET: Physicians
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(int? page)
         {
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.FullnameSortParam = String.IsNullOrEmpty(sortOrder) ? "Fullname_desc" : "";
-            ViewBag.ExpertiseSortParam = sortOrder == "Expertise" ? "Expertise_desc" : "Expertise";
+            var physicians = db.Physicians.Where(p => p.AppUser.Active).Include(p => p.AppUser);
+            ViewBag.PhysicianList = physicians.OrderBy(p => p.AppUser.FullName).ToList();
 
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewBag.CurrentFilter = searchString;
-
-            var physicians = db.Physicians.Include(p => p.AppUser);
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                physicians = physicians.Where(p => p.AppUser.FullName.Contains(searchString));
-            }
-
-            switch (sortOrder)
-            {
-                case "Fullname_desc":
-                    physicians = physicians.OrderByDescending(p => p.AppUser.FullName);
-                    break;
-                case "Expertise":
-                    physicians = physicians.OrderBy(p => p.Expertise);
-                    break;
-                case "Expertise_desc":
-                    physicians = physicians.OrderByDescending(p => p.Expertise);
-                    break;
-                default:
-                    physicians = physicians.OrderBy(p => p.AppUser.FullName);
-                    break;
-            }
-
-            //var pageSizeConfig = ConfigurationManager.AppSettings["PageSize"];
-            //int pageSize = string.IsNullOrEmpty(pageSizeConfig) ? 5 : Convert.ToInt16(pageSizeConfig);
             int pageNumber = (page ?? 1);
 
-            return View(physicians.ToPagedList(pageNumber, pageSize));
-            //var physicians = db.Physicians.Include(p => p.User);
-            //return View(physicians.ToList());
+            return View(physicians.OrderBy(p => p.AppUser.FullName).ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Physicians
         public ActionResult CreateAppointment(int? patientID, int? physicianID, int? page)
         {
-            ViewBag.PhysicianList = db.Physicians.Include(a => a.AppUser).OrderBy(p => p.AppUser.FullName).ToList();
+            ViewBag.PhysicianList = db.Physicians.Where(p => p.AppUser.Active).Include(a => a.AppUser).OrderBy(p => p.AppUser.FullName).ToList();
             
             int pageNumber = (page ?? 1);
 
@@ -133,7 +94,10 @@ namespace MedicalMgmt.Controllers.Business
         // GET
         public ActionResult FilteredPhysicians(int? patientID, int? physicianID, string expertise, int? page)
         {
-            ViewBag.PatientID = patientID.Value;
+            if (patientID != null)
+            {
+                ViewBag.PatientID = patientID.Value;
+            }
             int pageNumber = (page ?? 1);
 
             var viewModel = new SelectPhysicianData();

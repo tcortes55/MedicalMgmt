@@ -9,51 +9,127 @@
 
 <h2>Médicos</h2>
 
-@*<p>
-    @Html.ActionLink("Criar novo", "Create")
-    <span> (associa um usuário existente no sistema ao perfil "Médico")</span>
-</p>*@
+<h5>Selecione o profissional desejado</h5>
+<hr />
 
-@using (Html.BeginForm("Index", "Physicians", FormMethod.Get))
-{
-    <p>
-        Nome: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Buscar" />
-    </p>
-}
+<div class="row justify-content-start">
+    <div class="col-md-3">
+        <select id="physicianSelector" class="selectpicker filter" data-live-search="true" title="Selecionar médico...">
+            @foreach (var item in ViewBag.PhysicianList)
+            {
+                <option value="@item.PhysicianID">@item.AppUser.FullName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select id="expertiseSelector" class="selectpicker filter" data-live-search="true" title="Selecionar especialidade...">
+            @foreach (var item in ViewBag.PhysicianList)
+            {
+                <option value="@item.Expertise">@item.Expertise</option>
+            }
+        </select>
+    </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @*@Html.DisplayNameFor(model => model.User.Username)*@
-            @Html.ActionLink("Médico", "Index", new { sortOrder = ViewBag.FullnameSortParam, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Expertise)*@
-            @Html.ActionLink("Especialidade", "Index", new { sortOrder = ViewBag.ExpertiseSortParam, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppUser.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Expertise)
-        </td>
-        <td>
-            @*@Html.ActionLink("Editar", "Edit", new { id=item.PhysicianID }) |*@
-            @Html.ActionLink("Detalhes", "Details", new { id=item.PhysicianID }) |
-            @Html.ActionLink("Excluir", "Delete", new { id=item.PhysicianID })
-        </td>
-    </tr>
-}
-
-</table>
+    @*<div class="line-space"></div>*@
+    <div class="col-md-6">
+        @*<div>*@
+        <input type="submit" value="Limpar" class="btn btn-default" id="btnClear" />
+        @*</div>
+            <div>*@
+        <input type="submit" value="Pesquisar" class="btn btn-primary" id="btnSearch" />
+        @*</div>*@
+    </div>
+</div>
 <br />
 
+<div id="filteredPhysicians">
+    <table class="table">
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Users.fin)*@
+                Médico
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Expertise)*@
+                Especialidade
+            </th>
+            <th></th>
+        </tr>
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        @foreach (var item in Model)
+    {
+        <tr class="tableRow" id="row_@item.PhysicianID">
+            <td>
+                @Html.DisplayFor(modelItem => item.AppUser.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expertise)
+            </td>
+            <td align="right">
+                @*@Html.ActionLink("Selecionar", "CreateAppointment", new { patientID = ViewBag.PatientID, physicianID = item.PhysicianID })*@
+                <input type="submit" value="Selecionar" class="btn btn-primary btnSelectPhysician" id="@item.PhysicianID" />
+            </td>
+        </tr>
+}
+
+    </table>
+
+    @Html.PagedListPager(Model, page => Url.Action("FilteredPhysicians",
+                new { page }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "filteredPhysicians" }))
+</div>
+
+@Styles.Render("~/Content/bootstrap-select.min.css")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @*@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")*@
+    <script src="~/Scripts/bootstrap-select.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".btn-load").click(function () {
+            var $this = $(this);
+            $this.button('loading');
+        });
+
+        $("#btnSearch").click(function () {
+            //var id = $(this).attr("id");
+
+            $.ajax(
+                {
+                    type: "GET",
+                    data: {
+                        physicianID: $("#physicianSelector").val(),
+                        expertise: $("#expertiseSelector").val()
+                    },
+                    dataType: "html",
+                    url: "/Physicians/FilteredPhysicians/",
+                    success: function (result) {
+                        $("#filteredPhysicians").html(result);
+                        //reloadSelectButtons();
+                    },
+
+                    error: function (error) {
+                        alert("Fail");
+                    }
+                });
+        });
+
+        $("#btnClear").click(function () {
+            $('#physicianSelector').selectpicker('val', '');
+            $('#expertiseSelector').selectpicker('val', '');
+        });
+
+        $(".btnSelectPhysician").click(function () {
+            var url = "/Physicians/Details/" + this.id;
+            window.location.replace(url);
+        });
+
+
+    });
+
+    </script>
+    @Scripts.Render("~/Scripts/jquery.validate.min.js")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+}
